@@ -1,0 +1,20 @@
+Kullanım Senaryoları 
+
+• Kullanıcıların toplantı oluşturabilmeleri için üye olmaları gerekir, üye olmayan kullanıcılar sadece toplantılara katılabilirler.
+• ‎kullanıcıların üye olmak istediklerinde kişisel bilgileri, iletişim bilgileri ve profil resmi alınır.
+• ‎üye olmayan kullanıcılar bir toplantıya katılmak istediklerinde isimleri istenir.
+• Toplantıyı oluşturan kullanıcı kendisi yönetir.
+• ‎Toplantı oluşturulurken tarih, saat, konu ve süre bilgilerinin yanı sıra toplantının public mi private mi olduğu, kaç kullanıcı katılabileceği ve hangilerinin konuşmacı olacağının bilgileri istenecektir.
+• ‎Private toplantıya katılmanın iki yolu vardır; Zaten üye olanların katılabilmeleri için toplantı yöneticinin davet göndermiş olması gerekiyor, Üye olmayanlar ise toplantılara yöneticinin üretebileceği linkler kullanarak katılabilir. fakat üye olmayan kullanıcılar sadece dinleyici olarak katılabilir.
+• ‎Yöneticinin tarafından üretilen linklerin iki türü var unique link ve public link.
+• ‎Unique linkler sadece bir kullanıcı tarafından kullanılabilir ve onu kullanacak kişinin e-postasıyla giriş yapması gerekir.
+• ‎Public linkler birçok kullanıcı tarafından kullanılabilir ve giriş yaparken sadece isim istenir.
+• ‎Public toplantılara katılmak için ise hiç bir kimlik doğrulaması veya linkli giriş yapılmaz.
+• ‎Uygulamada herzaman public toplantılar herkesin erişebileceği bir liste şeklinde tutulur.
+• ‎Toplantılara iki tür katılımcı katılır; Dinleyici ve Konuşmacı.
+• ‎Toplantıda max 3 kullanıcı ana konuşmacı olarak katılabilir, ve herzaman 1 geçici konuşmacı olabilir.
+• ‎Dinleyiciler toplantıda dönen konuşmayı dinleyebilir, ve yorum yazabilirler, konuşmak istedikleri zaman da yöneticiye konuşma isteği gönderebilirler.
+• ‎Konuşmacılar hem konuşup hem yazabilirler ve ek olarak da dosya veya resim gönderebilirler.
+• ‎Yöneticiler toplantı esnasında gelen konuşma isteklerine onay vererek dinleyici kullanıcıyı kısa bir süre için konuşmacı yapabilirler fakat aynı anda yalnızca bir dinleyici kullanıcıya konuşma izni verebilirler.
+• ‎Toplantı sonunda çıkan sonuçların metin olarak özeti toplantıyla birlikte tutulur.
+• ‎Public toplantılarda dinleyiciler sadece dinleyebilir ve yorum yazabilirler, konuşma isteği gönderemezler.
