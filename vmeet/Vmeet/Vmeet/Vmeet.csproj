@@ -210,7 +210,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom.flexslider.css" />
+    <Content Include="Content\fontawesome-4.6.3.min.css" />
+    <Content Include="Content\framework.css" />
+    <Content Include="Content\images\demo\320x220.png" />
+    <Content Include="Content\images\demo\480x400.png" />
+    <Content Include="Content\images\demo\avatar.png" />
+    <Content Include="Content\images\demo\backgrounds\01.png" />
+    <Content Include="Content\images\demo\backgrounds\02.png" />
+    <Content Include="Content\images\demo\backgrounds\03.png" />
+    <Content Include="Content\images\demo\backgrounds\04.png" />
+    <Content Include="Content\images\demo\gallery\01.png" />
+    <Content Include="Content\images\demo\imgl.gif" />
+    <Content Include="Content\images\demo\imgr.gif" />
+    <Content Include="Content\layout.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -221,10 +236,19 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.backtotop.js" />
+    <Content Include="Scripts\jquery.flexslider-min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.mobilemenu.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -267,6 +291,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\Toplatilar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

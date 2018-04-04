@@ -13,9 +13,9 @@ namespace Vmeet.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Toplatilar()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Bu toplantilar sayfasi";
 
             return View();
         }
