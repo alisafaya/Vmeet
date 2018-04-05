@@ -211,8 +211,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.flexslider.css" />
+    <Content Include="Content\fluidbox.min.css" />
     <Content Include="Content\fontawesome-4.6.3.min.css" />
     <Content Include="Content\framework.css" />
+    <Content Include="Content\images\arkaplan.jpeg" />
     <Content Include="Content\images\demo\320x220.png" />
     <Content Include="Content\images\demo\480x400.png" />
     <Content Include="Content\images\demo\avatar.png" />
@@ -223,6 +225,9 @@
     <Content Include="Content\images\demo\gallery\01.png" />
     <Content Include="Content\images\demo\imgl.gif" />
     <Content Include="Content\images\demo\imgr.gif" />
+    <Content Include="Content\images\deneme.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\ionicons.css" />
     <Content Include="Content\layout.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
