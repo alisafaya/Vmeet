@@ -230,7 +230,7 @@ td{border-width:0 1px;}
 
 /* Colours
 --------------------------------------------------------------------------------------------------------------- */
-body{color:#676767; background-color:#0f1924;}
+body{color:#676767; background-color:#0c101c;}
 a{color:#43BFCB;}
 a:active, a:focus{background:transparent;}/* IE10 + 11 Bugfix - prevents grey background */
 hr, .borderedbox{border-color:#D7D7D7;}
@@ -402,9 +402,23 @@ table a, #comments a{background-color:inherit;}
 }
 
 .renk{
-    background-color: #0f1924;
+    background-color: #0c101c;
 }
 
-.presmi{
-    margin-bottom: 12px;
+
+.img-thumbnailyeni{
+    padding: 0.25rem;
+    background-color: transparent !important;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    max-width: 100%;
+    height: auto;
+}
+
+.bilgikismi{
+       padding-top: 16px;
+       padding-bottom: 16px;
 }

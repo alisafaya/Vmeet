@@ -9,102 +9,44 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top renk">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    
                 </button>
                 <a href="@Url.Action("Index","Home")">
                     <img height="30" src="@Url.Content("~/Content/")images/logo.png">
                 </a>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
 
-                </div>
-            <div class="navbar-collapse collapse">
-                <div class="ustkisim2">
-                    <ul class="nav navbar-nav ustkisim">
-                        <li>@Html.ActionLink("ANASAYFA", "Index", "Home")</li>
-                        <li>@Html.ActionLink("TOPLANTILAR", "About", "Home")</li>
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-       
+
         <footer>
-            <!-- Footer Background Image Wrapper -->
+
             <div class="bgded overlay" style="background-image:url(@Url.Content("~/Content/images/demo/backgrounds/04.png"))';">
-                <!-- ################################################################################################ -->
-                <div class="wrapper row4">
-                    <footer id="footer" class="hoc clear">
-                        <!-- ################################################################################################ -->
-                        <div class="btmspace-50 center">
-                            <h2 class="heading">dui eu laoreet aenean non</h2>
-                            <p>dapibus lacus phasellus quis ligula ut libero venenatis scelerisque</p>
-                        </div>
-                        <ul class="nospace group">
-                            <li class="one_quarter first">
-                                <div class="infobox">
-                                    <i class="fa fa-phone"></i>
-                                    <ul class="nospace">
-                                        <li>+00 (123) 456 7890</li>
-                                        <li>+00 (123) 456 7890</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="one_quarter">
-                                <div class="infobox">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <ul class="nospace">
-                                        <li><a href="#">info@domain.com</a></li>
-                                        <li><a href="#">sales@domain.com</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="one_quarter">
-                                <div class="infobox">
-                                    <i class="fa fa-clock-o"></i>
-                                    <ul class="nospace">
-                                        <li>Mon - Fri: 9 to 5.00pm</li>
-                                        <li>Sat: 9 to 1.00pm</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="one_quarter">
-                                <div class="infobox">
-                                    <i class="fa fa-support"></i>
-                                    <ul class="nospace">
-                                        <li><a href="#">Online Support</a></li>
-                                        <li><a href="#">Live Chat</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- ################################################################################################ -->
-                    </footer>
-                </div>
-                <!-- ################################################################################################ -->
-                <!-- ################################################################################################ -->
-                <!-- ################################################################################################ -->
-                <nav class="quicklinks row4">
+
+                <nav class="quicklinks row4 renk">
                     <ul class="hoc clear">
-                        <li><a href="#"><i class="fa fa-lg fa-home"></i></a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">ANASAYFA</a></li>
+                        <li><a href="#">TOPLANTILAR</a></li>
+                        <li><a href="#">GİRİŞ YAP</a></li>
                     </ul>
                 </nav>
-                <!-- ################################################################################################ -->
-                <!-- ################################################################################################ -->
-                <!-- ################################################################################################ -->
             </div>
             <!-- End Footer Background Image Wrapper -->
         </footer>
@@ -116,3 +58,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
