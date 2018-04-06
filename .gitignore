@@ -22,8 +22,8 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
-bin/
-obj/
+vmeet/Vmeet/Vmeet/bin/
+vmeet/Vmeet/Vmeet/obj/
 TestResults/
 ###################
 # Web publish log #
