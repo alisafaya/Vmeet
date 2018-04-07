@@ -327,6 +327,31 @@ table a, #comments a{background-color:inherit;}
 --------------------------------------------------------------------------------------------------------------- */
 @media screen and (min-width:978px){
 	.hoc{max-width:978px;}
+
+    .ust{
+        display:none!important;
+    }
+
+.renk{
+    background-color: #0c101c;
+}
+.img-thumbnailyeni{
+    padding: 0.25rem;
+    background-color: transparent !important;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    max-width: 100%;
+    height: auto;
+}
+
+.bilgikismi{
+       padding-top: 16px;
+       padding-bottom: 16px;
+}
+
 }
 
 
@@ -392,33 +417,4 @@ table a, #comments a{background-color:inherit;}
 }
 
 
-/* sonradan eklenenler  */
-.ustkisim{
-        margin-left: 663px;
-}
 
-.ustkisim2{
-        margin-top: 10px;
-}
-
-.renk{
-    background-color: #0c101c;
-}
-
-
-.img-thumbnailyeni{
-    padding: 0.25rem;
-    background-color: transparent !important;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    max-width: 100%;
-    height: auto;
-}
-
-.bilgikismi{
-       padding-top: 16px;
-       padding-bottom: 16px;
-}

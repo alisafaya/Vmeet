@@ -215,6 +215,7 @@
     <Content Include="Content\custom.flexslider.css" />
     <Content Include="Content\fontawesome-4.6.3.min.css" />
     <Content Include="Content\framework.css" />
+    <Content Include="Content\images\alogo.png" />
     <Content Include="Content\images\arkaplan.jpeg" />
     <Content Include="Content\images\arkaplan2.jpeg" />
     <Content Include="Content\images\bosresim.png" />
