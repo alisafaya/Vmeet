@@ -38,7 +38,7 @@ namespace Vmeet.Models
         public Boolean OzelMi { get; set; }
         [StringLength(256, ErrorMessage = "Çıktı 256 karakterden uzun olamaz.")]
         public string Cikti{ get; set; }
-        public virtual Uye Yonetici { get; set; }   //Foreign key 
+        //public virtual Uye Yonetici { get; set; }   //Foreign key 
         public virtual List<Katilimci> Katilimcis { get; set; }
         public virtual List<Mesaj> Mesajs { get; set; }
         public virtual List<Link> Links { get; set; }
@@ -49,7 +49,7 @@ namespace Vmeet.Models
         [Required(ErrorMessage = "Lütfen izini giriniz.")]
         [StringLength(1, ErrorMessage = "Izın 1 karakterden uzun olamaz.")]
         public string Izın { get; set; }
-        public virtual Uye UyeId { get; set; }
+        //public virtual Uye UyeId { get; set; }
         public virtual Toplanti ToplantiId { get; set; }
         
 
@@ -63,7 +63,7 @@ namespace Vmeet.Models
         [DataType(DataType.DateTime, ErrorMessage = "Lütfen tarihi, doğru bir şekilde giriniz.")]
         public DateTime Tarih { get; set; }
         public virtual Toplanti ToplantiId { get; set; }
-        public virtual Uye UyeId { get; set; }   
+        //public virtual Uye UyeId { get; set; }   
         public virtual Dosya Dosya { get; set; }
 
     }

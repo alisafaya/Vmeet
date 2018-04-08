@@ -13,7 +13,7 @@ namespace Vmeet.Controllers
             return View();
         }
 
-        public ActionResult Toplatilar()
+        public ActionResult Toplantilar()
         {
             ViewBag.Message = "Bu toplantilar sayfasi";
 
