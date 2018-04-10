@@ -138,5 +138,21 @@ namespace Vmeet.Models
         public virtual Dosya Dosya { get; set; }
     }
 
-    //View Modeller eklenebilir
+    public class BaslamamisToplantiViewModel
+    {
+        public string ToplantiAdi { get; set; }
+        public string ToplantiKonusu { get; set; }
+        public DateTime ToplantiBaslamaZamani { get; set; }
+        public TimeSpan ToplantiSuresi { get; set; }
+        public string Yonetici { get; set; }
+    }
+
+    public class BitmisToplantiViewModel
+    {
+        public string Yonetici { get; set; }
+        public string ToplantiAdi { get; set; }
+        public string ToplantiKonusu { get; set; }
+        public DateTime ToplantiBitisZamani { get; set; }
+        public string ToplantiCiktisi { get; set; }
+    }
 }

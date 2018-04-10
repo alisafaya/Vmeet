@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ToplantiController.cs" />
     <Compile Include="Controllers\ToplantilarController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -312,6 +313,8 @@
     <Content Include="Views\Toplantilar\Edit.cshtml" />
     <Content Include="Views\Toplantilar\Index.cshtml" />
     <Content Include="Views\Toplantilar\UyeIndex.cshtml" />
+    <Content Include="Views\Toplanti\baslamamis.cshtml" />
+    <Content Include="Views\Toplanti\bitmis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

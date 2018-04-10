@@ -38,7 +38,7 @@
                 <tr>
                     
                     <td>
-                        @Html.DisplayFor(modelItem => item.ToplantiAdi)
+                        @Html.ActionLink(item.ToplantiAdi,"Index","Toplanti",new { id = item.ID },null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Konu)
