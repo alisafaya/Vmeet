@@ -14,6 +14,9 @@
         </div>
     </div>
 
+    <p>
+        @Html.ActionLink("Yeni Toplantı Oluştur", "Create")
+    </p>
     <div class="table-responsive">
         <table class="table">
             <tr>
@@ -28,8 +31,10 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.BitisZamani)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OzelMi)
                 </th>              
-              
                 <th></th>
             </tr>
 
@@ -49,9 +54,11 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.BitisZamani)
                     </td>
-                   
+                    @* <td>
+                            @Html.DisplayFor(modelItem => item.OzelMi)
+                        </td>*@
                     <td>
-                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |                     
                         @Html.ActionLink("Sil", "Delete", new { id = item.ID })
                     </td>
                 </tr>

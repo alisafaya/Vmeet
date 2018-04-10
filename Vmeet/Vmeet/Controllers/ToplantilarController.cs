@@ -13,9 +13,10 @@ namespace Vmeet.Controllers
     public class ToplantilarController : Controller
     {
         private VmeetDbContext db = new VmeetDbContext();
+
         List<Toplanti> toplanti = new List<Toplanti>
             {
-            new Toplanti {ToplantiAdi="Yazılım",Konu="Proje",BaslamaZamani=DateTime.Parse("2018-04-11 13:00"),BitisZamani=DateTime.Parse("2018-04-11 14:00")},
+            new Toplanti { ToplantiAdi="Yazılım",Konu="Proje",BaslamaZamani=DateTime.Parse("2018-04-11 13:00"),BitisZamani=DateTime.Parse("2018-04-11 14:00")},
             new Toplanti{ToplantiAdi="Yazılım",Konu="Proje2",BaslamaZamani=DateTime.Parse("2018-04-12 15:00"),BitisZamani=DateTime.Parse("2018-04-11 16:00")}
             };
 
@@ -24,8 +25,8 @@ namespace Vmeet.Controllers
         // GET: Toplantilar
         public ActionResult Index()
         {   if(User.Identity.IsAuthenticated)
-            {
-                return View();
+            {   
+                return View("UyeIndex", db.Toplantilar.ToList());
             }
             else
             {
@@ -33,6 +34,10 @@ namespace Vmeet.Controllers
                
             }
            
+        }
+        public ActionResult UyeIndex()
+        {
+            return View(toplanti.ToList());
         }
 
         // GET: Toplantilar/Details/5
@@ -71,7 +76,7 @@ namespace Vmeet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi,Cikti")] Toplanti toplanti)
+        public ActionResult Create([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
             if (ModelState.IsValid)
             {

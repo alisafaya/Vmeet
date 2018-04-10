@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201804101444251_userModelEdited.Designer.cs">
       <DependentUpon>201804101444251_userModelEdited.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804101516429_useridstring.cs" />
+    <Compile Include="Migrations\201804101516429_useridstring.Designer.cs">
+      <DependentUpon>201804101516429_useridstring.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -307,6 +311,7 @@
     <Content Include="Views\Toplantilar\Details.cshtml" />
     <Content Include="Views\Toplantilar\Edit.cshtml" />
     <Content Include="Views\Toplantilar\Index.cshtml" />
+    <Content Include="Views\Toplantilar\UyeIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -325,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804101444251_userModelEdited.resx">
       <DependentUpon>201804101444251_userModelEdited.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101516429_useridstring.resx">
+      <DependentUpon>201804101516429_useridstring.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
