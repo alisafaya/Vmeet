@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Vmeet.Models.Toplanti>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div id="page-wrapper">
+    <div class="row" style="background-color:#ffffff">
+        <div class="col-lg-12">
+            <h2 class="page-header" style="color:#31708f">
+                Toplantılar
+            </h2>
+        </div>
+    </div>
+
+    <p>
+        @Html.ActionLink("Yeni Toplantı Oluştur", "Create")
+    </p>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.YoneticiID)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.ToplantiAdi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Konu)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BaslamaZamani)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BitisZamani)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.OzelMi)
+                </th>*@
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Cikti)
+                </th>*@
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.YoneticiID)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToplantiAdi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Konu)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BaslamaZamani)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BitisZamani)
+                    </td>
+                    @* <td>
+                            @Html.DisplayFor(modelItem => item.OzelMi)
+                        </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>
