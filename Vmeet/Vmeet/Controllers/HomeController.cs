@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Vmeet.Models;
 
 namespace Vmeet.Controllers
 {
@@ -17,7 +18,7 @@ namespace Vmeet.Controllers
         {
             ViewBag.Message = "Toplantilar";
             //Redirect to Toplantilar controller
-            return View();
+            return Redirect("/Toplantilar");
         }
 
         public ActionResult Hakkimizda()

@@ -99,6 +99,13 @@ namespace Vmeet.Models
 
         public int ToplantiID { get; set; }
 
+        public string Anahtar { get; set; }
+
+        public Link()
+        {
+            Anahtar = Guid.NewGuid().ToString("N");
+        }
+
         public virtual Toplanti Toplanti { get; set; }
 
         public virtual List<Giris> Giriss { get; set; }
@@ -130,4 +137,6 @@ namespace Vmeet.Models
 
         public virtual Dosya Dosya { get; set; }
     }
+
+    //View Modeller eklenebilir
 }
