@@ -90,7 +90,6 @@ namespace Vmeet.Models
         [Display(Name = "Soyad")]
         public string Soyad { get; set; }
 
-        [Required]
         [Display(Name = "Cinsiyet")]
         public string Cinsiyet { get; set; }
 

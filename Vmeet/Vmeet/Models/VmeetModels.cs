@@ -30,7 +30,7 @@ namespace Vmeet.Models
     {
         public int ID { get; set; }
 
-        public int YoneticiID { get; set; }
+        public string YoneticiID { get; set; }
         public virtual ApplicationUser Yonetici { get; set; }
 
         [Required(ErrorMessage = "Lütfen toplantının adını giriniz.")]
@@ -67,7 +67,7 @@ namespace Vmeet.Models
         public Izin Izin { get; set; }
 
         public int ToplantiID { get; set; }
-        public int ApplicationUserID { get; set; }
+        public string ApplicationUserID { get; set; }
 
         public virtual Toplanti Toplanti { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
@@ -80,7 +80,7 @@ namespace Vmeet.Models
         public MesajTuru MesajTuru { get; set; }
 
         public int ToplantiID { get; set; }
-        public int ApplicationUserID { get; set; }
+        public string ApplicationUserID { get; set; }
         public int DosyaID { get; set; }
 
         public DateTime Tarih { get; set; }
@@ -98,6 +98,13 @@ namespace Vmeet.Models
         public bool OzelMi { get; set; }
 
         public int ToplantiID { get; set; }
+
+        public string Anahtar { get; set; }
+
+        public Link()
+        {
+            Anahtar = Guid.NewGuid().ToString("N");
+        }
 
         public virtual Toplanti Toplanti { get; set; }
 
@@ -129,5 +136,23 @@ namespace Vmeet.Models
         public int DosyaID { get; set; }
 
         public virtual Dosya Dosya { get; set; }
+    }
+
+    public class BaslamamisToplantiViewModel
+    {
+        public string ToplantiAdi { get; set; }
+        public string ToplantiKonusu { get; set; }
+        public DateTime ToplantiBaslamaZamani { get; set; }
+        public TimeSpan ToplantiSuresi { get; set; }
+        public string Yonetici { get; set; }
+    }
+
+    public class BitmisToplantiViewModel
+    {
+        public string Yonetici { get; set; }
+        public string ToplantiAdi { get; set; }
+        public string ToplantiKonusu { get; set; }
+        public DateTime ToplantiBitisZamani { get; set; }
+        public string ToplantiCiktisi { get; set; }
     }
 }

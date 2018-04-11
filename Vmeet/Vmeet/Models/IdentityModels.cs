@@ -29,7 +29,7 @@ namespace Vmeet.Models
 
         public Gender Cinsiyet { get; set; }
 
-        public int DosyaID { get; set; }
+        public int? DosyaID { get; set; }
 
         public virtual Dosya Dosya { get; set; }
         public virtual List<Katilimci> Katilimcis { get; set; }

@@ -1,0 +1,68 @@
+﻿@model Vmeet.Models.Toplanti
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+<div>
+    <div class="row" style="background-color:#ffffff">
+        <div class="col-lg-12">
+            <h4 class="page-header" style="color:#31708f">
+                Toplantıyı Silmek İstediğinden Emin Misin?
+            </h4>
+        </div>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ToplantiAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Konu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Konu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaslamaZamani)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaslamaZamani)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BitisZamani)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BitisZamani)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OzelMi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OzelMi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="SİL" class="btn btn-default" /> |
+            @Html.ActionLink("Listeye Dön", "Index")
+        </div>
+    }
+</div>

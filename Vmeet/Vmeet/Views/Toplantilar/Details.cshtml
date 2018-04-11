@@ -1,0 +1,74 @@
+﻿@model Vmeet.Models.Toplanti
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Toplanti</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.YoneticiID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YoneticiID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToplantiAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Konu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Konu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaslamaZamani)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaslamaZamani)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BitisZamani)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BitisZamani)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OzelMi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OzelMi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cikti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cikti)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

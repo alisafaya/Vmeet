@@ -1,0 +1,40 @@
+﻿@model Vmeet.Models.BitmisToplantiViewModel
+
+@{
+    ViewBag.Title = "baslamamis";
+}
+
+<h2>Bu Toplanti @Model.ToplantiBitisZamani.ToString("F", new System.Globalization.CultureInfo("tr-TR")) tarihinde bitmistir</h2>
+
+<div>
+    <h3>@Html.DisplayFor(model => model.ToplantiAdi)</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Toplanti yoneticisi :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yonetici)
+        </dd>
+
+        <dt>
+            Toplanti konusu :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiKonusu)
+        </dd>
+
+        <dt>
+            Toplanti ciktisi :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiCiktisi)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Listeye geri dön","Index","Toplantilar")
+</p>
