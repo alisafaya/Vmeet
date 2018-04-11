@@ -481,5 +481,11 @@ namespace Vmeet.Controllers
             }
         }
         #endregion
+
+        public ActionResult Profil()
+        {
+            return View();
+        }
+
     }
 }
