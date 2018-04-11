@@ -66,6 +66,7 @@ namespace Vmeet.Controllers
         }
 
         // GET: Toplantilar/Create
+        [Authorize]  //yetkilendirme
         public ActionResult Create()
         {
             return View();
@@ -74,6 +75,7 @@ namespace Vmeet.Controllers
         // POST: Toplantilar/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
@@ -89,6 +91,7 @@ namespace Vmeet.Controllers
         }
 
         // GET: Toplantilar/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -102,7 +105,7 @@ namespace Vmeet.Controllers
             }
             return View(toplanti);
         }
-
+        [Authorize]
         // POST: Toplantilar/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -120,6 +123,7 @@ namespace Vmeet.Controllers
         }
 
         // GET: Toplantilar/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -135,6 +139,7 @@ namespace Vmeet.Controllers
         }
 
         // POST: Toplantilar/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
