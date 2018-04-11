@@ -55,16 +55,6 @@ namespace Vmeet.Controllers
             return View(toplanti);
         }
 
-
-        public ActionResult Toplanti(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            return Redirect("Toplanti/" + id);
-        }
-
         // GET: Toplantilar/Create
         public ActionResult Create()
         {
