@@ -10,11 +10,14 @@ using Vmeet.Models;
 
 namespace Vmeet.Controllers
 {
+
+
     [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
 
         public ManageController()
         {
@@ -68,6 +71,7 @@ namespace Vmeet.Controllers
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                Email = await UserManager.GetEmailAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
@@ -333,7 +337,15 @@ namespace Vmeet.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+
+
+
+
+      
+
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -385,5 +397,6 @@ namespace Vmeet.Controllers
         }
 
 #endregion
+       
     }
 }
