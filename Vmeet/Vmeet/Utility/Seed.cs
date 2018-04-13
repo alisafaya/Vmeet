@@ -159,10 +159,10 @@ namespace Vmeet.Utility
             var Linkler = new List<Link>()
             {
                 new Link() { ToplantiID = 1 , OzelMi = true  },
-                new Link() { ToplantiID = 1 , OzelMi = true  },
-                new Link() { ToplantiID = 1 , OzelMi = true  },
-                new Link() { ToplantiID = 1 , OzelMi = false  },
-                new Link() { ToplantiID = 1 , OzelMi = false  }
+                new Link() { ToplantiID = 2 , OzelMi = true  },
+                new Link() { ToplantiID = 3 , OzelMi = true  },
+                new Link() { ToplantiID = 2 , OzelMi = false  },
+                new Link() { ToplantiID = 4 , OzelMi = false  }
             };
 
             Linkler.ForEach(link => context.Linkler.Add(link));

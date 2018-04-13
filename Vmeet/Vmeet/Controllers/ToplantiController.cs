@@ -10,34 +10,37 @@ namespace Vmeet.Controllers
 {
     public class ToplantiController : Controller
     {
+        VmeetDbContext db = new VmeetDbContext();
         // GET: Toplanti
         public ActionResult Index(int? id)
         {
-            if (id == null)
+            if (id == null || db.Toplantilar.Find(id) == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Toplantilar");
             }
-            if (/*toplanti daha baslamamissa*/false)
+            var toplanti = db.Toplantilar.Find(id);
+
+            if (toplanti.BaslamaZamani > DateTime.Now)
             {
                 var model = new BaslamamisToplantiViewModel()
                 {
-                    Yonetici = "ali_safaya",
-                    ToplantiAdi = "Toplanti 001",
-                    ToplantiBaslamaZamani = DateTime.Now,
-                    ToplantiKonusu = "Bu Toplantida Sed pharetra non sollicitudin nec libero curabitur dapibus ex non viverra scelerisque arcu nisl dignissim enim in lacinia dolor libero id urna duis sodales dignissim enim.",
-                    ToplantiSuresi = TimeSpan.FromMinutes(124)
+                    Yonetici = toplanti.Yonetici.Ad +" " + toplanti.Yonetici.Soyad,
+                    ToplantiAdi =toplanti.ToplantiAdi,
+                    ToplantiBaslamaZamani = toplanti.BaslamaZamani,
+                    ToplantiKonusu = toplanti.Konu,
+                    ToplantiSuresi = (toplanti.BitisZamani - toplanti.BaslamaZamani)
                 };
                 return View("baslamamis",model);
             }
-            else if (/*toplanti bitmisse*/true)
+            else if (toplanti.BitisZamani < DateTime.Now)
             {
                 var model = new BitmisToplantiViewModel()
                 {
-                    Yonetici = "ali_safaya",
-                    ToplantiAdi = "Bitmis Toplanti 002",
-                    ToplantiBitisZamani = (DateTime.Now - TimeSpan.FromMinutes(1234)),
-                    ToplantiKonusu = "Bu Toplantida nisl dignissim enim in lacinia dolor libero id urna duis sodales dignissim enim.",
-                    ToplantiCiktisi = "Sed pharetra non sollicitudin nec libero curabitur \n\t*dapibus ex non viverra Sed pharetra non sollicitudin nec libero \n\t*curabitur dapibus ex non viverra Sed pharetra non sollicitudin nec libero curabitur dapibus ex non viverra Sed pharetra non sollicitudin nec libero curabitur dapibus ex non viverra Sed pharetra non sollicitudin nec libero curabitur dapibus ex non viverra Sed pharetra non sollicitudin nec libero curabitur dapibus ex non viverra"
+                    Yonetici = toplanti.Yonetici.Ad + " " + toplanti.Yonetici.Soyad,
+                    ToplantiAdi = toplanti.ToplantiAdi,
+                    ToplantiBitisZamani = toplanti.BitisZamani,
+                    ToplantiKonusu = toplanti.Konu,
+                    ToplantiCiktisi = toplanti.Cikti
                 };
                 return View("bitmis",model);
             }

@@ -124,7 +124,7 @@ namespace Vmeet.Models
 
         public int ToplantiID { get; set; }
 
-        public string Anahtar { get; }
+        public string Anahtar { get; set; }
 
         public Link()
         {
