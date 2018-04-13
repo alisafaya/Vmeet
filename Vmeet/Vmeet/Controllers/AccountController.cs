@@ -151,7 +151,7 @@ namespace Vmeet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Ad=model.Ad,Cinsiyet = Gender.Erkek, Soyad = model.Soyad };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Ad=model.Ad, Soyad = model.Soyad };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

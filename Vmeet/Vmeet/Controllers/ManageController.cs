@@ -10,12 +10,15 @@ using Vmeet.Models;
 
 namespace Vmeet.Controllers
 {
+
+
     [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private VmeetDbContext db = new VmeetDbContext();
         public ManageController()
         {
         }
@@ -64,13 +67,17 @@ namespace Vmeet.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                Email = await UserManager.GetEmailAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                AD = user.Ad,
+                Soyad = user.Soyad
             };
             return View(model);
         }
@@ -217,20 +224,31 @@ namespace Vmeet.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            return View();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var model = new ProfileChangeViewModel()
+            {
+                UserId = User.Identity.GetUserId(),
+                Profil = new ProfileInfoViewModel()
+                {
+                    Ad = user.Ad,
+                    Soyad = user.Soyad,
+                    Email = user.Email
+                }
+            };
+            return View(model);
         }
 
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<ActionResult> ChangePassword(ProfileChangeViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -243,6 +261,31 @@ namespace Vmeet.Controllers
             AddErrors(result);
             return View(model);
         }
+
+        ////
+        //// POST: /Manage/ChangePassword
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ChangeProfile(ProfileChangeViewModel model)
+        //{
+        //    model.UserId 
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var result = await UserManager.C(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //        if (user != null)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //        }
+        //        return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+        //    }
+        //    AddErrors(result);
+        //    return View(model);
+        //}
 
         //
         // GET: /Manage/SetPassword
@@ -333,7 +376,15 @@ namespace Vmeet.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+
+
+
+
+      
+
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -385,5 +436,6 @@ namespace Vmeet.Controllers
         }
 
 #endregion
+       
     }
 }

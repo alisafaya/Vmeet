@@ -8,6 +8,9 @@ namespace Vmeet.Models
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
+        public string Email { get; set; }
+        public string AD { get; set; }
+        public string Soyad { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
@@ -56,6 +59,22 @@ namespace Vmeet.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class ProfileInfoViewModel
+    {
+        public string Ad { get; set; }
+        public string Soyad { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+    }
+
+    public class ProfileChangeViewModel
+    {
+        public string UserId { get; set; }
+        public ProfileInfoViewModel Profil { get; set; }
+        public ChangePasswordViewModel Password { get; set; }
     }
 
     public class AddPhoneNumberViewModel
