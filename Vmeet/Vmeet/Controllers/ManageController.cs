@@ -262,30 +262,30 @@ namespace Vmeet.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/ChangePassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeProfile(ProfileChangeViewModel model)
-        {
-            model.UserId 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var result = await UserManager.C(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            }
-            AddErrors(result);
-            return View(model);
-        }
+        ////
+        //// POST: /Manage/ChangePassword
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ChangeProfile(ProfileChangeViewModel model)
+        //{
+        //    model.UserId 
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var result = await UserManager.C(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //        if (user != null)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //        }
+        //        return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+        //    }
+        //    AddErrors(result);
+        //    return View(model);
+        //}
 
         //
         // GET: /Manage/SetPassword

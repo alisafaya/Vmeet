@@ -31,7 +31,6 @@ namespace Vmeet.Controllers
             else
             {
                return View(toplanti.ToList());
-               
             }
            
         }
