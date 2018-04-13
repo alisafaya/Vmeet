@@ -1,0 +1,49 @@
+﻿@model Vmeet.Models.ProfileChangeViewModel
+@{
+    ViewBag.Title = "Profilin Düzenle";
+}
+
+
+<hr />
+<div class="row" style="margin-left: 320px;">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("ChangeProfile", "Manage", FormMethod.Post, new { @class = "form-horizontal col-lg-6", role = "form" }))
+            {
+                <div class="thumbnail" style="border: 2px solid #43bfcb;">
+                    <h3 style=" margin-left: 4px; margin-top: 6px;">@ViewBag.Title</h3>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Profil.Ad, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Profil.Ad, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Profil.Soyad, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Profil.Soyad, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Profil.Email, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Profil.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+
+                            <input type="submit" value="Güncelle" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
