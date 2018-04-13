@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -170,7 +171,7 @@ namespace Vmeet.Controllers
         public ActionResult CreateDavet([Bind(Include = "Ad,Soyad,Email,İzin")] Katilimci uye )
         {
            
-            if ()
+            if (true)
             {   
 
                 db.Katilimcilar.Add(uye);
@@ -187,12 +188,7 @@ namespace Vmeet.Controllers
             var model = new YonetViewModel()
             {
                 ToplantiId = 2,
-                Davetliler = new List<Katilimci>
-                {
-                    new Katilimci { ID=1, Izin = Izin.Dinleyici, ApplicationUser = new ApplicationUser {  Ad = "ahmet" , Soyad = "asd" , Email="ahmet@asd.casd" } },
-                    new Katilimci { ID=2, Izin = Izin.Konusmaci, ApplicationUser = new ApplicationUser {  Ad = "asd" , Soyad = "erfdf" , Email="fg@asd.casd" } },
-                    new Katilimci { ID=3, Izin = Izin.Dinleyici, ApplicationUser = new ApplicationUser {  Ad = "qwe" , Soyad = "werew" , Email="zxc@asd.casd" } },
-                },
+                Davetliler = db.Katilimcilar.ToList(),
                 Linkler = new List<LinkViewModel>
                 {
                     new LinkViewModel("asdascxlak-asdkl-dasd-asd-masld",2,false,2),
