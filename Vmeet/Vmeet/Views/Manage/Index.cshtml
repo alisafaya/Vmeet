@@ -1,37 +1,29 @@
 ﻿@model Vmeet.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Profil";
 }
 
-<h2>@ViewBag.Title.</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt> Ad: </dt>
+<hr />
+<div class="row" style="margin-left: 320px;">
+    <div class="col-md-12" style="left: 9px;">
+        <div class="thumbnail" style="border: 2px solid #43bfcb;height: 214px;width: 469px;">
+            <h3 style="margin-left: 12px; margin-top: 8px;">@ViewBag.Title</h3>
 
-        <dd>
-            @Model.AD
-        </dd>
-        
-        <dt> Soyad: </dt>
+            <dl class="dl-horizontal">
+                <dt> Ad: </dt>
+                <dd> @Model.AD</dd>
 
-        <dd>
-            @Model.Soyad
-        </dd>
+                <dt> Soyad: </dt>
+                <dd> @Model.Soyad</dd>
 
-        <dt> Email: </dt>
+                <dt> Email: </dt>
+                <dd> @Model.Email</dd>
 
-            <dd>
-                @Model.Email
-            </dd>
-       
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
+                <dt>Password:</dt>
+                <dd>
+                    [
+                    @if (Model.HasPassword)
             {
                 @Html.ActionLink("Change your password", "ChangePassword")
             }
@@ -39,41 +31,14 @@
             {
                 @Html.ActionLink("Create", "SetPassword")
             }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-          
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")]</text>
-                }
-            </dd>
-        
-        
-    </dl>
-</div>
+                    ]
+                </dd>
+            </dl>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Profili Düzenle" class="btn btn-default" onclick="location.href='@Url.Action("ChangeProfile", "Manage")'" style="margin-left: 95px;" />
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>

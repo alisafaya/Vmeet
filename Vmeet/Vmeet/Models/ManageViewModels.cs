@@ -46,26 +46,35 @@ namespace Vmeet.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Eski Şifre")]
         public string OldPassword { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Yeni Şifre")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
+        [Display(Name = "Tekrar Yeni Şifre")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class ProfileInfoViewModel
     {
+        [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
+        [Display(Name = "Ad")]
+        [DataType(DataType.Text)]
         public string Ad { get; set; }
+
+        [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
+        [Display(Name = "Soyad")]
+        [DataType(DataType.Text)]
         public string Soyad { get; set; }
 
+        [EmailAddress]
+        [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
