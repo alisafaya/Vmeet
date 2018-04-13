@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vmeet.Models
 {
@@ -19,6 +20,12 @@ namespace Vmeet.Models
             return userIdentity;
         }
 
+        public ApplicationUser()
+        {
+            this.Katilimcis = new HashSet<Katilimci>();
+            this.Mesajs = new HashSet<Mesaj>();
+        }
+
         [MaxLength(32)]
         public string Ad { get; set; }
 
@@ -27,9 +34,10 @@ namespace Vmeet.Models
 
         public int? DosyaID { get; set; }
 
+        [ForeignKey("DosyaID")]
         public virtual Dosya Dosya { get; set; }
-        public virtual List<Katilimci> Katilimcis { get; set; }
-        public virtual List<Mesaj> Mesajs { get; set; }
+        public virtual ICollection<Katilimci> Katilimcis { get; set; }
+        public virtual ICollection<Mesaj> Mesajs { get; set; }
 
     }
 
@@ -38,8 +46,10 @@ namespace Vmeet.Models
         public VmeetDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new Utility.VmeetInitializer());
+            //Database.SetInitializer<VmeetDbContext>(null);
         }
-
+        
         public DbSet<Toplanti> Toplantilar { get; set; }
         public DbSet<Dosya> Dosyalar { get; set; }
         public DbSet<Katilimci> Katilimcilar { get; set; }
@@ -52,5 +62,6 @@ namespace Vmeet.Models
         {
             return new VmeetDbContext();
         }
+         
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +19,10 @@ namespace Vmeet.Models
             DosyaIsmi = dosyaIsmi;
         }
 
+        public Dosya() {
+
+        }
+
         public int ID { get; set;}
 
         [MaxLength(256)]
@@ -28,9 +33,18 @@ namespace Vmeet.Models
 
     public class Toplanti
     {
+        public Toplanti()
+        {
+            this.Katilimcis = new HashSet<Katilimci>();
+            this.Mesajs = new HashSet<Mesaj>();
+            this.Links = new HashSet<Link>();
+        }
+        [Key]
         public int ID { get; set; }
 
         public string YoneticiID { get; set; }
+
+        [ForeignKey("YoneticiID")]
         public virtual ApplicationUser Yonetici { get; set; }
 
         [Required(ErrorMessage = "Lütfen toplantının adını giriniz.")]
@@ -56,12 +70,13 @@ namespace Vmeet.Models
         [StringLength(1024, ErrorMessage = "Çıktı 256 karakterden uzun olamaz.")]
         public string Cikti{ get; set; }
 
-        public virtual List<Katilimci> Katilimcis { get; set; }
-        public virtual List<Mesaj> Mesajs { get; set; }
-        public virtual List<Link> Links { get; set; }
+        public virtual ICollection<Katilimci> Katilimcis { get; set; }
+        public virtual ICollection<Mesaj> Mesajs { get; set; }
+        public virtual ICollection<Link> Links { get; set; }
     }
     public class Katilimci
     {
+        [Key]
         public int ID { get; set; }
 
         public Izin Izin { get; set; }
@@ -69,7 +84,10 @@ namespace Vmeet.Models
         public int ToplantiID { get; set; }
         public string ApplicationUserID { get; set; }
 
+        [ForeignKey("ToplantiID")]
         public virtual Toplanti Toplanti { get; set; }
+
+        [ForeignKey("ApplicationUserID")]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
     }
@@ -77,16 +95,23 @@ namespace Vmeet.Models
     {
         public int ID { get; set; }
 
+        public string Metin { get; set; }
+
         public MesajTuru MesajTuru { get; set; }
 
         public int ToplantiID { get; set; }
         public string ApplicationUserID { get; set; }
-        public int DosyaID { get; set; }
+        public int? DosyaID { get; set; }
 
         public DateTime Tarih { get; set; }
 
+        [ForeignKey("ToplantiID")]
         public virtual Toplanti Toplanti { get; set; }
+
+        [ForeignKey("ApplicationUserID")]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [ForeignKey("DosyaID")]
         public virtual Dosya Dosya { get; set; }
     }
 
@@ -99,16 +124,18 @@ namespace Vmeet.Models
 
         public int ToplantiID { get; set; }
 
-        public string Anahtar { get; set; }
+        public string Anahtar { get; }
 
         public Link()
         {
             Anahtar = Guid.NewGuid().ToString("N");
+            this.Giriss = new HashSet<Giris>();
         }
 
+        [ForeignKey("ToplantiID")]
         public virtual Toplanti Toplanti { get; set; }
 
-        public virtual List<Giris> Giriss { get; set; }
+        public virtual ICollection<Giris> Giriss { get; set; }
 
     }
     public class Giris
@@ -118,6 +145,8 @@ namespace Vmeet.Models
         public DateTime Tarih {get;set;}
 
         public int AvatarID { get; set; }
+
+        [ForeignKey("AvatarID")]
         public Avatar Avatar { get; set; }
 
         [Required(ErrorMessage = "Lütfen  isim giriniz.")]
@@ -126,6 +155,7 @@ namespace Vmeet.Models
 
         public int LinkID { get; set; }
 
+        [ForeignKey("LinkID")]
         public virtual Link Link { get; set; }
     }
 
@@ -135,6 +165,7 @@ namespace Vmeet.Models
 
         public int DosyaID { get; set; }
 
+        [ForeignKey("DosyaID")]
         public virtual Dosya Dosya { get; set; }
     }
 
@@ -154,5 +185,25 @@ namespace Vmeet.Models
         public string ToplantiKonusu { get; set; }
         public DateTime ToplantiBitisZamani { get; set; }
         public string ToplantiCiktisi { get; set; }
+    }
+    public class YonetViewModel
+    {
+        public int ToplantiId { get; set; }
+        public List<Katilimci> Davetliler { get; set; }
+        public List<LinkViewModel> Linkler { get; set; }
+
+    }
+
+    public class LinkViewModel
+    {
+        public bool ozelMi { get; set; }
+        public string link { get; set; }
+        public int ID { get; set; }
+        public LinkViewModel(string anahtar, int toplantiId, bool ozelMi, int Id)
+        {
+            this.link = "http://localhost:11238/toplanti/" + toplantiId + "/" + anahtar;
+            this.ozelMi = ozelMi;
+            this.ID = Id;
+        }
     }
 }
