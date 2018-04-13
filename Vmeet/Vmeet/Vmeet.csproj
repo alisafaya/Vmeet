@@ -320,6 +320,7 @@
     <Content Include="Views\Toplantilar\UyeIndex.cshtml" />
     <Content Include="Views\Toplanti\baslamamis.cshtml" />
     <Content Include="Views\Toplanti\bitmis.cshtml" />
+    <Content Include="Views\Manage\ChangeProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

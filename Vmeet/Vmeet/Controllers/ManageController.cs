@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vmeet.Models;
+using System.Data.Entity;
 
 namespace Vmeet.Controllers
 {
@@ -224,6 +225,50 @@ namespace Vmeet.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            //var user = db.Users.Find(User.Identity.GetUserId());
+            //var model = new ProfileChangeViewModel()
+            //{
+            //    UserId = User.Identity.GetUserId(),
+            //    Profil = new ProfileInfoViewModel()
+            //    {
+            //        Ad = user.Ad,
+            //        Soyad = user.Soyad,
+            //        Email = user.Email
+            //    }
+            //};
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ProfileChangeViewModel model)
+        {    
+            if (!ModelState.IsValid)
+            {
+                                  
+                return View(model);
+            }
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+               }
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            }
+           
+            AddErrors(result);
+            return View(model);
+        }
+
+
+
+        public ActionResult ChangeProfile()
+        {
             var user = db.Users.Find(User.Identity.GetUserId());
             var model = new ProfileChangeViewModel()
             {
@@ -242,49 +287,22 @@ namespace Vmeet.Controllers
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(ProfileChangeViewModel model)
+        public ActionResult ChangeProfile(ProfileChangeViewModel model)
         {
-            if (!ModelState.IsValid)
+            var user = db.Users.Find(User.Identity.GetUserId());
+           
+            if (ModelState.IsValid)
             {
-                return View(model);
+                user.Ad = model.Profil.Ad;
+                user.Soyad = model.Profil.Soyad;
+                user.Email = model.Profil.Email;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            }
-            AddErrors(result);
+           
             return View(model);
-        }
-
-        //
-        // POST: /Manage/ChangePassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeProfile(ProfileChangeViewModel model)
-        {
-            model.UserId 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var result = await UserManager.C(User.Identity.GetUserId(), model.Password.OldPassword, model.Password.NewPassword);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            }
-            AddErrors(result);
-            return View(model);
+           
         }
 
         //
