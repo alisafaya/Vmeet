@@ -15,11 +15,7 @@ namespace Vmeet.Controllers
     {
         private VmeetDbContext db = new VmeetDbContext();
 
-        List<Toplanti> toplanti = new List<Toplanti>
-            {
-            new Toplanti { ToplantiAdi="Yazılım",Konu="Proje",BaslamaZamani=DateTime.Parse("2018-04-11 13:00"),BitisZamani=DateTime.Parse("2018-04-11 14:00")},
-            new Toplanti{ToplantiAdi="Yazılım",Konu="Proje2",BaslamaZamani=DateTime.Parse("2018-04-12 15:00"),BitisZamani=DateTime.Parse("2018-04-11 16:00")}
-            };
+       
 
         
 
@@ -31,13 +27,15 @@ namespace Vmeet.Controllers
             }
             else
             {
-               return View(toplanti.ToList());
+                var model = db.Toplantilar.Where(x => x.OzelMi.Equals(false));
+                return View(model.ToList());             
             }
            
         }
+        [Authorize]
         public ActionResult UyeIndex()
         {
-            return View(toplanti.ToList());
+            return View(db.Toplantilar.ToList());
         }
 
         // GET: Toplantilar/Details/5
