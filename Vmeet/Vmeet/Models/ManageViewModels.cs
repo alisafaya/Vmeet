@@ -65,14 +65,17 @@ namespace Vmeet.Models
     {
         [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
         [Display(Name = "Ad")]
+        [DataType(DataType.Text)]
         public string Ad { get; set; }
 
         [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
         [Display(Name = "Soyad")]
+        [DataType(DataType.Text)]
         public string Soyad { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
 
