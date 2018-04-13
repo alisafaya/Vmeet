@@ -55,16 +55,6 @@ namespace Vmeet.Controllers
             return View(toplanti);
         }
 
-
-        public ActionResult Toplanti(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            return Redirect("Toplanti/" + id);
-        }
-
         // GET: Toplantilar/Create
         [Authorize]  //yetkilendirme
         public ActionResult Create()
@@ -111,7 +101,7 @@ namespace Vmeet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi,Cikti")] Toplanti toplanti)
+        public ActionResult Edit([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
             if (ModelState.IsValid)
             {
@@ -149,7 +139,6 @@ namespace Vmeet.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -158,5 +147,65 @@ namespace Vmeet.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult CreateLink(int? id,bool? ozel)
+        {
+            if (id == null || ozel == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ///
+
+            ///
+            var link = new Link()
+            {
+                ToplantiID = id.Value,
+                OzelMi = ozel.Value
+            };
+
+            db.Linkler.Add(link);
+            db.SaveChanges();
+
+            return RedirectToAction("Yonet");
+        }
+        public ActionResult CreateDavet([Bind(Include = "Ad,Soyad,Email,İzin")] Katilimci uye )
+        {
+           
+            if ()
+            {   
+
+                db.Katilimcilar.Add(uye);
+                db.SaveChanges();
+               
+            }
+
+
+
+            return RedirectToAction("Yonet");
+        }
+        public ActionResult Yonet()
+        {
+            var model = new YonetViewModel()
+            {
+                ToplantiId = 2,
+                Davetliler = new List<Katilimci>
+                {
+                    new Katilimci { ID=1, Izin = Izin.Dinleyici, ApplicationUser = new ApplicationUser {  Ad = "ahmet" , Soyad = "asd" , Email="ahmet@asd.casd" } },
+                    new Katilimci { ID=2, Izin = Izin.Konusmaci, ApplicationUser = new ApplicationUser {  Ad = "asd" , Soyad = "erfdf" , Email="fg@asd.casd" } },
+                    new Katilimci { ID=3, Izin = Izin.Dinleyici, ApplicationUser = new ApplicationUser {  Ad = "qwe" , Soyad = "werew" , Email="zxc@asd.casd" } },
+                },
+                Linkler = new List<LinkViewModel>
+                {
+                    new LinkViewModel("asdascxlak-asdkl-dasd-asd-masld",2,false,2),
+                    new LinkViewModel("asdascxlakasdasd-asd-asdklmasld", 2,true,1),
+                    new LinkViewModel("asdascklmasld",2,true,2),
+                    new LinkViewModel("asdascxlak-asd-asdxczc-klmasld",2,false,3)
+                }
+            };
+
+
+            return View(model);
+        }
+
     }
 }

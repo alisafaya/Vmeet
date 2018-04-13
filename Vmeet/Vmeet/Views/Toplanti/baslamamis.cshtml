@@ -1,0 +1,48 @@
+﻿@model Vmeet.Models.BaslamamisToplantiViewModel
+
+@{
+    ViewBag.Title = "baslamamis";
+}
+
+<h2>Bu Toplanti daha baslamamis</h2>
+
+<div>
+    <h3>@Html.DisplayFor(model => model.ToplantiAdi)</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Toplanti yoneticisi :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yonetici)
+        </dd>
+
+        <dt>
+            Toplanti konusu :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiKonusu)
+        </dd>
+
+        <dt>
+            Baslama tarihi :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToplantiBaslamaZamani)
+        </dd>
+
+        <dt>
+            Toplanti suresi :
+        </dt>
+
+        <dd>
+            @Model.ToplantiSuresi.Hours saat, @Model.ToplantiSuresi.Minutes dakika
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Listeye geri dön","Index","Toplantilar")
+</p>

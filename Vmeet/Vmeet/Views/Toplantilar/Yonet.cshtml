@@ -1,0 +1,103 @@
+﻿@model Vmeet.Models.YonetViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div id="page-wrapper">
+    <div class="row" style="background-color:#ffffff">
+        <div class="col-lg-12">
+            <h2 class="page-header" style="color:#31708f">
+                Davet ve Link
+            </h2>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email adresi</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Davet Gönder" class="btn btn-default" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5 table-responsive">
+            <p>
+                @Html.ActionLink("Yeni Davet Oluştur", "CreateDavet")
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        Davetli ismi
+                    </th>
+                    <th>
+                        E-Posta
+                    </th>
+                    <th>
+                        Izin
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.Davetliler)
+            {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.Ad) @Html.DisplayFor(modelItem => item.ApplicationUser.Soyad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Izin)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sil", "DavetSil", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="col-lg-5 table-responsive">
+            <p>
+                @Html.ActionLink("Ozel Link Oluştur", "CreateLink", new { id = Model.ToplantiId, ozel = true })
+                @Html.ActionLink("Public Link Oluştur", "CreateLink", new { id = Model.ToplantiId, ozel = false } )
+            </p>
+            <div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Link
+                        </th>
+                        <th>
+                            Tur
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.Linkler)
+                   {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.link)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ozelMi)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Sil", "LinkSil", new { id = item.ID })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+ </div>
