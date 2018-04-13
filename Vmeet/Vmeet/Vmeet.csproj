@@ -234,6 +234,7 @@
     <Content Include="Content\custom.flexslider.css" />
     <Content Include="Content\fontawesome-4.6.3.min.css" />
     <Content Include="Content\framework.css" />
+    <Content Include="Content\images\1A4K.jpeg" />
     <Content Include="Content\images\alogo.png" />
     <Content Include="Content\images\avatar.png" />
     <Content Include="Content\images\background.jpeg" />
@@ -244,6 +245,9 @@
     <Content Include="Content\images\demo\imgl.gif" />
     <Content Include="Content\images\demo\imgr.gif" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\meeting.png" />
+    <Content Include="Content\images\vv.jpg" />
+    <Content Include="Content\images\wallpaper.jpg" />
     <Content Include="Content\layout.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
