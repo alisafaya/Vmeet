@@ -31,39 +31,74 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.BitisZamani)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OzelMi)
-                </th>              
-                <th></th>
+                </th> 
+                <th></th>        
             </tr>
 
             @foreach (var item in Model)
             {
-                <tr>
-                    
+                if (item.OzelMi == false)
+                {
+                <tr>  
+                                    
                     <td>
-                        @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                        <div class="alert alert-info" role="alert">
+                            @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                        </div>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Konu)
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.Konu)
+                        </div>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BaslamaZamani)
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.BaslamaZamani)
+                        </div>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BitisZamani)
-                    </td>
-                    @* <td>
-                            @Html.DisplayFor(modelItem => item.OzelMi)
-                        </td>*@
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.BitisZamani)
+                        </div>
+                     </td>
                     <td>
                         @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |                     
                         @Html.ActionLink("Sil", "Delete", new { id = item.ID })
                     </td>
                 </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <div class="alert alert-danger" role="alert">
+                                @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="alert alert-danger" role="alert">
+                                @Html.DisplayFor(modelItem => item.Konu)
+                            </div>
+                        </td>
+                         <td>
+                            <div class="alert alert-danger" role="alert">
+                                @Html.DisplayFor(modelItem => item.BaslamaZamani)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="alert alert-danger" role="alert">
+                                @Html.DisplayFor(modelItem => item.BitisZamani)
+                        </div>
+                        </td>                  
+                        <td>                           
+                                @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
+                                @Html.ActionLink("Sil", "Delete", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
             }
-
         </table>
+        <span class="label label-info">Açık toplantılar</span>
+        <span class="label label-danger">Özel toplantılar</span>
     </div>
     </div>
