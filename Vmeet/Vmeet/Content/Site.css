@@ -16,12 +16,6 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
 
 a.icon
 {
@@ -32,4 +26,77 @@ a.icon
     width: 50px;
     height: 50px;
     text-indent: -9999px; /* hides the link text */
+}
+
+
+.text{
+    width:95%;/*! flex-direction:column; */
+    line-height: 20px;
+}
+.text > p:first-of-type{
+    width:100%;margin-top:0;margin-bottom:auto;font-size: 12px;color: #495057;
+}
+.text > p:last-of-type{
+    width:100%;/*! text-align:right; */color:black;margin-top:auto;
+    font-size: 0.7em;
+}
+.text-l{
+    /*float:left;padding-right:10px; */
+}        
+.text-r{
+    float:right;padding-left:5px;
+}
+.avatar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:50px;
+    float:left;
+    padding-right:10px;
+}
+.macro{
+    margin-top:10px;
+    border-radius:15px;
+    padding:5px;
+    font-size: 1.4em;
+    max-width: 90%;
+}
+.msj-rta{
+    background: #8dc5e9;
+}
+.msj{
+    background:white;
+}
+.frame{
+    height:600px;
+    padding:0;
+}
+
+.chat-board {
+	border-radius: 3px;
+	border: #ced4da solid 1px;
+	margin: 1%;
+	width: 98%;
+    background:#e9ecef;
+    height: 550px;
+    overflow-y: auto;
+}
+.chat-board ul {
+    list-style-type: none;
+    width: 100%;
+    padding:18px;
+    display:flex;
+    flex-direction: column;
+}
+
+#sendmessage {
+	height: 85%;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.input-message {
+	width: 98%;
+	margin-left:1%;
+	margin-right:0px;
 }

@@ -1,0 +1,55 @@
+﻿@model Vmeet.Models.Toplanti
+
+@{
+    ViewBag.Title = @Model.ToplantiAdi;
+}
+
+<h2>@Model.ToplantiAdi</h2>
+
+
+
+<div class="col-lg-3" >
+
+</div>
+
+
+<div class="col-lg-3">
+    <h4>Toplanti detaylari</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Yonetici adi :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yonetici.Ad) @Html.DisplayFor(model => model.Yonetici.Soyad) 
+        </dd>
+        <dt>
+            Toplanti Konusu
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Konu)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.BitisZamani)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BitisZamani)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cikti)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(model => model.Cikti)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+

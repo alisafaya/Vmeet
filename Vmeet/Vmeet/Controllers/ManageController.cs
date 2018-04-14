@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vmeet.Models;
 using System.Data.Entity;
+using Vmeet.Utility;
+using System.IO;
 
 namespace Vmeet.Controllers
 {
@@ -20,6 +22,8 @@ namespace Vmeet.Controllers
         private ApplicationUserManager _userManager;
 
         private VmeetDbContext db = new VmeetDbContext();
+
+        
         public ManageController()
         {
         }
@@ -396,9 +400,7 @@ namespace Vmeet.Controllers
 
 
 
-
-
-      
+        
 
 
 

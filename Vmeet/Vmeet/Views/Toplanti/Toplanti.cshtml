@@ -1,0 +1,177 @@
+﻿@model Vmeet.Models.ToplantiViewModel
+@{
+    ViewBag.Title = "Chat";
+}
+<div id="page-wrapper row">
+    <div id="chat-block" class="frame col-lg-5  col-md-5">
+        <div class="chat-board row" id="chat-board">
+            <ul id="discussion">
+                @foreach (var item in Model.mesajlar)
+                {
+                    if (item.MesajTuru == Vmeet.Models.MesajTuru.Metin)
+                    {
+                        <li style="width:100%">
+                            <div class="msj macro d-flex flex-row" message_id="' + message.id + '">
+                                <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID }) "  /></div>
+                                <div class="text text-l">
+                                    <p style="font-size:50%;">@item.ApplicationUser.Ad</p>
+                                    <p>@item.Metin</p>
+                                    <p style="float:right;">@item.Tarih.Hour:@item.Tarih.Minute</p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                    {
+                        <li style="width:100%">
+                            <div class="msj macro d-flex flex-row" message_id="' + message.id + '">
+                                <div><img style="width:100px;" src="@Url.Action("image",new { dosyaId = item.DosyaID }) " /></div>
+                                <div class="avatar"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID }) " /></div>
+                                <div class="text text-l">
+                                    <p style="font-size:50%;">@item.ApplicationUser.Ad</p>
+                                    <p>@item.Metin</p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="input-message row">
+            <div class="input-group mb-2" style="display: inline-flex;width:100%;" id="message-form">
+                <div style="width:100%;"><input type="text" class="form-control" id="msg" placeholder="Mesaj"></div>
+                <div class="input-group-postpend">
+                    <button class="input-group-text btn" id="sendmessage">Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.addNewMessageToPage = function (message) {
+                $('#discussion').append('<li style="width:100%">' +
+            '<div class="msj macro d-flex flex-row" message_id="' + message.id + '"  >' +
+            '<div class="avatar"><img class="rounded-circle" style="width:40px;" src="@Url.Content("~/Content/images/avatar.png")" /></div>' +
+            '<div class="text text-l">' +
+            '<p style="font-size:50%;">' + htmlEncode(name) + '</small>' +
+            '<p>' + htmlEncode(message) + '</p>' +
+            '</div>' +
+            '</div>' +
+            '</li>');
+            };
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send('User name', $('#msg').val());
+                    $('#msg').val('').focus();
+                });
+            });
+        });
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+        /*
+        var me = {};
+        var you = {};
+        you.avatar = "/static/img/avatars/patient-1.png";
+
+        function formatAMPM(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
+
+        //-- No use time. It is a javaScript effect.
+        function insertChat(message){
+            var control = "";
+            var date = formatAMPM(new Date());
+            var query = '<li style="width:100%">' +
+            '<div class="msj macro d-flex flex-row" message_id="'+ message.id + '"  >' +
+            '<div class="avatar"><img class="rounded-circle" style="width:40px;" src="'+ me.avatar +'" /></div>' +
+            '<div class="text text-l">' +
+            '<p>'+ message.question +'</p>' +
+            '</div>' +
+            '</div>' +
+            '</li>';
+
+            var response = '';
+
+            if (message.right_answer) {
+
+                response =    '<li style="width:100%;">' +
+                '<div class="msj-rta macro d-flex flex-row" message_id="'+ message.id + '"' +
+                '  data-trigger="focus" tabindex="0" data-toggle="popover" data-placement="bottom" data-content="" >' +
+                '<div id="answer-block-'+ message.id +'" class="text text-r" >' +
+                '<p>'+ message.answer +'</p>' +
+                '</div>' +
+                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="rounded-circle" style="width:40px;" src="'+you.avatar+'" /></div>' +
+                '</li>';
+
+            } else {
+                response =   '<li style="width:100%;">' +
+                '<div class="msj-rta macro d-flex flex-row" message_id="'+ message.id + '"' +
+                '  data-trigger="focus" tabindex="0" data-toggle="popover" data-placement="bottom" data-content="" >' +
+                '<div id="answer-block-'+ message.id +'" class="text text-r" >' +
+                '<p>'+ message.answer +'</p>' +
+                '<div id="wrong-mark-'+message.id+'" style="padding:0px;"><img class="rounded-circle" alt="X" style="width:20px;display:inline;float:left;" src="'+ wrong +'" /><p style="margin-left:25px;font-size:9px;"> Wrong answer</p></div>' +
+                '</div>' +
+                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="rounded-circle" style="width:40px;" src="'+you.avatar+'" /></div>' +
+                '</li>';
+            }
+
+            setTimeout(
+                function(){
+                    $("ul").append(query);
+                    $("ul").append(response);
+                    $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+                    var cont = '';
+                    if (message.right_answer) {
+                        cont = '<p message_id="'+message.id +'" id="message-popover-'+ message.id+'" class="close" style="font-size:15px;" onclick="$(&quot;#example&quot;).popover(&quot;hide&quot;);mark_answer('+ message.id +');">Mark as wrong</p>';
+                    }else {
+                        cont = '<p message_id="'+message.id +'" id="message-popover-'+ message.id+'" class="close" style="font-size:15px;" onclick="$(&quot;#example&quot;).popover(&quot;hide&quot;);mark_answer('+ message.id +');">Mark as right</p>';
+                    }
+
+                    $(function () {
+                        $('[message_id="'+message.id+'"][tabindex="0"]').popover({
+                            html: true,
+                            content : cont
+                        })
+                    })
+                }, 1);
+        }
+
+            function resetChat(){
+                $("ul").empty();
+            }
+
+            function send_message(){
+                var text = $("#msg").val();
+                if (text !== ""){
+                    post_message(text);
+                    $("#msg").val('');
+                }
+            }
+
+            $("#msg").on("keyup", function(e){
+                if (e.which == 13){
+                    send_message();
+                }
+            });
+
+            $("#ask").on("click", function(){
+                send_message();
+            });
+            */
+    </script>
+}

@@ -147,8 +147,8 @@ namespace Vmeet.Utility
                 new Katilimci() { ApplicationUser = userManager.FindByEmail("alisafaya@gmail.com"), ToplantiID= 1  ,Izin = Izin.Konusmaci },
                 new Katilimci() { ApplicationUser = userManager.FindByEmail("yucebussra9@gmail.com"), ToplantiID=1   ,Izin = Izin.Konusmaci },
                 new Katilimci() { ApplicationUser = userManager.FindByEmail("senakilic@hotmail.com"), ToplantiID= 1  ,Izin = Izin.Konusmaci },
-                new Katilimci() { ApplicationUser = userManager.FindByEmail("hll.aksy29@hotmail.com"), ToplantiID=1   ,Izin = Izin.Dinleyici },
-                new Katilimci() { ApplicationUser = userManager.FindByEmail("yucebussra9@hotmail.com"), ToplantiID=1   ,Izin = Izin.Dinleyici },
+                new Katilimci() { ApplicationUser = userManager.FindByEmail("hll.aksy29@gmail.com"), ToplantiID=1   ,Izin = Izin.Dinleyici },
+                new Katilimci() { ApplicationUser = userManager.FindByEmail("yucebussra9@gmail.com"), ToplantiID=1   ,Izin = Izin.Dinleyici },
                 new Katilimci() { ApplicationUser = userManager.FindByEmail("senakilic@hotmail.com"), ToplantiID=1  , Izin = Izin.Dinleyici },
                 new Katilimci() { ApplicationUser = userManager.FindByEmail("rana.uzekmek@gmail.com"), ToplantiID=1   ,Izin = Izin.Dinleyici }
             };
@@ -168,7 +168,60 @@ namespace Vmeet.Utility
             Linkler.ForEach(link => context.Linkler.Add(link));
             context.SaveChanges();
 
-
+            var mesajlar = new List<Mesaj>()
+            {
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("alisafaya@gmail.com"),
+                     MesajTuru = MesajTuru.Metin,
+                     Metin = "Merhaba",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:01")
+                },
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("rana.uzekmek@gmail.com"),
+                     MesajTuru = MesajTuru.Metin,
+                     Metin = "Merhaba",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:03")
+                },
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("alisafaya@gmail.com"),
+                     MesajTuru = MesajTuru.Metin,
+                     Metin = "Nasilsiniz ?",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:04")
+                },
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("alisafaya@gmail.com"),
+                     MesajTuru = MesajTuru.Resim,
+                     DosyaID = 4,
+                     Metin = "Buna bi bakin",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:04")
+                },
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("hll.aksy29@gmail.com"),
+                     MesajTuru = MesajTuru.Metin,
+                     Metin = "axvghsagsv",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:05")
+                },
+                new Mesaj()
+                {
+                     ApplicationUser = userManager.FindByEmail("senakilic@hotmail.com"),
+                     MesajTuru = MesajTuru.Metin,
+                     Metin = "HA HA HA",
+                     ToplantiID = 5,
+                     Tarih = DateTime.Parse("2018-04-20 13:07")
+                }
+            };
+            context.Mesajlar.AddRange(mesajlar);
+            context.SaveChanges();
 
 
         }

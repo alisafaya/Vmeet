@@ -16,9 +16,6 @@ namespace Vmeet.Controllers
         private VmeetDbContext db = new VmeetDbContext();
 
        
-
-        
-
         // GET: Toplantilar
         public ActionResult Index()
         {   if(User.Identity.IsAuthenticated)
