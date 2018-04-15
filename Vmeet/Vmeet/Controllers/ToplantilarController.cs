@@ -3,19 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Vmeet.Models;
+using Vmeet.Utility;
 
 namespace Vmeet.Controllers
 {
     public class ToplantilarController : Controller
     {
         private VmeetDbContext db = new VmeetDbContext();
+        private DosyaYoneticisi dy;
 
-       
+        public ToplantilarController()
+        {
+            dy = new DosyaYoneticisi(db);
+        }
+
         // GET: Toplantilar
         public ActionResult Index()
         {   if(User.Identity.IsAuthenticated)
@@ -24,8 +31,12 @@ namespace Vmeet.Controllers
             }
             else
             {
-                var model = db.Toplantilar.Where(x => x.OzelMi.Equals(false));
-                return View(model.ToList());             
+                var model = new ToplantilarViewModel
+                {
+                    Toplantilar = db.Toplantilar.Where(x => x.OzelMi.Equals(false)).ToList(),
+                    Avatarlar = db.Avatarlar.ToList()
+                };
+                return View(model);             
             }
            
         }
@@ -195,6 +206,24 @@ namespace Vmeet.Controllers
 
 
             return View(model);
+        }
+
+        public ActionResult Avatar(int? avatarId)
+        {
+            if (avatarId != null && db.Dosyalar.Find(avatarId) != null)
+            {
+                var dosya = db.Avatarlar.Find(avatarId).Dosya;
+                return File(dy.DosyaGetir(dosya), "image", dosya.DosyaIsmi);
+            }
+            else
+            {
+                string path = System.Web.HttpContext.Current.Server.MapPath("~/Content") + "/images/avatar-user-default.png";
+                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                StreamReader sw = new StreamReader(fs);
+                byte[] photo = new byte[fs.Length];
+                fs.Read(photo, 0, (int)fs.Length);
+                return File(photo, "image/png", "avatar-user-default.png");
+            }
         }
 
     }

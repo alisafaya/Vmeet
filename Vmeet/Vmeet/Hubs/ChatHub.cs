@@ -43,7 +43,8 @@ namespace Vmeet.Hubs
                 var giris = db.Girisler.Find(session);
                 if (giris == null)
                     return;
-                profil = giris.Avatar.DosyaID;
+                var avat = db.Avatarlar.Find(giris.AvatarID);
+                profil = avat == null ? -1 : avat.DosyaID ;
                 ad = giris.Isim;
                 mesaj.GirisID = giris.ID;
             }

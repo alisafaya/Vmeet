@@ -25,6 +25,12 @@ namespace Vmeet.Models
         public string Yonetici { get; set; }
     }
 
+    public class ToplantilarViewModel
+    {
+        public ICollection<Toplanti> Toplantilar { get; set; }
+        public ICollection<Avatar> Avatarlar { get; set; }
+    }
+
     public class BitmisToplantiViewModel
     {
         public string Yonetici { get; set; }

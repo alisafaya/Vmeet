@@ -10,24 +10,48 @@
                 {
                     foreach (var item in Model.mesajlar)
                     {
-                        <li style="width:100%">
-                            <div class="msj macro d-flex flex-row" message_id="@item.ID">
-                                @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
-                                {
-                                    <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
-                                }
-                                else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
-                                {
-                                    <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
-                                }
-                                <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID ?? -1 }) " /></div>
-                                <div class="text text-l">
-                                    <p style="font-size:60%;">@item.ApplicationUser.Ad</p>
-                                    <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
-                                    <p style="font-size:1em;">@item.Metin</p>
+                        if (item.ApplicationUser != null)
+                        {
+                            <li style="width:100%">
+                                <div class="msj macro d-flex flex-row" message_id="@item.ID">
+                                    @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                                    {
+                                        <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
+                                    }
+                                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
+                                    {
+                                        <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
+                                    }
+                                    <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID ?? -1 }) " /></div>
+                                    <div class="text text-l">
+                                        <p style="font-size:60%;">@item.ApplicationUser.Ad</p>
+                                        <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
+                                        <p style="font-size:1em;">@( item.Metin == "" ? "." : item.Metin )</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
+                        else if (item.Giris != null)
+                        {
+                            <li style="width:100%">
+                                <div class="msj macro d-flex flex-row" message_id="@item.ID">
+                                    @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                                    {
+                                        <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
+                                    }
+                                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
+                                    {
+                                        <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
+                                    }
+                                    <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("Avatar",new { avatarId = item.Giris.AvatarID }) " /></div>
+                                    <div class="text text-l">
+                                        <p style="font-size:60%;">@item.Giris.Isim</p>
+                                        <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
+                                        <p style="font-size:1em;">@( item.Metin == "" ? "." : item.Metin )</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
                     }
                 }
             </ul>
@@ -109,7 +133,7 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     $.connection.chatHub.server.send($('#sessionid').val(),@Model.ToplantiId, $('#msg').val(), true ,xhr.responseText);
                     $('#msg').val('').focus();
-                } 
+                }
             };
             xhr.send(fd);
             file.value =null;
