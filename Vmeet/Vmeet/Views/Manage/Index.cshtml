@@ -6,11 +6,22 @@
 
 <hr />
 <div class="row" style="margin-left: 320px;">
-    <div class="col-md-12" style="left: 9px;">
-        <div class="thumbnail" style="border: 2px solid #43bfcb;height: 214px;width: 469px;">
-            <h3 style="margin-left: 12px; margin-top: 8px;">@ViewBag.Title</h3>
+   
+    <div class="thumbnail" style="border: 2px solid #43bfcb;height: 280px;width: 469px;">
 
-            <dl class="dl-horizontal">
+        <h3 style="margin-left: 12px; margin-top: 8px;">@ViewBag.Title</h3>
+         <div class="col-md-3" style="left: 9px;">
+            <img src="@Url.Action("Resim",new {dosyaId = Model.ProfilResmi})" style="margin-left:0px;" />
+             <div class="row">
+                 @Html.ActionLink("Resim Ekle", "CoverImage")
+             </div>
+                 </div>
+       
+        
+        <div class="col-md-6">
+           
+            <dl class="dl-horizontal" style="width: 371px; margin-left: -73px;">
+
                 <dt> Ad: </dt>
                 <dd> @Model.AD</dd>
 
@@ -25,20 +36,21 @@
                     [
                     @if (Model.HasPassword)
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
+                        @Html.ActionLink("Change your password", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetPassword")
+                    }
                     ]
                 </dd>
             </dl>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Profili Düzenle" class="btn btn-default" onclick="location.href='@Url.Action("ChangeProfile", "Manage")'" style="margin-left: 95px;" />
+                    <input type="button" value="Profili Düzenle" class="btn btn-default" onclick="location.href='@Url.Action("ChangeProfile", "Manage")'" style="margin-left: 68px;" />
                 </div>
             </div>
         </div>
-        </div>
+    </div>
+
     </div>

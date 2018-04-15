@@ -11,6 +11,7 @@ namespace Vmeet.Models
         public string Email { get; set; }
         public string AD { get; set; }
         public string Soyad { get; set; }
+        public int ProfilResmi { get; set; } 
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
@@ -65,16 +66,19 @@ namespace Vmeet.Models
     {
         [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
         [Display(Name = "Ad")]
+        [Required(ErrorMessage = "Lütfen bir ad giriniz")]
         [DataType(DataType.Text)]
         public string Ad { get; set; }
 
         [StringLength(100, ErrorMessage = "Adınız en az {2} uzunluklu olmalı.", MinimumLength = 2)]
         [Display(Name = "Soyad")]
+        [Required(ErrorMessage = "Lütfen bir soyad giriniz")]
         [DataType(DataType.Text)]
         public string Soyad { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Lütfen bir Email giriniz")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }

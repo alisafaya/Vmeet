@@ -330,6 +330,7 @@
     <Content Include="Views\Toplanti\bitmis.cshtml" />
     <Content Include="Views\Toplantilar\Yonet.cshtml" />
     <Content Include="Views\Manage\ChangeProfile.cshtml" />
+    <Content Include="Views\Manage\CoverImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Vmeet_Data\" />
