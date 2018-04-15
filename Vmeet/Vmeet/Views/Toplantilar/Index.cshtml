@@ -20,13 +20,14 @@
                     <div class="popup-label">
                         Profil resmi seç
                     </div>
+                    <hr/>
                     <div id="choose-avatar" class="row">
                         <div id="inner">
                             <input type="hidden" name="toplantiId" id="toplantiId" value="-1" />
                             <input type="radio" name="avatar" id="radio-0" value="-1" hidden checked="checked">
                             @foreach(var item in Model.Avatarlar)
                             {
-                                <input type="radio" name="avatar" id="radio-@item.ID" value="@item.ID" /><label id="label-radio-@item.ID" class="rounded-circle" for="radio-@item.ID"><img class="rounded-circle avatar-icon" src="@Url.Action("Avatar", new { avatarId = item.ID } )" alt="@item.Dosya.DosyaIsmi" /></label>
+                                <input type="radio" name="avatar" id="radio-@item.ID" value="@item.ID" /><label id="label-radio-@item.ID" style="display:inline;box-shadow:none;"  for="radio-@item.ID"><img style="width:19%" class="rounded-circle avatar-icon" src="@Url.Action("Avatar", new { avatarId = item.ID } )" alt="@item.Dosya.DosyaIsmi" /></label>
                             }
                         </div>
                     </div>
@@ -96,5 +97,13 @@
         function value (valu) {
             $("#toplantiId").val(valu);
         }
+        $(document).ready(function () {
+            $('#choose-avatar input:radio').addClass('input_hidden');
+            $('#choose-avatar label').click(function () {
+                $('#choose-avatar img').removeClass('selected');
+                $(this).addClass('selected').siblings().removeClass('selected');
+                $(this).children(0).addClass('selected');
+            })
+        });
     </script>
 }
