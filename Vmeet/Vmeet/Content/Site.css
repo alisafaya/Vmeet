@@ -90,7 +90,6 @@ a.icon
 }
 
 #sendmessage {
-	height: 85%;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
@@ -99,4 +98,17 @@ a.icon
 	width: 98%;
 	margin-left:1%;
 	margin-right:0px;
+}
+
+.file-link {
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px #43bfcb;
+}
+
+.image-box {
+    margin: 10px;
+    border-radius: 5px;
+    border: solid 1px #43bfcb;
 }

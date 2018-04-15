@@ -18,7 +18,7 @@ namespace Vmeet.Controllers
         DosyaYoneticisi dy;
         public ToplantiController()
         {
-            
+
             dy = new DosyaYoneticisi(db);
         }
 
@@ -32,18 +32,18 @@ namespace Vmeet.Controllers
             }
 
             var toplanti = db.Toplantilar.Find(id);
-            
+
             if (false/*toplanti.BaslamaZamani > DateTime.Now*/)
             {
                 var model = new BaslamamisToplantiViewModel()
                 {
-                    Yonetici = toplanti.Yonetici.Ad +" " + toplanti.Yonetici.Soyad,
-                    ToplantiAdi =toplanti.ToplantiAdi,
+                    Yonetici = toplanti.Yonetici.Ad + " " + toplanti.Yonetici.Soyad,
+                    ToplantiAdi = toplanti.ToplantiAdi,
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
                     ToplantiKonusu = toplanti.Konu,
                     ToplantiSuresi = (toplanti.BitisZamani - toplanti.BaslamaZamani)
                 };
-                return View("baslamamis",model);
+                return View("baslamamis", model);
             }
             else if (false/*toplanti.BitisZamani < DateTime.Now*/)
             {
@@ -55,19 +55,21 @@ namespace Vmeet.Controllers
                     ToplantiKonusu = toplanti.Konu,
                     ToplantiCiktisi = toplanti.Cikti
                 };
-                return View("bitmis",model);
+                return View("bitmis", model);
             }
             else
             {
                 var model = new ToplantiViewModel()
                 {
-                    mesajlar = toplanti.Mesajs.ToList(),
+                    ToplantiId = toplanti.ID,
+                    mesajlar = db.Mesajlar.Where(x => x.ToplantiID == toplanti.ID).ToList(),
                     Yonetici = toplanti.Yonetici.Ad + " " + toplanti.Yonetici.Soyad,
                     ToplantiAdi = toplanti.ToplantiAdi,
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
-                    ToplantiKonusu = toplanti.Konu
+                    ToplantiKonusu = toplanti.Konu,
+                    SessionId = 5//to be edited
                 };
-                return View("Toplanti",model);
+                return View("Toplanti", model);
             }
 
         }
@@ -76,21 +78,54 @@ namespace Vmeet.Controllers
             return View();
         }
 
+        //POST : Upload File
+        [HttpPost]
+        public string UploadFile()
+        {
+            HttpPostedFileBase file = Request.Files["file"];
+            if (file != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.InputStream.CopyTo(ms);
+                byte[] array = ms.GetBuffer();
+                //Dosya yoneticisi kullanimi
+                //DosyaYoneticisi dy = new DosyaYoneticisi(db);
+                Dosya dosya = dy.DosyaKaydet(array, file.FileName);
+                db.SaveChanges();
+                return dosya.ID.ToString();
+            }
+            else
+                return null;
+        }
+
         public ActionResult Image(int? dosyaId)
         {
             if (dosyaId != null && db.Dosyalar.Find(dosyaId) != null)
             {
-                return File(dy.DosyaGetir(db.Dosyalar.Find(dosyaId)), "image/jpg", "ProfilePhoto.jpg");
+                var dosya = db.Dosyalar.Find(dosyaId);
+                return File(dy.DosyaGetir(dosya), "image", dosya.DosyaIsmi);
             }
             else
             {
-                string path = Server.MapPath("..") + Url.Content("~/Content/iTasksTemplate") + "/images/avatar-user-default.png";
+                string path = System.Web.HttpContext.Current.Server.MapPath("~/Content") + "/images/avatar-user-default.png";
                 FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
                 StreamReader sw = new StreamReader(fs);
-
                 byte[] photo = new byte[fs.Length];
                 fs.Read(photo, 0, (int)fs.Length);
-                return File(photo, "image/png", "default.png");
+                return File(photo, "image/png", "avatar-user-default.png");
+            }
+        }
+
+        public ActionResult Dosya(int? dosyaId)
+        {
+            if (dosyaId != null && db.Dosyalar.Find(dosyaId) != null)
+            {
+                var dosya = db.Dosyalar.Find(dosyaId);
+                return File(dy.DosyaGetir(dosya), System.Net.Mime.MediaTypeNames.Application.Octet, dosya.DosyaIsmi);
+            }
+            else
+            {
+                return null;
             }
         }
     }

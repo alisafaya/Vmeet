@@ -220,7 +220,7 @@ namespace Vmeet.Utility
                      Tarih = DateTime.Parse("2018-04-20 13:07")
                 }
             };
-            context.Mesajlar.AddRange(mesajlar);
+            mesajlar.ForEach(msj => context.Mesajlar.Add(msj));
             context.SaveChanges();
 
 

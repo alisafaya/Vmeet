@@ -7,11 +7,13 @@ namespace Vmeet.Models
 {
     public class ToplantiViewModel
     {
-        public List<Mesaj> mesajlar { get; set; }
+        public ICollection<Mesaj> mesajlar { get; set; }
         public string ToplantiAdi { get; set; }
         public string ToplantiKonusu { get; set; }
         public DateTime ToplantiBaslamaZamani { get; set; }
         public string Yonetici { get; set; }
+        public int SessionId { get; set; }
+        public int ToplantiId { get; set; }
     }
 
     public class BaslamamisToplantiViewModel

@@ -1,35 +1,30 @@
 ﻿@model Vmeet.Models.ToplantiViewModel
 @{
-    ViewBag.Title = "Chat";
+    ViewBag.Title = Model.ToplantiAdi;
 }
 <div id="page-wrapper row">
     <div id="chat-block" class="frame col-lg-5  col-md-5">
         <div class="chat-board row" id="chat-board">
             <ul id="discussion">
-                @foreach (var item in Model.mesajlar)
+                @if (Model.mesajlar != null)
                 {
-                    if (item.MesajTuru == Vmeet.Models.MesajTuru.Metin)
+                    foreach (var item in Model.mesajlar)
                     {
                         <li style="width:100%">
-                            <div class="msj macro d-flex flex-row" message_id="' + message.id + '">
-                                <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID }) "  /></div>
+                            <div class="msj macro d-flex flex-row" message_id="@item.ID">
+                                @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                                {
+                                    <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
+                                }
+                                else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
+                                {
+                                    <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
+                                }
+                                <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID ?? -1 }) " /></div>
                                 <div class="text text-l">
-                                    <p style="font-size:50%;">@item.ApplicationUser.Ad</p>
-                                    <p>@item.Metin</p>
-                                    <p style="float:right;">@item.Tarih.Hour:@item.Tarih.Minute</p>
-                                </div>
-                            </div>
-                        </li>
-                    }
-                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
-                    {
-                        <li style="width:100%">
-                            <div class="msj macro d-flex flex-row" message_id="' + message.id + '">
-                                <div><img style="width:100px;" src="@Url.Action("image",new { dosyaId = item.DosyaID }) " /></div>
-                                <div class="avatar"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID }) " /></div>
-                                <div class="text text-l">
-                                    <p style="font-size:50%;">@item.ApplicationUser.Ad</p>
-                                    <p>@item.Metin</p>
+                                    <p style="font-size:60%;">@item.ApplicationUser.Ad</p>
+                                    <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
+                                    <p style="font-size:1em;">@item.Metin</p>
                                 </div>
                             </div>
                         </li>
@@ -39,9 +34,17 @@
         </div>
         <div class="input-message row">
             <div class="input-group mb-2" style="display: inline-flex;width:100%;" id="message-form">
-                <div style="width:100%;"><input type="text" class="form-control" id="msg" placeholder="Mesaj"></div>
-                <div class="input-group-postpend">
-                    <button class="input-group-text btn" id="sendmessage">Gönder</button>
+                <div style="width:100%;"><input type="text" style="border-bottom-left-radius: 5px;" class="form-control" id="msg" placeholder="Mesaj"></div>
+                <div style="width:200px;" class="input-group-postpend">
+                    <form style="height:55%;" action="@Url.Action("UploadFile")" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit(this);">
+                        <div style="height:100%;">
+                            <button style="height:100%;width:48%;" class="input-group-text btn" type="submit" id="sendmessage">Gönder</button>
+                            <label style="height:100%;width:48%;" for="file" class="input-group-text btn">yükle</label>
+                            <input name="file" id="file" style="visibility:hidden;" type="file">
+                        </div>
+                    </form>
+                    <input type="hidden" id="sessionid" value="@Model.SessionId" />
+                    <input type="hidden" id="messagefile" value="" />
                 </div>
             </div>
         </div>
@@ -54,124 +57,63 @@
 
         $(function () {
             var chat = $.connection.chatHub;
-            chat.client.addNewMessageToPage = function (message) {
-                $('#discussion').append('<li style="width:100%">' +
-            '<div class="msj macro d-flex flex-row" message_id="' + message.id + '"  >' +
-            '<div class="avatar"><img class="rounded-circle" style="width:40px;" src="@Url.Content("~/Content/images/avatar.png")" /></div>' +
-            '<div class="text text-l">' +
-            '<p style="font-size:50%;">' + htmlEncode(name) + '</small>' +
-            '<p>' + htmlEncode(message) + '</p>' +
-            '</div>' +
-            '</div>' +
-            '</li>');
+            chat.client.addNewMessageToPage = function (Id, profil, ad, img, time, msg, file, fileName) {
+                var image = img == null ? '' : '<div class="image-box"><img style="width:100%;" src="@Url.Action("Image")?dosyaId=' + img + '" /></div>';
+                var file = file == null ? '' : '<div class="file-link"><a target="_blank" href="@Url.Action("Dosya")?dosyaId=' + file + '">' + fileName + '</a></div>';
+                var tobeappend = '<li style="width:100%">' +
+                    '<div class="msj macro d-flex flex-row" message_id="' + Id + '">' + image + file +
+                    '<div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image")?dosyaId=' + profil + '" /></div>' +
+                    '<div class="text text-l">' +
+                    '<p style="font-size:60%;">' + ad + '</p>' +
+                    '<p style="font-size:60%;float:right;">' + time + '</p>' +
+                    '<p style="font-size:1em;">' + (msg == '' ? '.' : msg) + '</p>' +
+                    '</div>';
+                $('#discussion').append(tobeappend);
+                $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
             };
+            $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+            function send() {
+                var file = document.getElementById('file');
+                if (file.files.length > 0) {
+                    return;
+                }
+                else if ($('#msg').val() != '' ) {
+                    chat.server.send($('#sessionid').val(),@Model.ToplantiId, $('#msg').val(), false ,-1);
+                }
+                $('#msg').val('').focus();
+            }
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
-                    chat.server.send('User name', $('#msg').val());
-                    $('#msg').val('').focus();
+                    send();
                 });
             });
         });
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
-        /*
-        var me = {};
-        var you = {};
-        you.avatar = "/static/img/avatars/patient-1.png";
-
-        function formatAMPM(date) {
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0'+minutes : minutes;
-            var strTime = hours + ':' + minutes + ' ' + ampm;
-            return strTime;
-        }
-
-        //-- No use time. It is a javaScript effect.
-        function insertChat(message){
-            var control = "";
-            var date = formatAMPM(new Date());
-            var query = '<li style="width:100%">' +
-            '<div class="msj macro d-flex flex-row" message_id="'+ message.id + '"  >' +
-            '<div class="avatar"><img class="rounded-circle" style="width:40px;" src="'+ me.avatar +'" /></div>' +
-            '<div class="text text-l">' +
-            '<p>'+ message.question +'</p>' +
-            '</div>' +
-            '</div>' +
-            '</li>';
-
-            var response = '';
-
-            if (message.right_answer) {
-
-                response =    '<li style="width:100%;">' +
-                '<div class="msj-rta macro d-flex flex-row" message_id="'+ message.id + '"' +
-                '  data-trigger="focus" tabindex="0" data-toggle="popover" data-placement="bottom" data-content="" >' +
-                '<div id="answer-block-'+ message.id +'" class="text text-r" >' +
-                '<p>'+ message.answer +'</p>' +
-                '</div>' +
-                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="rounded-circle" style="width:40px;" src="'+you.avatar+'" /></div>' +
-                '</li>';
-
-            } else {
-                response =   '<li style="width:100%;">' +
-                '<div class="msj-rta macro d-flex flex-row" message_id="'+ message.id + '"' +
-                '  data-trigger="focus" tabindex="0" data-toggle="popover" data-placement="bottom" data-content="" >' +
-                '<div id="answer-block-'+ message.id +'" class="text text-r" >' +
-                '<p>'+ message.answer +'</p>' +
-                '<div id="wrong-mark-'+message.id+'" style="padding:0px;"><img class="rounded-circle" alt="X" style="width:20px;display:inline;float:left;" src="'+ wrong +'" /><p style="margin-left:25px;font-size:9px;"> Wrong answer</p></div>' +
-                '</div>' +
-                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="rounded-circle" style="width:40px;" src="'+you.avatar+'" /></div>' +
-                '</li>';
+        function handleSubmit(form) {
+            if (!FormData) {
+                alert('Sorry, your browser doesn\'t support the File API => falling back to normal form submit');
+                return true;
+            }
+            var file = document.getElementById('file');
+            if (file.files.length < 1) {
+                return false;
             }
 
-            setTimeout(
-                function(){
-                    $("ul").append(query);
-                    $("ul").append(response);
-                    $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
-                    var cont = '';
-                    if (message.right_answer) {
-                        cont = '<p message_id="'+message.id +'" id="message-popover-'+ message.id+'" class="close" style="font-size:15px;" onclick="$(&quot;#example&quot;).popover(&quot;hide&quot;);mark_answer('+ message.id +');">Mark as wrong</p>';
-                    }else {
-                        cont = '<p message_id="'+message.id +'" id="message-popover-'+ message.id+'" class="close" style="font-size:15px;" onclick="$(&quot;#example&quot;).popover(&quot;hide&quot;);mark_answer('+ message.id +');">Mark as right</p>';
-                    }
+            var fd = new FormData();
+            for (var i = 0; i < file.files.length; i++) {
+                fd.append('file', file.files[i]);
+            }
 
-                    $(function () {
-                        $('[message_id="'+message.id+'"][tabindex="0"]').popover({
-                            html: true,
-                            content : cont
-                        })
-                    })
-                }, 1);
+            var xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    $.connection.chatHub.server.send($('#sessionid').val(),@Model.ToplantiId, $('#msg').val(), true ,xhr.responseText);
+                    $('#msg').val('').focus();
+                } 
+            };
+            xhr.send(fd);
+            file.value =null;
+            return false;
         }
-
-            function resetChat(){
-                $("ul").empty();
-            }
-
-            function send_message(){
-                var text = $("#msg").val();
-                if (text !== ""){
-                    post_message(text);
-                    $("#msg").val('');
-                }
-            }
-
-            $("#msg").on("keyup", function(e){
-                if (e.which == 13){
-                    send_message();
-                }
-            });
-
-            $("#ask").on("click", function(){
-                send_message();
-            });
-            */
     </script>
 }

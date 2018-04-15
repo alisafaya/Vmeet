@@ -102,6 +102,7 @@ namespace Vmeet.Models
         public int ToplantiID { get; set; }
         public string ApplicationUserID { get; set; }
         public int? DosyaID { get; set; }
+        public int? GirisID { get; set; }
 
         public DateTime Tarih { get; set; }
 
@@ -113,6 +114,9 @@ namespace Vmeet.Models
 
         [ForeignKey("DosyaID")]
         public virtual Dosya Dosya { get; set; }
+        
+        [ForeignKey("GirisID")]
+        public virtual Giris Giris { get; set; }
     }
 
     public class Link
@@ -153,7 +157,7 @@ namespace Vmeet.Models
         [StringLength(256, ErrorMessage = "İsim 256 karakterden uzun olamaz.")]
         public string Isim { get; set; }
 
-        public int LinkID { get; set; }
+        public int? LinkID { get; set; }
 
         [ForeignKey("LinkID")]
         public virtual Link Link { get; set; }
