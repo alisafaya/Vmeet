@@ -29,11 +29,11 @@ namespace Vmeet
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
                       "~/Content/custom.flexslider.css",
                       "~/Content/fontawesome-4.6.3.min.css",
                       "~/Content/framework.css",
-                      "~/Content/layout.css"));
+                      "~/Content/layout.css",
+                      "~/Content/site.css"));
         }
     }
 }

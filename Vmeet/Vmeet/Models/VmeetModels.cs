@@ -102,6 +102,7 @@ namespace Vmeet.Models
         public int ToplantiID { get; set; }
         public string ApplicationUserID { get; set; }
         public int? DosyaID { get; set; }
+        public int? GirisID { get; set; }
 
         public DateTime Tarih { get; set; }
 
@@ -113,6 +114,9 @@ namespace Vmeet.Models
 
         [ForeignKey("DosyaID")]
         public virtual Dosya Dosya { get; set; }
+        
+        [ForeignKey("GirisID")]
+        public virtual Giris Giris { get; set; }
     }
 
     public class Link
@@ -153,7 +157,7 @@ namespace Vmeet.Models
         [StringLength(256, ErrorMessage = "İsim 256 karakterden uzun olamaz.")]
         public string Isim { get; set; }
 
-        public int LinkID { get; set; }
+        public int? LinkID { get; set; }
 
         [ForeignKey("LinkID")]
         public virtual Link Link { get; set; }
@@ -169,41 +173,5 @@ namespace Vmeet.Models
         public virtual Dosya Dosya { get; set; }
     }
 
-    public class BaslamamisToplantiViewModel
-    {
-        public string ToplantiAdi { get; set; }
-        public string ToplantiKonusu { get; set; }
-        public DateTime ToplantiBaslamaZamani { get; set; }
-        public TimeSpan ToplantiSuresi { get; set; }
-        public string Yonetici { get; set; }
-    }
-
-    public class BitmisToplantiViewModel
-    {
-        public string Yonetici { get; set; }
-        public string ToplantiAdi { get; set; }
-        public string ToplantiKonusu { get; set; }
-        public DateTime ToplantiBitisZamani { get; set; }
-        public string ToplantiCiktisi { get; set; }
-    }
-    public class YonetViewModel
-    {
-        public int ToplantiId { get; set; }
-        public List<Katilimci> Davetliler { get; set; }
-        public List<LinkViewModel> Linkler { get; set; }
-
-    }
-
-    public class LinkViewModel
-    {
-        public bool ozelMi { get; set; }
-        public string link { get; set; }
-        public int ID { get; set; }
-        public LinkViewModel(string anahtar, int toplantiId, bool ozelMi, int Id)
-        {
-            this.link = "http://localhost:11238/toplanti/" + toplantiId + "/" + anahtar;
-            this.ozelMi = ozelMi;
-            this.ID = Id;
-        }
-    }
+    
 }
