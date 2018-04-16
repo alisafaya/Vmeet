@@ -14,6 +14,8 @@ namespace Vmeet.Models
         public string Yonetici { get; set; }
         public int SessionId { get; set; }
         public int ToplantiId { get; set; }
+        public int profilResmi { get; set; }
+        public string  KullaniciIsmi { get; set; }
     }
 
     public class BaslamamisToplantiViewModel
@@ -23,6 +25,12 @@ namespace Vmeet.Models
         public DateTime ToplantiBaslamaZamani { get; set; }
         public TimeSpan ToplantiSuresi { get; set; }
         public string Yonetici { get; set; }
+    }
+
+    public class ToplantilarViewModel
+    {
+        public ICollection<Toplanti> Toplantilar { get; set; }
+        public ICollection<Avatar> Avatarlar { get; set; }
     }
 
     public class BitmisToplantiViewModel
@@ -48,7 +56,7 @@ namespace Vmeet.Models
         public int ID { get; set; }
         public LinkViewModel(string anahtar, int toplantiId, bool ozelMi, int Id)
         {
-            this.link = "http://localhost:11238/toplanti/" + toplantiId + "/" + anahtar;
+            this.link = HttpContext.Current.Server.MapPath("~") + "/toplanti/" + toplantiId + "/" + anahtar;
             this.ozelMi = ozelMi;
             this.ID = Id;
         }

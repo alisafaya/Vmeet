@@ -1,0 +1,33 @@
+﻿@model Vmeet.Models.Dosya
+
+@{
+    ViewBag.Title = "CoverImage";
+}
+
+<div class="row" style="margin-left: 320px;">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("ProfilResmiDegistir", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "row" }))
+            {
+                <div class="thumbnail" style="border: 2px solid #43bfcb;height: 155px;width: 469px;">
+                    <div style="margin-left: 60px;">
+                        @Html.AntiForgeryToken()
+                        <div class="fileUpload btn profile-btn" style="margin:5px;">
+                            <span>Upload</span>
+                            <input type="file" name="file" id="file" class="upload" />
+                        </div>
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Kaydet" class="btn btn-default" />
+                            <div class="btn animated fadeInUp profile-btn" style="margin:5px;">@Html.ActionLink("Sil", "CoverImage", "Manage", new { @area = "" }, new { @style = "color:#397b20;" })</div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+</section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
