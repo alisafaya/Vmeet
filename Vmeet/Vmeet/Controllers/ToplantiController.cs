@@ -69,7 +69,9 @@ namespace Vmeet.Controllers
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
                     ToplantiKonusu = toplanti.Konu,
                     SessionId = 5,
-                    KullaniciIsmi = user.Ad + " " + user.Soyad
+                    KullaniciIsmi = user.Ad + " " + user.Soyad,
+                    YoneticiProfile = toplanti.Yonetici.DosyaID.HasValue ? toplanti.Yonetici.DosyaID.Value : -1,
+                    profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1
                 };
                 return View("Toplanti", model);
             }

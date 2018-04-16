@@ -73,8 +73,47 @@
             </div>
         </div>
     </div>
-    00:00
-</div>
+
+        <div class="col-lg-5 col-md-5">
+            <div class="thumbnail" style="margin-top: 5px;border-color: #707071;">
+
+
+                <div class="col-md-6" style="left: 97px;">
+
+                    <img src="@Url.Action("Image",new { dosyaId = Model.profilResmi})" />
+                    <center><h3>Hoşgeldin</h3></center>
+                    <center><h3>@Model.KullaniciIsmi</h3></center>
+
+                 </div>
+                   
+                    <hr />
+                    <h6>@Model.ToplantiAdi</h6>
+                <div class="col-md-2" style="bottom: 9px;">
+                    <img src="@Url.Action("Image",new { dosyaId = Model.YoneticiProfile }) " />
+                   
+                </div>
+                   
+                    <h6>@Model.Yonetici</h6>
+                    <h6>@Model.ToplantiBaslamaZamani</h6>
+                    <h6>00:00</h6>
+                    <p><b>@Model.ToplantiKonusu</b></p>
+                    
+
+                </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
     <script src="~/signalr/hubs"></script>

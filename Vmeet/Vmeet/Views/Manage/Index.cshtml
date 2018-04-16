@@ -11,7 +11,7 @@
 
         <h3 style="margin-left: 12px; margin-top: 8px;">@ViewBag.Title</h3>
          <div class="col-md-3" style="left: 9px;">
-            <img src="@Url.Action("Resim",new {dosyaId = Model.ProfilResmi})" style="margin-left:0px;" />
+            <img src="@Url.Action("Resim",new {dosyaId = Model.ProfilResmi})" />
              <div class="row">
                  @Html.ActionLink("Resim Ekle", "CoverImage")
              </div>

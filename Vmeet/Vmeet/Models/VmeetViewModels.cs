@@ -12,6 +12,7 @@ namespace Vmeet.Models
         public string ToplantiKonusu { get; set; }
         public DateTime ToplantiBaslamaZamani { get; set; }
         public string Yonetici { get; set; }
+        public int YoneticiProfile { get; set; }
         public int SessionId { get; set; }
         public int ToplantiId { get; set; }
         public int profilResmi { get; set; }
