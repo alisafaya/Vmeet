@@ -8,8 +8,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vmeet.Models;
 using System.Data.Entity;
+<<<<<<< HEAD
 using System.IO;
 using Vmeet.Utility;
+=======
+>>>>>>> 488fe83738bc388e1490264927bc8a2f386e40d6
 using Vmeet.Utility;
 using System.IO;
 
@@ -24,9 +27,14 @@ namespace Vmeet.Controllers
         private ApplicationUserManager _userManager;
 
         private VmeetDbContext db = new VmeetDbContext();
+<<<<<<< HEAD
 
         private DosyaYoneticisi dy;
 
+=======
+        private DosyaYoneticisi dy;
+        
+>>>>>>> 488fe83738bc388e1490264927bc8a2f386e40d6
         public ManageController()
         {
             //Dosya yoneticisi kullanimi
@@ -403,10 +411,21 @@ namespace Vmeet.Controllers
         //bu fonksiyon dosyalari okur App_Data klasorunden ve bize link olarak veriyor bizde src=" " icinde kullaniriz
         public ActionResult Resim(int? dosyaId)
         {
-            if (dosyaId != null && db.Dosyalar.Find(dosyaId) != null) //burada eger profil resmi secilmisse  veri tabanindan O id'li dosyayi cekiyorum sonra dosyayoneticisine veriyorum            {
+            if (dosyaId != null && db.Dosyalar.Find(dosyaId) != null) //burada eger profil resmi secilmisse  veri tabanindan O id'li dosyayi cekiyorum sonra dosyayoneticisine veriyorum
+            {
                 return File(dy.DosyaGetir(db.Dosyalar.Find(dosyaId)), "image/jpg", "ProfilePhoto.jpg"); //Url.Action kullaninca File olarak cevap veririz
 
-            }            else            { // burada da ayni islemi yapiyorum fakat profil resmi yuklemeyenler icin.                 string path = Server.MapPath("..") + Url.Content("~/Content/") + "/images/avatar.png";                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);                StreamReader sw = new StreamReader(fs);                byte[] photo = new byte[fs.Length];                fs.Read(photo, 0, (int)fs.Length);                return File(photo, "image/png", "default.png");            }
+            }
+            else
+            { // burada da ayni islemi yapiyorum fakat profil resmi yuklemeyenler icin. 
+                string path = Server.MapPath("..") + Url.Content("~/Content/") + "/images/avatar.png";
+                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                StreamReader sw = new StreamReader(fs);
+
+                byte[] photo = new byte[fs.Length];
+                fs.Read(photo, 0, (int)fs.Length);
+                return File(photo, "image/png", "default.png");
+            }
         }
 
         //POST : Upload Cover Image
