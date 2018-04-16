@@ -347,6 +347,7 @@
     <Content Include="Views\Toplanti\bitmis.cshtml" />
     <Content Include="Views\Toplantilar\Yonet.cshtml" />
     <Content Include="Views\Manage\ChangeProfile.cshtml" />
+    <Content Include="Views\Manage\CoverImage.cshtml" />
     <Content Include="Views\Toplanti\Index.cshtml" />
     <Content Include="Views\Toplanti\Chat.cshtml" />
     <Content Include="Views\Toplanti\Toplanti.cshtml" />

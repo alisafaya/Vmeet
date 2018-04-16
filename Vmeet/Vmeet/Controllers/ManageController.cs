@@ -8,8 +8,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vmeet.Models;
 using System.Data.Entity;
+<<<<<<< HEAD
+using System.IO;
+using Vmeet.Utility;
+=======
 using Vmeet.Utility;
 using System.IO;
+>>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
 
 namespace Vmeet.Controllers
 {
@@ -22,10 +27,16 @@ namespace Vmeet.Controllers
         private ApplicationUserManager _userManager;
 
         private VmeetDbContext db = new VmeetDbContext();
+<<<<<<< HEAD
+        private DosyaYoneticisi dy;
+=======
 
         
+>>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
         public ManageController()
         {
+            //Dosya yoneticisi kullanimi
+            dy = new DosyaYoneticisi(db);
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -81,9 +92,11 @@ namespace Vmeet.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                ProfilResmi = user.DosyaID.HasValue ?  user.DosyaID.Value:-1,
                 AD = user.Ad,
                 Soyad = user.Soyad
             };
+           
             return View(model);
         }
 
@@ -229,17 +242,6 @@ namespace Vmeet.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            //var user = db.Users.Find(User.Identity.GetUserId());
-            //var model = new ProfileChangeViewModel()
-            //{
-            //    UserId = User.Identity.GetUserId(),
-            //    Profil = new ProfileInfoViewModel()
-            //    {
-            //        Ad = user.Ad,
-            //        Soyad = user.Soyad,
-            //        Email = user.Email
-            //    }
-            //};
             return View();
         }
 
@@ -398,9 +400,51 @@ namespace Vmeet.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult CoverImage()
+        {
+            return View();
+        }
 
 
+        //bu fonksiyon dosyalari okur App_Data klasorunden ve bize link olarak veriyor bizde src=" " icinde kullaniriz
+        public ActionResult Resim(int? dosyaId)
+        {
+            if (dosyaId != null && db.Dosyalar.Find(dosyaId) != null) //burada eger profil resmi secilmisse  veri tabanindan O id'li dosyayi cekiyorum sonra dosyayoneticisine veriyorum            {
+                return File(dy.DosyaGetir(db.Dosyalar.Find(dosyaId)), "image/jpg", "ProfilePhoto.jpg"); //Url.Action kullaninca File olarak cevap veririz
+
+            }            else            { // burada da ayni islemi yapiyorum fakat profil resmi yuklemeyenler icin.                 string path = Server.MapPath("..") + Url.Content("~/Content/") + "/images/avatar.png";                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);                StreamReader sw = new StreamReader(fs);                byte[] photo = new byte[fs.Length];                fs.Read(photo, 0, (int)fs.Length);                return File(photo, "image/png", "default.png");            }
+        }
+
+        //POST : Upload Cover Image
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProfilResmiDegistir(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+
+      
+                    Dosya profilResmi = dy.DosyaKaydet(array, file.FileName);
+                    db.Users.Find(User.Identity.GetUserId()).Dosya = profilResmi;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index", "Manage");
+            }
+            else return null;
+        }
+
+
+
+<<<<<<< HEAD
+
+
+=======
         
+>>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
 
 
 
