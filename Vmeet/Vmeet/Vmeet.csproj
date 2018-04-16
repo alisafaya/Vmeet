@@ -264,6 +264,7 @@
     <Content Include="Content\images\demo\imgl.gif" />
     <Content Include="Content\images\demo\imgr.gif" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\kayitol.jpg" />
     <Content Include="Content\images\meeting.png" />
     <Content Include="Content\images\vv.jpg" />
     <Content Include="Content\images\wallpaper.jpg" />

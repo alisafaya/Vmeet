@@ -8,13 +8,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vmeet.Models;
 using System.Data.Entity;
-<<<<<<< HEAD
 using System.IO;
 using Vmeet.Utility;
-=======
 using Vmeet.Utility;
 using System.IO;
->>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
 
 namespace Vmeet.Controllers
 {
@@ -27,12 +24,9 @@ namespace Vmeet.Controllers
         private ApplicationUserManager _userManager;
 
         private VmeetDbContext db = new VmeetDbContext();
-<<<<<<< HEAD
-        private DosyaYoneticisi dy;
-=======
 
-        
->>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
+        private DosyaYoneticisi dy;
+
         public ManageController()
         {
             //Dosya yoneticisi kullanimi
@@ -436,16 +430,7 @@ namespace Vmeet.Controllers
             }
             else return null;
         }
-
-
-
-<<<<<<< HEAD
-
-
-=======
         
->>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
-
 
 
         #region Helpers
