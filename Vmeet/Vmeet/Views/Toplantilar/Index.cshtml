@@ -16,6 +16,23 @@
   
         <div class="table-responsive">
 
+           
+
+
+            @*<ul class="list-group">
+                <li class="list-group-item list-group-item-success">@Html.DisplayNameFor(model => model.ToplantiAdi)</li>
+                <li class="list-group-item list-group-item-info">Konu</li>
+                <li class="list-group-item list-group-item-warning">Başlama Zamanı</li>
+                <li class="list-group-item list-group-item-danger">Bitiş Zamanı</li>
+            </ul>*@
+
+
+
+
+
+
+
+
             <table class="table">
                 <tr>
                     
@@ -36,36 +53,61 @@
 </tr>
 
                 @foreach (var item in Model)
-            {
-                    
-                        <tr>
+                {
 
-                            <td>
-                                <div class="alert alert-info" role="alert">
-                                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
-                                    </div>
-                            </td>
-                            <td>
-                                <div class="alert alert-info" role="alert">
-                                    @Html.DisplayFor(modelItem => item.Konu)
-                                    </div>
-                             </td>
-                            <td>
-                                <div class="alert alert-info" role="alert">
-                                    @Html.DisplayFor(modelItem => item.BaslamaZamani)
-                                    </div>
-                            </td>
-                            <td>
-                                <div class="alert alert-info" role="alert">
-                                    @Html.DisplayFor(modelItem => item.BitisZamani)
-                                    </div>
-                             </td>
+                    @*<ul class="list-group">
+                        <li class="list-group-item list-group-item-info">
+                            <div class="alert alert-info" role="alert">
+                                @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                            </div>
+                        </li>
+                        <li class="list-group-item list-group-item-info">
+                            <div class="alert alert-info" role="alert">
+                                @Html.DisplayFor(modelItem => item.Konu)
+                            </div>
+                        </li>
+                        <li class="list-group-item list-group-item-info">
+                            <div class="alert alert-info" role="alert">
+                                @Html.DisplayFor(modelItem => item.Konu)
+                            </div>
+                        </li>
+                        <li class="list-group-item list-group-item-info">
+                            <div class="alert alert-info" role="alert">
+                                @Html.DisplayFor(modelItem => item.BitisZamani)
+                            </div>
+                        </li>
+                    </ul>*@
 
-                        </tr>
+
+
+                                    <tr>
+
+            <td>
+                <div class="alert alert-info" role="alert">
+                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                    </div>
+            </td>
+            <td>
+                <div class="alert alert-info" role="alert">
+                    @Html.DisplayFor(modelItem => item.Konu)
+                    </div>
+             </td>
+            <td>
+               <div class="alert alert-info" role="alert">
+                    @Html.DisplayFor(modelItem => item.Konu)
+                    </div>
+            </td>
+            <td>
+                <div class="alert alert-info" role="alert">
+                    @Html.DisplayFor(modelItem => item.BitisZamani)
+                    </div>
+             </td>
+
+        </tr>
                   
                 }
 
-            </table>
+             </table>
             <span class="label label-info">Açık toplantılar</span>
         </div>
     </div>
