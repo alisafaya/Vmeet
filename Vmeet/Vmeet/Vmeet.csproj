@@ -347,13 +347,10 @@
     <Content Include="Views\Toplanti\bitmis.cshtml" />
     <Content Include="Views\Toplantilar\Yonet.cshtml" />
     <Content Include="Views\Manage\ChangeProfile.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Manage\CoverImage.cshtml" />
-=======
     <Content Include="Views\Toplanti\Index.cshtml" />
     <Content Include="Views\Toplanti\Chat.cshtml" />
     <Content Include="Views\Toplanti\Toplanti.cshtml" />
->>>>>>> 5a8c8450f571ba093bc98eb38c95c948cc8db7bb
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Vmeet_Data\" />
