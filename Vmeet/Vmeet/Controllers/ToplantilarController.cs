@@ -162,10 +162,20 @@ namespace Vmeet.Controllers
             }
             ///
 
+            var toplanti = db.Toplantilar.Find(id);
+            if (toplanti == null || User.Identity.IsAuthenticated)
+            {
+                //hata
+            }
+            if (User.Identity.GetUserId() != db.Toplantilar.Find(id).YoneticiID )
+            {
+                //hata
+            }
+
             ///
             var link = new Link()
             {
-                ToplantiID = id.Value,
+                ToplantiID = toplanti.ID,
                 OzelMi = ozel.Value
             };
 
@@ -174,13 +184,13 @@ namespace Vmeet.Controllers
 
             return RedirectToAction("Yonet");
         }
-        public ActionResult CreateDavet([Bind(Include = "Ad,Soyad,Email,İzin")] Katilimci uye )
+        public ActionResult CreateDavet(int toplantiId, string mail, bool konusmaciMi )
         {
            
             if (true)
             {   
 
-                db.Katilimcilar.Add(uye);
+                //db.Katilimcilar.Add(uye);
                 db.SaveChanges();
                
             }
@@ -195,14 +205,18 @@ namespace Vmeet.Controllers
             {
                 ToplantiId = 2,
                 Davetliler = db.Katilimcilar.ToList(),
-                Linkler = new List<LinkViewModel>
-                {
-                    new LinkViewModel("asdascxlak-asdkl-dasd-asd-masld",2,false,2),
-                    new LinkViewModel("asdascxlakasdasd-asd-asdklmasld", 2,true,1),
-                    new LinkViewModel("asdascklmasld",2,true,2),
-                    new LinkViewModel("asdascxlak-asd-asdxczc-klmasld",2,false,3)
-                }
+                Linkler = new List<LinkViewModel>()
+                //new List<LinkViewModel>
+                //{
+                //    new LinkViewModel("asdascxlak-asdkl-dasd-asd-masld",2,false,2),
+                //    new LinkViewModel("asdascxlakasdasd-asd-asdklmasld", 2,true,1),
+                //    new LinkViewModel("asdascklmasld",2,true,2),
+                //    new LinkViewModel("asdascxlak-asd-asdxczc-klmasld",2,false,3)
+                //}
             };
+
+            foreach (var item in db.Linkler.ToList())
+                model.Linkler.Add(new LinkViewModel(item.Anahtar, item.ToplantiID,item.OzelMi, item.ID));
 
 
             return View(model);

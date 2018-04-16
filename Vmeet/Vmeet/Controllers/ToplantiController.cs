@@ -59,6 +59,7 @@ namespace Vmeet.Controllers
             }
             else
             {
+                var user = db.Users.Find(User.Identity.GetUserId());
                 var model = new ToplantiViewModel()
                 {
                     ToplantiId = toplanti.ID,
@@ -67,7 +68,8 @@ namespace Vmeet.Controllers
                     ToplantiAdi = toplanti.ToplantiAdi,
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
                     ToplantiKonusu = toplanti.Konu,
-                    SessionId = 5//to be edited
+                    SessionId = 5,
+                    KullaniciIsmi = user.Ad + " " + user.Soyad
                 };
                 return View("Toplanti", model);
             }
@@ -152,7 +154,9 @@ namespace Vmeet.Controllers
                     ToplantiAdi = toplanti.ToplantiAdi,
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
                     ToplantiKonusu = toplanti.Konu,
-                    SessionId = session.ID
+                    SessionId = session.ID,
+                    KullaniciIsmi =session.Isim,
+                    profilResmi = session.Avatar.DosyaID
                 };
                 return View("Toplanti", model);
             }
