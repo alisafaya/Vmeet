@@ -62,8 +62,9 @@
                         </div>
                      </td>
                     <td>
-                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |                     
-                        @Html.ActionLink("Sil", "Delete", new { id = item.ID })
+                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
+                        @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
                     </td>
                 </tr>
                 }
@@ -92,7 +93,8 @@
                         </td>                  
                         <td>                           
                                 @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
-                                @Html.ActionLink("Sil", "Delete", new { id = item.ID })
+                                @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
+                                @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
                         </td>
                     </tr>
                 }
