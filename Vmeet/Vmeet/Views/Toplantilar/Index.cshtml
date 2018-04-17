@@ -1,9 +1,7 @@
-﻿@model IEnumerable<Vmeet.Models.Toplanti>
-
+﻿@model Vmeet.Models.ToplantilarViewModel
 @{
     ViewBag.Title = "Index";
 }
-
 
 <div id="page-wrapper">
     <div class="row" style="background-color:#ffffff">
@@ -13,102 +11,99 @@
             </h2>
         </div>
     </div>
-  
-        <div class="table-responsive">
-
-           
-
-
-            @*<ul class="list-group">
-                <li class="list-group-item list-group-item-success">@Html.DisplayNameFor(model => model.ToplantiAdi)</li>
-                <li class="list-group-item list-group-item-info">Konu</li>
-                <li class="list-group-item list-group-item-warning">Başlama Zamanı</li>
-                <li class="list-group-item list-group-item-danger">Bitiş Zamanı</li>
-            </ul>*@
-
-
-
-
-
-
-
-
-            <table class="table">
-                <tr>
-                    
-                        <th>
-                            @Html.DisplayNameFor(model => model.ToplantiAdi)
-                        </th>
-                      
-                        <th>
-                            @Html.DisplayNameFor(model => model.Konu)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BaslamaZamani)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.BitisZamani)
-                        </th>
-                    <th></th>
-</tr>
-
-                @foreach (var item in Model)
-                {
-
-                    @*<ul class="list-group">
-                        <li class="list-group-item list-group-item-info">
-                            <div class="alert alert-info" role="alert">
-                                @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
-                            </div>
-                        </li>
-                        <li class="list-group-item list-group-item-info">
-                            <div class="alert alert-info" role="alert">
-                                @Html.DisplayFor(modelItem => item.Konu)
-                            </div>
-                        </li>
-                        <li class="list-group-item list-group-item-info">
-                            <div class="alert alert-info" role="alert">
-                                @Html.DisplayFor(modelItem => item.Konu)
-                            </div>
-                        </li>
-                        <li class="list-group-item list-group-item-info">
-                            <div class="alert alert-info" role="alert">
-                                @Html.DisplayFor(modelItem => item.BitisZamani)
-                            </div>
-                        </li>
-                    </ul>*@
-
-
-
-                                    <tr>
-
-            <td>
-                <div class="alert alert-info" role="alert">
-                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+    <form id="login-form" method="post" action="@Url.Action("Join","Toplanti")">
+        @Html.AntiForgeryToken()
+        <div id="popup1" class="avatarlist overlay">
+            <div class="popup-avatar">
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <div class="popup-label">
+                        Profil resmi seç
                     </div>
-            </td>
-            <td>
-                <div class="alert alert-info" role="alert">
-                    @Html.DisplayFor(modelItem => item.Konu)
+                    <hr/>
+                    <div id="choose-avatar" class="row">
+                        <div id="inner">
+                            <input type="hidden" name="toplantiId" id="toplantiId" value="-1" />
+                            <input type="radio" name="avatar" id="radio-0" value="-1" hidden checked="checked">
+                            @foreach(var item in Model.Avatarlar)
+                            {
+                                <input type="radio" name="avatar" id="radio-@item.ID" value="@item.ID" /><label id="label-radio-@item.ID" style="display:inline;box-shadow:none;"  for="radio-@item.ID"><img style="width:19%" class="rounded-circle avatar-icon" src="@Url.Action("Avatar", new { avatarId = item.ID } )" alt="@item.Dosya.DosyaIsmi" /></label>
+                            }
+                        </div>
                     </div>
-             </td>
-            <td>
-               <div class="alert alert-info" role="alert">
-                    @Html.DisplayFor(modelItem => item.Konu)
+                    <br>
+                    <div class="form-group">
+                        <label>İsim</label>
+                        <input name="isim" type="text" class="form-control" id="isim" placeholder="İsminizi giriniz">
                     </div>
-            </td>
-            <td>
-                <div class="alert alert-info" role="alert">
-                    @Html.DisplayFor(modelItem => item.BitisZamani)
-                    </div>
-             </td>
-
-        </tr>
-                  
-                }
-
-             </table>
-            <span class="label label-info">Açık toplantılar</span>
+                    <button type="submit" class="btn btn-primary login" style="width:70%;margin:0% 15%; ">Başla</button>
+                </div>
+            </div>
         </div>
+    </form>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>
+                    Toplanti adi
+                </th>
+
+                <th>
+                    Konu
+                </th>
+                <th>
+                    Baslama Zamani
+                </th>
+                <th>
+                    BitisZamani
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Toplantilar)
+            {
+
+                <tr>
+                    <td>
+                        <div class="alert alert-info" value="@item.ID" role="alert">
+                            <a href="#popup1" value="@item.ID" onclick="value(@item.ID)">@item.ToplantiAdi</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.Konu)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.BaslamaZamani)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="alert alert-info" role="alert">
+                            @Html.DisplayFor(modelItem => item.BitisZamani)
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </table>
+        <span class="label label-info">Açık toplantılar</span>
     </div>
-   
+</div>
+
+@section scripts{ 
+    <script>
+        function value (valu) {
+            $("#toplantiId").val(valu);
+        }
+        $(document).ready(function () {
+            $('#choose-avatar input:radio').addClass('input_hidden');
+            $('#choose-avatar label').click(function () {
+                $('#choose-avatar img').removeClass('selected');
+                $(this).addClass('selected').siblings().removeClass('selected');
+                $(this).children(0).addClass('selected');
+            })
+        });
+    </script>
+}
