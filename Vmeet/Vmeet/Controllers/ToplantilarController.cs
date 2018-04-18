@@ -76,6 +76,7 @@ namespace Vmeet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
+            //burada
             if (ModelState.IsValid)
             {
                 db.Toplantilar.Add(toplanti);
@@ -90,6 +91,7 @@ namespace Vmeet.Controllers
         [Authorize]
         public ActionResult Edit(int? id)
         {
+            //burada
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,6 +111,7 @@ namespace Vmeet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
+            //burada
             if (ModelState.IsValid)
             {
                 db.Entry(toplanti).State = EntityState.Modified;
