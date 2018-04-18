@@ -10,7 +10,6 @@ namespace Vmeet.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Vmeet.Models.VmeetDbContext";
         }
 
         protected override void Seed(Vmeet.Models.VmeetDbContext context)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +26,8 @@ namespace Vmeet.Controllers
 
         // GET: Toplantilar
         public ActionResult Index()
-        {   if(User.Identity.IsAuthenticated)
+        {
+            if (User.Identity.IsAuthenticated)
             {   
                 return View("UyeIndex", db.Toplantilar.ToList());
             }
