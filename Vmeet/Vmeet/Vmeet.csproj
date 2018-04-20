@@ -266,6 +266,7 @@
     <Content Include="Content\images\giris.jpg" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\meeting.png" />
+    <Content Include="Content\images\toplantiedit.jpg" />
     <Content Include="Content\images\vv.jpg" />
     <Content Include="Content\images\wallpaper.jpg" />
     <Content Include="Content\layout.css" />
@@ -341,7 +342,6 @@
     <Content Include="Views\Toplantilar\Create.cshtml" />
     <Content Include="Views\Toplantilar\Delete.cshtml" />
     <Content Include="Views\Toplantilar\Details.cshtml" />
-    <Content Include="Views\Toplantilar\Edit.cshtml" />
     <Content Include="Views\Toplantilar\Index.cshtml" />
     <Content Include="Views\Toplantilar\UyeIndex.cshtml" />
     <Content Include="Views\Toplanti\baslamamis.cshtml" />
@@ -352,6 +352,7 @@
     <Content Include="Views\Toplanti\Index.cshtml" />
     <Content Include="Views\Toplanti\Chat.cshtml" />
     <Content Include="Views\Toplanti\Toplanti.cshtml" />
+    <Content Include="Views\Toplantilar\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Vmeet_Data\" />
