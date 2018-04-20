@@ -1,4 +1,4 @@
-###################
+﻿###################
 # compiled source #
 ###################
 *.com
@@ -25,7 +25,7 @@ _UpgradeReport_Files/
 ###############
 vmeet/Vmeet/Vmeet/bin/
 vmeet/Vmeet/Vmeet/obj/
-vmeet/Vmeet/.vs
+Vmeet/.vs
 TestResults/
 ###################
 # Web publish log #

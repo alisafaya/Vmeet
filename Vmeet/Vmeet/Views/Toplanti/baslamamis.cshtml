@@ -3,15 +3,21 @@
 @{
     ViewBag.Title = "baslamamis";
 }
-
-<h2>Bu Toplanti daha baslamamis</h2>
+<body class="row bgded" background="@Url.Content("~/Content/images/baslamamis.jpg")">
+<div class="row" style="width: 1130px; margin-left: 108px; margin-top:110px">
+        <div class="col-md-8" style="left: 115px;">
+            <div class="thumbnail" style="border: 2px solid #50DF42;width: 650px;">
+<center><p><font face="tahoma" size="2" color="#918a8a">
+<br /> 
+<b>- Bu toplantı henüz başlamamıştır -</b></font></p></center>
 
 <div>
-    <h3>@Html.DisplayFor(model => model.ToplantiAdi)</h3>
+	<center><p><font face="tahoma" size="5" color="#38aa1e">
+<b>@Html.DisplayFor(model => model.ToplantiAdi)</b></font></p></center>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Toplanti yoneticisi :
+            Toplantı Yöneticisi :
         </dt>
 
         <dd>
@@ -19,7 +25,7 @@
         </dd>
 
         <dt>
-            Toplanti konusu :
+            Toplantı Konusu :
         </dt>
 
         <dd>
@@ -27,7 +33,7 @@
         </dd>
 
         <dt>
-            Baslama tarihi :
+            Başlama Tarihi :
         </dt>
 
         <dd>
@@ -35,7 +41,7 @@
         </dd>
 
         <dt>
-            Toplanti suresi :
+            Toplantı Süresi :
         </dt>
 
         <dd>
@@ -46,3 +52,7 @@
 <p>
     @Html.ActionLink("Listeye geri dön","Index","Toplantilar")
 </p>
+</div>
+        </div>
+    </div>
+</body>

@@ -33,7 +33,7 @@ namespace Vmeet.Controllers
 
             var toplanti = db.Toplantilar.Find(id);
 
-            if (false/*toplanti.BaslamaZamani > DateTime.Now*/)
+            if (true/*toplanti.BaslamaZamani > DateTime.Now*/)
             {
                 var model = new BaslamamisToplantiViewModel()
                 {

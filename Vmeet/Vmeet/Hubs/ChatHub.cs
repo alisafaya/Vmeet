@@ -6,16 +6,59 @@ using Microsoft.AspNet.SignalR;
 using Vmeet.Models;
 using Microsoft.AspNet.Identity;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace Vmeet.Hubs
 {
     public class ChatHub : Hub
     {
+
+        Dictionary<int, List<string>> grouplar = new Dictionary<int, List<string>>();
+
         List<string> imageExt = new List<string> { "bmp", "jpeg", "gif", "tiff", "png" };
         VmeetDbContext db = new VmeetDbContext();
         public void Hello()
         {
             Clients.All.hello();
+        }
+
+        //public override Task OnConnected()
+        //{
+        //    string ID = Context.ConnectionId;
+
+        //    grouplar.Add(name, Context.ConnectionId);
+
+        //    return base.OnConnected();
+        //}
+
+        public void JoinGroup(int toplantiId, int sessionId)
+        {
+            var toplanti = db.Toplantilar.Find(toplantiId);
+            if (toplantiId == null)
+            {
+                //HATA
+            }
+            if (toplanti.OzelMi)
+            {
+                if (Context.User.Identity.IsAuthenticated)
+                {
+                    var katilimci = db.Katilimcilar.FirstOrDefault(x => x.ToplantiID == toplantiId && x.ApplicationUserID == Context.User.Identity.GetUserId());
+                    if (katilimci == null)
+                    {
+                        //HATA
+                    }
+                    Groups.Add(Context.ConnectionId, toplanti.ID.ToString());
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+            
         }
 
         public void Send(int session, int ToplantiId, string message, bool dosyaVarMi, int dosyaId)
