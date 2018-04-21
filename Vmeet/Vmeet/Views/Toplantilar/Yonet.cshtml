@@ -44,27 +44,27 @@
                 </tr>
 
                 @foreach (var item in Model.Davetliler)
-            {
+             {
                     <tr>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.ApplicationUser.Ad) @Html.DisplayFor(modelItem => item.ApplicationUser.Soyad)
+                            @Html.DisplayFor(modelItem => item.KatilimciAd) @Html.DisplayFor(modelItem => item.KatilimciSoyad)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                            @Html.DisplayFor(modelItem => item.KatilimciEmail)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Izin)
+                            @Html.DisplayFor(modelItem => item.KatilimciIzin)
                         </td>
                         <td>
-                            @Html.ActionLink("Sil", "DavetSil", new { id = item.ID })
+                            @Html.ActionLink("Sil", "DavetSil", new { id = item.KatilimciId })
                         </td>
                     </tr>
-                }
+               }
 
             </table>
         </div>
-        <div class="col-lg-5 table-responsive">
+        <div class="col-lg-6 table-responsive">
             <p>
                 @Html.ActionLink("Ozel Link Oluştur", "CreateLink", new { id = Model.ToplantiId, ozel = true })
                 @Html.ActionLink("Public Link Oluştur", "CreateLink", new { id = Model.ToplantiId, ozel = false } )

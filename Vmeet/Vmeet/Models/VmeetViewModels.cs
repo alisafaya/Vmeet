@@ -45,7 +45,7 @@ namespace Vmeet.Models
     public class YonetViewModel
     {
         public int ToplantiId { get; set; }
-        public List<Katilimci> Davetliler { get; set; }
+        public List<DavetlilerViewModel> Davetliler { get; set; }
         public List<LinkViewModel> Linkler { get; set; }
 
     }
@@ -62,4 +62,22 @@ namespace Vmeet.Models
             this.ID = Id;
         }
     }
+    public class DavetlilerViewModel
+    {
+        public int KatilimciId { get; set; }
+        public string KatilimciAd { get; set; }
+        public string KatilimciSoyad { get; set; }
+        public string KatilimciEmail { get; set; }
+        public Izin KatilimciIzin { get; set; }
+        public DavetlilerViewModel(string ad,string soyad,string email,Izin izin,int Id)
+        {
+            this.KatilimciAd = ad;
+            this.KatilimciSoyad = soyad;
+            this.KatilimciEmail = email;
+            this.KatilimciIzin = izin;
+            this.KatilimciId = Id;
+
+        }
+    }
+
 }
