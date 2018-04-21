@@ -1,5 +1,0 @@
-Web site analyzing steps :
-	1- processing with perl script file 'WikiToText.pl' to clean tags and extra characters .
-	2- processing with java class 'Analyzing Text' to analyze words and get them as roots .
-Use VectorFileEdit script to get raw vectors from trained vector files :
-	./VectorFileEdit -input PhraseVectors.txt -output PhraseVectorsJustVectors.txt

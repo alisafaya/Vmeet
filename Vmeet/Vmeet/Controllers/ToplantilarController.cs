@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -200,16 +201,34 @@ namespace Vmeet.Controllers
         }
         public ActionResult CreateDavet(int toplantiId, string mail, bool konusmaciMi )
         {
-           
-            if (true)
-            {   
 
-                //db.Katilimcilar.Add(uye);
-                db.SaveChanges();
-               
+            var kisi = db.Users.Find(mail);
+            var toplanti = db.Katilimcilar.Find(toplantiId);
+            if (toplanti == null || User.Identity.IsAuthenticated)
+            {
+                //hata
             }
+            if (User.Identity.GetUserId() != db.Toplantilar.Find(toplantiId).YoneticiID)
+            {
+                //hata
+            }
+            var davet = new Katilimci();
+            var uye = db.Users.Where(x => x.Email.Equals(mail)).ToList();
+            if(uye==null || User.Identity.IsAuthenticated)
+            {
+                //hata
+            }
+            else
+            {
+              
+                if (konusmaciMi==true && ( db.Katilimcilar.Find(konusmaciMi).ID) > 3 )
+                {
+                    konusmaciMi = false;
+                }
+                db.Katilimcilar.Add(davet);
+                db.SaveChanges();
 
-
+            }
 
             return RedirectToAction("Yonet");
         }
@@ -218,20 +237,16 @@ namespace Vmeet.Controllers
             var model = new YonetViewModel()
             {
                 ToplantiId = 2,
-                Davetliler = db.Katilimcilar.ToList(),
+                //Davetliler = db.Katilimcilar.ToList(),
+                Davetliler = new List<DavetlilerViewModel>(),
                 Linkler = new List<LinkViewModel>()
-                //new List<LinkViewModel>
-                //{
-                //    new LinkViewModel("asdascxlak-asdkl-dasd-asd-masld",2,false,2),
-                //    new LinkViewModel("asdascxlakasdasd-asd-asdklmasld", 2,true,1),
-                //    new LinkViewModel("asdascklmasld",2,true,2),
-                //    new LinkViewModel("asdascxlak-asd-asdxczc-klmasld",2,false,3)
-                //}
+               
             };
 
             foreach (var item in db.Linkler.ToList())
                 model.Linkler.Add(new LinkViewModel(item.Anahtar, item.ToplantiID,item.OzelMi, item.ID));
-
+            foreach (var item in db.Katilimcilar.ToList())
+              model.Davetliler.Add(new DavetlilerViewModel(item.ApplicationUser.Ad,item.ApplicationUser.Soyad, item.ApplicationUser.Email, item.Izin, item.ID));
 
             return View(model);
         }
