@@ -23,12 +23,19 @@ namespace Vmeet.Models
 
         }
 
-        public int ID { get; set;}
+        public int ID { get; set; }
 
         [MaxLength(256)]
         public string DosyaIsmi { get; set; }
 
         public string DosyaKodu { get; set; }
+    }
+
+    public class İndexView {
+        public string AD { get; set; }
+        public string Konu { get; set; }
+
+
     }
 
     public class Toplanti

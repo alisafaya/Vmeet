@@ -25,7 +25,8 @@ namespace Vmeet.Controllers
 
         // GET: Toplantilar
         public ActionResult Index()
-        {   if(User.Identity.IsAuthenticated)
+        {
+            if (User.Identity.IsAuthenticated)
             {   
                 return View("UyeIndex", db.Toplantilar.ToList());
             }
@@ -35,6 +36,7 @@ namespace Vmeet.Controllers
                 {
                     Toplantilar = db.Toplantilar.Where(x => x.OzelMi.Equals(false)).ToList(),
                     Avatarlar = db.Avatarlar.ToList()
+                    
                 };
                 return View(model);             
             }
@@ -61,10 +63,12 @@ namespace Vmeet.Controllers
             return View(toplanti);
         }
 
+
         // GET: Toplantilar/Create
         [Authorize]  //yetkilendirme
         public ActionResult Create()
         {
+            
             return View();
         }
 
@@ -76,27 +80,32 @@ namespace Vmeet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
-            //burada
-            if (ModelState.IsValid)
-            {
-                db.Toplantilar.Add(toplanti);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            toplanti.YoneticiID = User.Identity.GetUserId();
 
+            if (ModelState.IsValid)
+                {
+                    db.Toplantilar.Add(toplanti);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+   
             return View(toplanti);
         }
+        
 
         // GET: Toplantilar/Edit/5
         [Authorize]
         public ActionResult Edit(int? id)
         {
             //burada
+            Toplanti toplanti = db.Toplantilar.Find(id);
+            toplanti.YoneticiID = User.Identity.GetUserId();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Toplanti toplanti = db.Toplantilar.Find(id);
+            
             if (toplanti == null)
             {
                 return HttpNotFound();
@@ -112,6 +121,8 @@ namespace Vmeet.Controllers
         public ActionResult Edit([Bind(Include = "ID,YoneticiID,ToplantiAdi,Konu,BaslamaZamani,BitisZamani,OzelMi")] Toplanti toplanti)
         {
             //burada
+            toplanti.YoneticiID = User.Identity.GetUserId();
+                        
             if (ModelState.IsValid)
             {
                 db.Entry(toplanti).State = EntityState.Modified;
