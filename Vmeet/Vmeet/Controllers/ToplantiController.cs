@@ -21,19 +21,36 @@ namespace Vmeet.Controllers
             dy = new DosyaYoneticisi(db);
         }
 
-        // GET: Toplanti
-        [Authorize]
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id,string key)
         {
-            //Giris kontrolleri eklenecek
             if (id == null || db.Toplantilar.Find(id) == null)
             {
                 return RedirectToAction("Index", "Toplantilar");
             }
-
             var toplanti = db.Toplantilar.Find(id);
 
-            if (true/*toplanti.BaslamaZamani > DateTime.Now*/)
+            if (toplanti.OzelMi)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    var currentUser = User.Identity.GetUserId();
+                    if ((!User.Identity.IsAuthenticated) ||( db.Katilimcilar.Where(x=>x.ApplicationUserID == currentUser && x.ToplantiID == toplanti.ID).Count() == 0 && toplanti.YoneticiID != currentUser ) )
+                    {
+                        return RedirectToAction("Index", "Toplantilar");
+                    }
+                }
+                else
+                {
+                    var link = db.Linkler.Where(x => x.ToplantiID == toplanti.ID && x.Anahtar == key).FirstOrDefault();
+                    if (link == null || (link.OzelMi && link.Giriss.Count > 0) )
+                    {
+                        return RedirectToAction("Index", "Toplantilar");
+                    }
+                }
+            }
+            
+
+            if (toplanti.BaslamaZamani > DateTime.Now)
             {
                 var model = new BaslamamisToplantiViewModel()
                 {
@@ -45,7 +62,7 @@ namespace Vmeet.Controllers
                 };
                 return View("baslamamis", model);
             }
-            else if (false/*toplanti.BitisZamani < DateTime.Now*/)
+            else if (toplanti.BitisZamani < DateTime.Now)
             {
                 var model = new BitmisToplantiViewModel()
                 {
@@ -59,21 +76,33 @@ namespace Vmeet.Controllers
             }
             else
             {
-                var user = db.Users.Find(User.Identity.GetUserId());
-                var model = new ToplantiViewModel()
+                if (User.Identity.IsAuthenticated)
                 {
-                    ToplantiId = toplanti.ID,
-                    mesajlar = db.Mesajlar.Where(x => x.ToplantiID == toplanti.ID).ToList(),
-                    Yonetici = toplanti.Yonetici.Ad + " " + toplanti.Yonetici.Soyad,
-                    ToplantiAdi = toplanti.ToplantiAdi,
-                    ToplantiBaslamaZamani = toplanti.BaslamaZamani,
-                    ToplantiKonusu = toplanti.Konu,
-                    SessionId = 5,
-                    KullaniciIsmi = user.Ad + " " + user.Soyad,
-                    YoneticiProfile = toplanti.Yonetici.DosyaID.HasValue ? toplanti.Yonetici.DosyaID.Value : -1,
-                    profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1
-                };
-                return View("Toplanti", model);
+                    var user = db.Users.Find(User.Identity.GetUserId());
+                    var model = new ToplantiViewModel()
+                    {
+                        ToplantiId = toplanti.ID,
+                        mesajlar = db.Mesajlar.Where(x => x.ToplantiID == toplanti.ID).ToList(),
+                        Yonetici = toplanti.Yonetici.Ad + " " + toplanti.Yonetici.Soyad,
+                        ToplantiAdi = toplanti.ToplantiAdi,
+                        ToplantiBaslamaZamani = toplanti.BaslamaZamani,
+                        ToplantiKonusu = toplanti.Konu,
+                        KullaniciIsmi = user.Ad + " " + user.Soyad,
+                        YoneticiProfile = toplanti.Yonetici.DosyaID.HasValue ? toplanti.Yonetici.DosyaID.Value : -1,
+                        profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1
+                    };
+                    return View("Toplanti", model);
+                }
+                else
+                {
+                    var model = new ToplantiyaKatilViewModel()
+                    {
+                        ToplantiID = toplanti.ID,
+                        anahtar= key,
+                        Avatarlar = db.Avatarlar.ToList()
+                    };
+                    return View("Index", model);
+                }
             }
 
         }
@@ -105,7 +134,6 @@ namespace Vmeet.Controllers
                 isim = "Anonymous";
             }
 
-            //Giris kontrolleri eklenecek
             if ( db.Toplantilar.Find(toplantiId) == null)
             {
                 return RedirectToAction("Index", "Toplantilar");
@@ -113,7 +141,25 @@ namespace Vmeet.Controllers
 
             var toplanti = db.Toplantilar.Find(toplantiId);
 
-            if (false/*toplanti.BaslamaZamani > DateTime.Now*/)
+            if (User.Identity.IsAuthenticated )
+            {
+                return RedirectToAction("Index", "Toplantilar");
+            }
+            if (toplanti.OzelMi && form["anahtar"] != null)
+            {
+                var anahtar = form["anahtar"];
+                var link = db.Linkler.Where(x => x.ToplantiID == toplanti.ID && x.Anahtar ==anahtar).FirstOrDefault();
+                if (link == null || (link.OzelMi && link.Giriss.Count > 0))
+                {
+                    return RedirectToAction("Index", "Toplantilar");
+                }
+            }
+            else if(toplanti.OzelMi)
+            {
+                return RedirectToAction("Index", "Toplantilar");
+            }
+
+            if (toplanti.BaslamaZamani > DateTime.Now)
             {
                 var model = new BaslamamisToplantiViewModel()
                 {
@@ -125,7 +171,7 @@ namespace Vmeet.Controllers
                 };
                 return View("baslamamis", model);
             }
-            else if (false/*toplanti.BitisZamani < DateTime.Now*/)
+            else if (toplanti.BitisZamani < DateTime.Now)
             {
                 var model = new BitmisToplantiViewModel()
                 {

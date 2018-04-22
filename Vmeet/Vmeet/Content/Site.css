@@ -1,5 +1,6 @@
 ﻿body {
     padding-bottom: 20px;
+    font-family: 'Ubuntu', serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -16,15 +17,21 @@
 }
 
 
-
-a.icon
-{
-    background: url('./images/icon.png') no-repeat top left;
-    background-size: 100%;
-    margin:10px;
+.navbar-toggle .icon-bar {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+    background-color:gray;
+}
+
+a.icon {
+    height: 80px;
+    width: 120px;
+    margin: 0;
+    background: url('./images/Vmeet_logo_trans.png') no-repeat top left;
+    background-size: 100%;
+    display: block;
     text-indent: -9999px; /* hides the link text */
 }
 
@@ -113,15 +120,16 @@ a.icon
     border: solid 1px #43bfcb;
 }
 .overlay {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(0, 0, 0, 0.7);
-	transition: opacity 500ms;
-	visibility: hidden;
-	opacity: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 10000;
 }
 .overlay:target {
 	visibility: visible;
@@ -136,7 +144,7 @@ a.icon
 .avatar-icon {
 	width: 100%;
 	padding: 5px;
-	border: solid 1px #6495ed80;
+	border: solid 1px #6495ed;
     border-radius: 50%;
 }
 
@@ -152,11 +160,11 @@ a.icon
 }
 
 .popup-avatar {
-	margin: 15% auto;
+	margin: 10% auto;
 	padding: 20px;
 	background: #fff;
 	border-radius: 5px;
-	width: 50%;
+	width: 30%;
 	position: relative;
 	transition: all 1s ease-in-out;
 }

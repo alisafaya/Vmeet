@@ -12,59 +12,75 @@ namespace Vmeet.Hubs
 {
     public class ChatHub : Hub
     {
-
-        Dictionary<int, List<string>> grouplar = new Dictionary<int, List<string>>();
-
         List<string> imageExt = new List<string> { "bmp", "jpeg", "gif", "tiff", "png" };
         VmeetDbContext db = new VmeetDbContext();
-        public void Hello()
+
+        private readonly static Dictionary<string, HashSet<string>> groupsHolder = new Dictionary<string, HashSet<string>>();
+        private readonly static Dictionary<string, string> connectionToSession = new Dictionary<string, string>();
+
+        public override Task OnConnected()
         {
-            Clients.All.hello();
+            this.Clients.Client(Context.ConnectionId).getSessionInfo();
+            return base.OnConnected();
         }
 
-        //public override Task OnConnected()
-        //{
-        //    string ID = Context.ConnectionId;
-
-        //    grouplar.Add(name, Context.ConnectionId);
-
-        //    return base.OnConnected();
-        //}
-
-        public void JoinGroup(int toplantiId, int sessionId)
+        public void katil(int toplantiID, string sessionId)
         {
-            var toplanti = db.Toplantilar.Find(toplantiId);
-            if (toplantiId == null)
+            this.Groups.Add(Context.ConnectionId, toplantiID.ToString());
+            if (!groupsHolder.Keys.Contains(toplantiID.ToString()))
             {
-                //HATA
+                groupsHolder.Add(toplantiID.ToString(), new HashSet<string>());
             }
-            if (toplanti.OzelMi)
+            groupsHolder[toplantiID.ToString()].Add(Context.ConnectionId);
+            if (!connectionToSession.ContainsKey(Context.ConnectionId))
             {
                 if (Context.User.Identity.IsAuthenticated)
                 {
-                    var katilimci = db.Katilimcilar.FirstOrDefault(x => x.ToplantiID == toplantiId && x.ApplicationUserID == Context.User.Identity.GetUserId());
-                    if (katilimci == null)
-                    {
-                        //HATA
-                    }
-                    Groups.Add(Context.ConnectionId, toplanti.ID.ToString());
+                    connectionToSession.Add(Context.ConnectionId, Context.User.Identity.GetUserId());
                 }
                 else
                 {
-
+                    connectionToSession.Add(Context.ConnectionId, sessionId);
                 }
             }
-            else
-            {
+            this.Clients.Group(toplantiID.ToString()).triggerRefreshList();
+        }
 
+        public override Task OnReconnected()
+        {
+            this.Clients.Client(Context.ConnectionId).getSessionInfo();
+            return base.OnReconnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var connection = this.Context.ConnectionId;
+            foreach (var key in groupsHolder.Keys)
+            {
+                if (groupsHolder[key].Contains(connection))
+                {
+                    groupsHolder[key].Remove(connection);
+                    this.Groups.Remove(connection, key);
+                }
             }
-            
+            if (connectionToSession.ContainsKey(connection))
+            {
+                connectionToSession.Remove(connection);
+            }
+            return base.OnConnected();
         }
 
         public void Send(int session, int ToplantiId, string message, bool dosyaVarMi, int dosyaId)
         {
-            int Id, profil, img=-1, file=-1;
-            string ad, time, msg = message, fileName="";
+            int Id, profil, img = -1, file = -1;
+            string ad, time, msg = message, fileName = "";
+
+            var connection = Context.ConnectionId;
+
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) )
+            {
+                return;
+            }
 
             Mesaj mesaj = new Mesaj()
             {
@@ -87,7 +103,7 @@ namespace Vmeet.Hubs
                 if (giris == null)
                     return;
                 var avat = db.Avatarlar.Find(giris.AvatarID);
-                profil = avat == null ? -1 : avat.DosyaID ;
+                profil = avat == null ? -1 : avat.DosyaID;
                 ad = giris.Isim;
                 mesaj.GirisID = giris.ID;
             }
@@ -96,7 +112,7 @@ namespace Vmeet.Hubs
 
             if (dosyaVarMi && db.Dosyalar.Find(dosyaId) != null)
             {
-                var dosya  = db.Dosyalar.Find(dosyaId);
+                var dosya = db.Dosyalar.Find(dosyaId);
                 var fileext = dosya.DosyaIsmi.Split('.').Last();
 
                 if (imageExt.Contains(fileext))
@@ -119,16 +135,73 @@ namespace Vmeet.Hubs
             switch (mesaj.MesajTuru)
             {
                 case MesajTuru.Metin:
-                    Clients.All.addNewMessageToPage(Id, profil, ad, null, time, msg, null, null);
+                    Clients.Group(ToplantiId.ToString()).addNewMessageToPage(Id, profil, ad, null, time, msg, null, null);
                     break;
                 case MesajTuru.Resim:
-                    Clients.All.addNewMessageToPage(Id, profil, ad, img, time, msg, null, null);
+                    Clients.Group(ToplantiId.ToString()).addNewMessageToPage(Id, profil, ad, img, time, msg, null, null);
                     break;
                 case MesajTuru.Dosya:
-                    Clients.All.addNewMessageToPage(Id, profil, ad, null, time, msg, file, fileName);
+                    Clients.Group(ToplantiId.ToString()).addNewMessageToPage(Id, profil, ad, null, time, msg, file, fileName);
                     break;
             }
 
+        }
+
+        public void getConnectedUserList(int ToplantiId)
+        {
+            var connection = Context.ConnectionId;
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection))
+            {
+                return;
+            }
+            List<string> isimler = new List<string>();
+            List<int> izinler = new List<int>();
+
+            foreach (var item in groupsHolder[ToplantiId.ToString()])
+            {
+                var session = connectionToSession[item];
+                try
+                {
+                    int sessionId = Convert.ToInt32(session);
+                    if (sessionId == 0)
+                    {
+                        throw new FormatException();
+                    }
+                    var giris = db.Girisler.Find(sessionId);
+                    if (giris == null)
+                        continue;
+                    isimler.Add(giris.Isim);
+                    izinler.Add( (int) Izin.Dinleyici);
+                }
+                catch(FormatException)
+                {
+                    var user = db.Users.Find(session);
+                    if (user == null)
+                        continue;
+                    var katilimci = db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).Count() > 0  ?
+                        db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).First() : null;
+                    if (katilimci == null)
+                    {
+                        isimler.Add(user.Ad + " " + user.Soyad);
+                        if (db.Toplantilar.Find(ToplantiId).YoneticiID == user.Id)
+                        {
+                            izinler.Add((int)2);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        isimler.Add(user.Ad + " " + user.Soyad);
+                        izinler.Add((int)katilimci.Izin);
+                    }
+
+                }
+            }
+
+            this.Clients.Client(connection).RefreshList(isimler, izinler);
         }
 
     }

@@ -13,7 +13,7 @@ namespace Vmeet.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201804181701077_initial"; }
+            get { return "201804211904250_initial"; }
         }
         
         string IMigrationMetadata.Source

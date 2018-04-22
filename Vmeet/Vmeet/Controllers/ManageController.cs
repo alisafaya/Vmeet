@@ -10,8 +10,6 @@ using Vmeet.Models;
 using System.Data.Entity;
 using System.IO;
 using Vmeet.Utility;
-using Vmeet.Utility;
-using System.IO;
 
 namespace Vmeet.Controllers
 {

@@ -28,11 +28,10 @@ namespace Vmeet
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/custom.flexslider.css",
                       "~/Content/fontawesome-4.6.3.min.css",
                       "~/Content/framework.css",
-                      "~/Content/layout.css",
                       "~/Content/site.css"));
         }
     }

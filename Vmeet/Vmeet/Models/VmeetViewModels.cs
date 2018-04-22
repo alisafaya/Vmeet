@@ -34,6 +34,13 @@ namespace Vmeet.Models
         public ICollection<Avatar> Avatarlar { get; set; }
     }
 
+    public class ToplantiyaKatilViewModel
+    {
+        public int ToplantiID { get; set; }
+        public string anahtar { get; set; }
+        public ICollection<Avatar> Avatarlar { get; set; }
+    }
+
     public class BitmisToplantiViewModel
     {
         public string Yonetici { get; set; }
@@ -42,42 +49,33 @@ namespace Vmeet.Models
         public DateTime ToplantiBitisZamani { get; set; }
         public string ToplantiCiktisi { get; set; }
     }
+
     public class YonetViewModel
     {
         public int ToplantiId { get; set; }
-        public List<DavetlilerViewModel> Davetliler { get; set; }
+        public List<DavetliViewModel> Davetliler { get; set; }
         public List<LinkViewModel> Linkler { get; set; }
-
     }
 
     public class LinkViewModel
     {
-        public bool ozelMi { get; set; }
-        public string link { get; set; }
+        public bool OzelMi { get; set; }
+        public string Link { get; set; }
         public int ID { get; set; }
         public LinkViewModel(string anahtar, int toplantiId, bool ozelMi, int Id)
         {
-            this.link = HttpContext.Current.Server.MapPath("~") + "/toplanti/" + toplantiId + "/" + anahtar;
-            this.ozelMi = ozelMi;
+            this.Link = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/toplanti/index/" + toplantiId + "/" + anahtar;
+            this.OzelMi = ozelMi;
             this.ID = Id;
         }
     }
-    public class DavetlilerViewModel
+
+    public class DavetliViewModel
     {
         public int KatilimciId { get; set; }
         public string KatilimciAd { get; set; }
-        public string KatilimciSoyad { get; set; }
         public string KatilimciEmail { get; set; }
         public Izin KatilimciIzin { get; set; }
-        public DavetlilerViewModel(string ad,string soyad,string email,Izin izin,int Id)
-        {
-            this.KatilimciAd = ad;
-            this.KatilimciSoyad = soyad;
-            this.KatilimciEmail = email;
-            this.KatilimciIzin = izin;
-            this.KatilimciId = Id;
-
-        }
     }
 
 }

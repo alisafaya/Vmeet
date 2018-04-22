@@ -1,55 +1,49 @@
-﻿@model Vmeet.Models.Toplanti
-
+﻿@model Vmeet.Models.ToplantiyaKatilViewModel
 @{
-    ViewBag.Title = @Model.ToplantiAdi;
+    ViewBag.Title = "Index";
 }
 
-<h2>@Model.ToplantiAdi</h2>
-
-
-
-<div class="col-lg-3" >
-
+<div id="page-wrapper">
+    <form id="login-form" method="post" action="@Url.Action("Join", "Toplanti")">
+        @Html.AntiForgeryToken()
+                <div class="content">
+                    <div class="popup-label">
+                        Profil resmi seç
+                    </div>
+                    <hr />
+                    <div id="choose-avatar" class="row">
+                        <div id="inner">
+                            <input type="hidden" name="toplantiId" id="toplantiId" value="@Model.ToplantiID" />
+                            <input type="hidden" name="anahtar" id="toplantiId" value="@Model.anahtar" />
+                            <input type="radio" name="avatar" id="radio-0" value="-1" hidden checked="checked">
+                            @foreach (var item in Model.Avatarlar)
+                            {
+                                <input type="radio" name="avatar" id="radio-@item.ID" value="@item.ID" /><label id="label-radio-@item.ID" style="display:inline;box-shadow:none;" for="radio-@item.ID"><img style="width:19%" class="rounded-circle avatar-icon" src="@Url.Action("Avatar","Toplanti", new { avatarId = item.ID })" alt="@item.Dosya.DosyaIsmi" /></label>
+                            }
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label>İsim</label>
+                        <input name="isim" type="text" class="form-control" id="isim" placeholder="İsminizi giriniz">
+                    </div>
+                    <button type="submit" class="btn btn-primary login" style="width:70%;margin:0% 15%; ">Başla</button>
+                </div>
+    </form>
 </div>
 
-
-<div class="col-lg-3">
-    <h4>Toplanti detaylari</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Yonetici adi :
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Yonetici.Ad) @Html.DisplayFor(model => model.Yonetici.Soyad) 
-        </dd>
-        <dt>
-            Toplanti Konusu
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Konu)
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.BitisZamani)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BitisZamani)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cikti)
-        </dt>
-
-        <dd>
-            @Html.EditorFor(model => model.Cikti)
-        </dd>
-
-    </dl>
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</div>
-
+@section scripts{
+    <script>
+        function value(valu) {
+            $("#toplantiId").val(valu);
+        }
+        $(document).ready(function () {
+            $('#choose-avatar input:radio').addClass('input_hidden');
+            $('#choose-avatar label').click(function () {
+                $('#choose-avatar img').removeClass('selected');
+                $(this).addClass('selected').siblings().removeClass('selected');
+                $(this).children(0).addClass('selected');
+            });
+        });
+    </script>
+}

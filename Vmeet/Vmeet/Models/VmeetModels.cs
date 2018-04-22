@@ -139,7 +139,7 @@ namespace Vmeet.Models
 
         public Link()
         {
-            Anahtar = Guid.NewGuid().ToString("N");
+            Anahtar = Guid.NewGuid().ToString("N").Substring(0,6);
             this.Giriss = new HashSet<Giris>();
         }
 

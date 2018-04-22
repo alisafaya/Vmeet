@@ -47,7 +47,7 @@ namespace Vmeet.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
             Database.SetInitializer(new Utility.VmeetInitializer());
-            //Database.SetInitializer<VmeetDbContext>(null);
+            InitializeDatabase();
         }
         
         public DbSet<Toplanti> Toplantilar { get; set; }
@@ -62,6 +62,13 @@ namespace Vmeet.Models
         {
             return new VmeetDbContext();
         }
-         
+
+        protected virtual void InitializeDatabase()
+        {
+            if (!Database.Exists())
+            {
+                Database.Initialize(true);
+            }
+        }
     }
 }

@@ -14,6 +14,12 @@ namespace Vmeet
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Toplanti_link",
+                url: "toplanti/index/{id}/{key}",
+                defaults: new { controller = "Toplanti", action = "Index", id = -1, key="" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

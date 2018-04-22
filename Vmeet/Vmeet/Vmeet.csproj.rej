@@ -1,0 +1,39 @@
+diff a/Vmeet/Vmeet/Vmeet.csproj b/Vmeet/Vmeet/Vmeet.csproj	(rejected hunks)
+@@ -212,17 +212,9 @@
+       <DependentUpon>Global.asax</DependentUpon>
+     </Compile>
+     <Compile Include="Hubs\ChatHub.cs" />
+-    <Compile Include="Migrations\201804131732164_InitialCreate.cs" />
+-    <Compile Include="Migrations\201804131732164_InitialCreate.Designer.cs">
+-      <DependentUpon>201804131732164_InitialCreate.cs</DependentUpon>
+-    </Compile>
+-    <Compile Include="Migrations\201804132205545_editLink.cs" />
+-    <Compile Include="Migrations\201804132205545_editLink.Designer.cs">
+-      <DependentUpon>201804132205545_editLink.cs</DependentUpon>
+-    </Compile>
+-    <Compile Include="Migrations\201804150412186_girisAddedToMesaj.cs" />
+-    <Compile Include="Migrations\201804150412186_girisAddedToMesaj.Designer.cs">
+-      <DependentUpon>201804150412186_girisAddedToMesaj.cs</DependentUpon>
++    <Compile Include="Migrations\201804181701077_initial.cs" />
++    <Compile Include="Migrations\201804181701077_initial.Designer.cs">
++      <DependentUpon>201804181701077_initial.cs</DependentUpon>
+     </Compile>
+     <Compile Include="Migrations\Configuration.cs" />
+     <Compile Include="Models\AccountViewModels.cs" />
+@@ -365,14 +357,8 @@
+     <Content Include="Scripts\jquery-1.10.2.min.map" />
+   </ItemGroup>
+   <ItemGroup>
+-    <EmbeddedResource Include="Migrations\201804131732164_InitialCreate.resx">
+-      <DependentUpon>201804131732164_InitialCreate.cs</DependentUpon>
+-    </EmbeddedResource>
+-    <EmbeddedResource Include="Migrations\201804132205545_editLink.resx">
+-      <DependentUpon>201804132205545_editLink.cs</DependentUpon>
+-    </EmbeddedResource>
+-    <EmbeddedResource Include="Migrations\201804150412186_girisAddedToMesaj.resx">
+-      <DependentUpon>201804150412186_girisAddedToMesaj.cs</DependentUpon>
++    <EmbeddedResource Include="Migrations\201804181701077_initial.resx">
++      <DependentUpon>201804181701077_initial.cs</DependentUpon>
+     </EmbeddedResource>
+   </ItemGroup>
+   <PropertyGroup>

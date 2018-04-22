@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Vmeet.Models.Toplanti>
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
 }
@@ -17,90 +17,105 @@
     <p>
         @Html.ActionLink("Yeni Toplantı Oluştur", "Create")
     </p>
+    <span class="label label-info">Gelecek</span>
+    <span class="label label-warning">Geçmiş</span>
+    <span class="label label-success">Şimdi</span>
     <div class="table-responsive">
-        <table  class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ToplantiAdi)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Konu)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BaslamaZamani)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BitisZamani)
-                </th> 
-                <th></th>        
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                if (item.OzelMi == false)
-                {
-                <tr>  
-                                    
-                    <td>
-                        <div class="alert alert-info" role="alert">
-                            @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="alert alert-info" role="alert">
-                            @Html.DisplayFor(modelItem => item.Konu)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="alert alert-info" role="alert">
-                            @Html.DisplayFor(modelItem => item.BaslamaZamani)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="alert alert-info" role="alert">
-                            @Html.DisplayFor(modelItem => item.BitisZamani)
-                        </div>
-                     </td>
-                    <td>
-                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
-                        @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
-                        @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
-                    </td>
+        <table class="table table-hover" style="font-family:'Courier New', Courier, monospace; font-size:medium;">
+            <thead>
+                <tr class="active">
+                    <th scope="col">Toplantı adı</th>
+                    <th scope="col">Konusu</th>
+                    <th></th>
+                    <th scope="col">Başlama zamanı</th>
+                    <th scope="col">Bitiş zamanı</th>
                 </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.BaslamaZamani > DateTime.Now)
+                        {
+                            <tr class="info">
+                                <td>
+                                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID}, null)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Konu)
+                                </td>
+                                <td>
+                                    @if (item.OzelMi) { <span class="label label-danger">Özel</span> } else { <span class="label label-info">Açık</span> }
+                                </td>
+                                <td>
+                                    @(item.BaslamaZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                                <td>
+                                    @(item.BitisZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                                @if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == item.YoneticiID)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
+                                        @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
+                                        @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
+                                    </td>
+                                }
+                            </tr>
+                        }
+                        else if (item.BitisZamani < DateTime.Now)
+                        {
+                            <tr class="warning">
+                                <td value="@item.ID">
+                                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Konu)
+                                </td>
+                                <td>
+                                    @if (item.OzelMi) { <span class="label label-danger">Özel</span> } else { <span class="label label-info">Açık</span> }
+                                </td>
+                                <td>
+                                    @(item.BaslamaZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                                <td>
+                                    @(item.BitisZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            <tr class="success">
+                                <td value="@item.ID">
+                                    @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Konu)
+                                </td>
+                                <td>
+                                    @if (item.OzelMi) { <span class="label label-danger">Özel</span> } else { <span class="label label-info">Açık</span> }
+                                </td>
+                                <td>
+                                    @(item.BaslamaZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                                <td>
+                                    @(item.BitisZamani.ToString("HH:mm dd/MM"))
+                                </td>
+                                @if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == item.YoneticiID)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
+                                        @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
+                                        @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
                 }
-                else
-                {
-                    <tr>
-                        <td>
-                            <div class="alert alert-danger" role="alert">
-                                @Html.ActionLink(item.ToplantiAdi, "Index", "Toplanti", new { id = item.ID }, null)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="alert alert-danger" role="alert">
-                                @Html.DisplayFor(modelItem => item.Konu)
-                            </div>
-                        </td>
-                         <td>
-                            <div class="alert alert-danger" role="alert">
-                                @Html.DisplayFor(modelItem => item.BaslamaZamani)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="alert alert-danger" role="alert">
-                                @Html.DisplayFor(modelItem => item.BitisZamani)
-                        </div>
-                        </td>                  
-                        <td>                           
-                                @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }) |
-                                @Html.ActionLink("Sil", "Delete", new { id = item.ID }) |
-                                @Html.ActionLink("Yönet", "Yonet", new { id = item.ID })
-                        </td>
-                    </tr>
-                }
-            }
+            </tbody>
         </table>
-        <span class="label label-info">Açık toplantılar</span>
-        <span class="label label-danger">Özel toplantılar</span>
+        
     </div>
-    </div>
+</div>
