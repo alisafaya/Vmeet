@@ -17,6 +17,7 @@ namespace Vmeet.Models
         public int ToplantiId { get; set; }
         public int profilResmi { get; set; }
         public string  KullaniciIsmi { get; set; }
+        public Izin izin { get; set; }
     }
 
     public class BaslamamisToplantiViewModel

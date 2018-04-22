@@ -55,17 +55,23 @@ namespace Vmeet.Hubs
         public override Task OnDisconnected(bool stopCalled)
         {
             var connection = this.Context.ConnectionId;
+            var toplantilar = new List<string>();
             foreach (var key in groupsHolder.Keys)
             {
                 if (groupsHolder[key].Contains(connection))
                 {
                     groupsHolder[key].Remove(connection);
                     this.Groups.Remove(connection, key);
+                    toplantilar.Add(key);
                 }
             }
             if (connectionToSession.ContainsKey(connection))
             {
                 connectionToSession.Remove(connection);
+            }
+            foreach (var item in toplantilar.Distinct())
+            {
+                this.Clients.Group(item).triggerRefreshList(); 
             }
             return base.OnConnected();
         }
@@ -182,9 +188,9 @@ namespace Vmeet.Hubs
                         db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).First() : null;
                     if (katilimci == null)
                     {
-                        isimler.Add(user.Ad + " " + user.Soyad);
                         if (db.Toplantilar.Find(ToplantiId).YoneticiID == user.Id)
                         {
+                        isimler.Add(user.Ad + " " + user.Soyad);
                             izinler.Add((int)2);
                         }
                         else

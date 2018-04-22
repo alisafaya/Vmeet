@@ -2,8 +2,19 @@
 @{
     ViewBag.Title = Model.ToplantiAdi;
 }
+
+<br />
+<br />
 <div id="page-wrapper row">
-    <div id="chat-block" class="frame col-lg-offset-2 col-lg-5  col-md-5">
+    <div class="  col-lg-2">
+        <div class="table-responsive">
+            <br />
+            <p>Çevrim içi kullanıcılar</p>
+            <table class="table table-hover" id="kullaniciListesi">
+            </table>
+        </div>
+    </div>
+    <div id="chat-block" class="frame col-lg-5  col-md-5">
         <div class="chat-board row" id="chat-board">
             <ul id="discussion">
                 @if (Model.mesajlar != null)
@@ -62,8 +73,8 @@
                 <div style="width:200px;" class="input-group-postpend">
                     <form style="height:55%;" action="@Url.Action("UploadFile")" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit(this);">
                         <div style="height:100%;">
-                            <button style="height:100%;width:48%;" class="input-group-text btn" type="submit" id="sendmessage">Gönder</button>
-                            <label style="height:100%;width:48%;" for="file" class="input-group-text btn">yükle</label>
+                            <button style="height:100%;width:48%;" class="input-group-text btn btn-info" type="submit" id="sendmessage">Gönder</button>
+                            <label style="height:100%;width:48%;" for="file" class="input-group-text btn btn-info">yükle</label>
                             <input name="file" id="file" style="visibility:hidden;" type="file">
                         </div>
                     </form>
@@ -74,39 +85,33 @@
         </div>
     </div>
 
-        <div class="col-lg-5 col-md-5">
-            <div class="thumbnail" style="margin-top: 5px;border-color: #707071;">
+    <div class="col-lg-3 col-md-3">
+        <div class="thumbnail" style="margin-top: 5px;border-color: #707071;">
+            <div >
+                <img src="@Url.Action("Image",new { dosyaId = Model.profilResmi})" />
+                <center><h3>Hoşgeldin</h3></center>
+                <center><h3>@Model.KullaniciIsmi</h3></center>
+            </div>
+            <hr />
+            <h6>@Model.ToplantiAdi</h6>
+            <div class="col-md-3" style="bottom: 9px;">
+                <img src="@Url.Action("Image",new { dosyaId = Model.YoneticiProfile }) " />
+            </div>
 
-
-                <div class="col-md-6" style="left: 97px;">
-
-                    <img src="@Url.Action("Image",new { dosyaId = Model.profilResmi})" />
-                    <center><h3>Hoşgeldin</h3></center>
-                    <center><h3>@Model.KullaniciIsmi</h3></center>
-
-                 </div>
-                   
-                    <hr />
-                    <h6>@Model.ToplantiAdi</h6>
-                <div class="col-md-2" style="bottom: 9px;">
-                    <img src="@Url.Action("Image",new { dosyaId = Model.YoneticiProfile }) " />
-                   
-                </div>
-                   
-                    <h6>@Model.Yonetici</h6>
-                    <h6>@Model.ToplantiBaslamaZamani</h6>
-                    <h6>00:00</h6>
-                    <p><b>@Model.ToplantiKonusu</b></p>
-                    
-
-                </div>
-
+            <h6>@Model.Yonetici</h6>
+            <h6>@Model.ToplantiBaslamaZamani</h6>
+            <h6>00:00</h6>
+            <p><b>@Model.ToplantiKonusu</b></p>
 
 
         </div>
 
 
+
     </div>
+
+
+</div>
 
 
 @section scripts {
@@ -137,10 +142,23 @@
                 chat.server.getConnectedUserList(@Model.ToplantiId);
             };
             chat.client.RefreshList = function (isimler, izinler) {
-                console.log('isimler');
-                console.log(isimler);
-                console.log('izinler');
-                console.log(izinler);
+                $("#kullaniciListesi tr").remove();
+                for (var i = 0; i < isimler.length; i++) {
+                    if (izinler[i] == 0)
+                    {
+                        var izin = '<span class="label label-success">Konuşmacı</span>';
+                    }
+                    else if (izinler[i] == 1)
+                    {
+                        var izin = '<span class="label label-info">Dinleyici</span>';
+                    }
+                    else
+                    {
+                        var izin = '<span class="label label-warning">Yönetici</span>';
+                    }
+                    var tobeappend = '<tr><td><span class="user-subhead">' + isimler[i] + '</span></td><td class="text-center">' + izin + '</td></tr>';
+                    $('#kullaniciListesi').append(tobeappend);
+                }
             };
             $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
             function send() {
@@ -157,11 +175,11 @@
                 $('#sendmessage').click(function () {
                     send();
                 });
+                chat.server.getConnectedUserList(@Model.ToplantiId);
                 //chat.disconnect(function () {
                 //    alert('Server has disconnected, Please refresh your page');
                 //});
             });
-            setInterval(chat.server.getConnectedUserList(@Model.ToplantiId), 5000);
         });
         function handleSubmit(form) {
             if (!FormData) {

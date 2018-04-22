@@ -26,6 +26,10 @@ namespace Vmeet.Controllers
             userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
         }
 
+        public ActionResult Stream()
+        {
+            return View();
+        }
         // GET: Toplantilar
         public ActionResult Index()
         {

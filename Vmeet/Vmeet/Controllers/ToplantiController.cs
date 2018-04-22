@@ -28,16 +28,19 @@ namespace Vmeet.Controllers
                 return RedirectToAction("Index", "Toplantilar");
             }
             var toplanti = db.Toplantilar.Find(id);
-
+            Izin izin = Izin.Dinleyici;
+            var currentUser = User.Identity.GetUserId();
+            var katilimcidegil = db.Katilimcilar.Where(x => x.ApplicationUserID == currentUser && x.ToplantiID == toplanti.ID).Count() == 0;
             if (toplanti.OzelMi)
             {
                 if (string.IsNullOrEmpty(key))
                 {
-                    var currentUser = User.Identity.GetUserId();
-                    if ((!User.Identity.IsAuthenticated) ||( db.Katilimcilar.Where(x=>x.ApplicationUserID == currentUser && x.ToplantiID == toplanti.ID).Count() == 0 && toplanti.YoneticiID != currentUser ) )
+                    
+                    if ((!User.Identity.IsAuthenticated) ||( katilimcidegil && toplanti.YoneticiID != currentUser ) )
                     {
                         return RedirectToAction("Index", "Toplantilar");
                     }
+                    
                 }
                 else
                 {
@@ -48,7 +51,16 @@ namespace Vmeet.Controllers
                     }
                 }
             }
-            
+            if (katilimcidegil)
+            {
+                izin = Izin.Konusmaci;
+            }
+            else
+            {
+                var davet = db.Katilimcilar.Where(x => x.ApplicationUserID == currentUser && x.ToplantiID == toplanti.ID).FirstOrDefault();
+                izin = davet.Izin;
+            }
+
 
             if (toplanti.BaslamaZamani > DateTime.Now)
             {
@@ -89,7 +101,8 @@ namespace Vmeet.Controllers
                         ToplantiKonusu = toplanti.Konu,
                         KullaniciIsmi = user.Ad + " " + user.Soyad,
                         YoneticiProfile = toplanti.Yonetici.DosyaID.HasValue ? toplanti.Yonetici.DosyaID.Value : -1,
-                        profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1
+                        profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1,
+                        izin = izin
                     };
                     return View("Toplanti", model);
                 }
@@ -203,6 +216,7 @@ namespace Vmeet.Controllers
                     ToplantiBaslamaZamani = toplanti.BaslamaZamani,
                     ToplantiKonusu = toplanti.Konu,
                     SessionId = session.ID,
+                    izin = Izin.Dinleyici,
                     KullaniciIsmi =session.Isim,
                     profilResmi = session.Avatar.DosyaID
                 };
