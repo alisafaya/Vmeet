@@ -56,22 +56,27 @@ namespace Vmeet.Models
 
         [Required(ErrorMessage = "Lütfen toplantının adını giriniz.")]
         [StringLength(64, MinimumLength = 3, ErrorMessage = "Toplantının  adı 3-64 karakter arasında olmalıdır.")]
+        [Display(Name = "Toplantı Adı")]
         public string ToplantiAdi { get; set; }
 
         [Required(ErrorMessage = "Lütfen toplantının konusunu giriniz.")]
         [StringLength(256, ErrorMessage = "Toplantının konusu 256 karakterden uzun olamaz.")]
+        [Display(Name = "Konu")]
         public string Konu { get; set; }
 
         [Required(ErrorMessage = "Lütfen Başlama tarihini giriniz.")]
         //Girilen tarihin, geçerli bir tarih ve saat formatında girilmesini sağlıyoruz.
         [DataType(DataType.DateTime, ErrorMessage = "Lütfen başlama tarihini, doğru bir şekilde giriniz.")]
+        [Display(Name = "Başlama Zamanı")]
         public DateTime BaslamaZamani { get; set; }
 
         [Required(ErrorMessage = "Lütfen Bitiş tarihini giriniz.")]
         [DataType(DataType.DateTime, ErrorMessage = "Lütfen Bitiş tarihini, doğru bir şekilde giriniz.")]
+        [Display(Name = "Bitiş Zamanı")]
         public DateTime BitisZamani { get; set; }
 
         [Required(ErrorMessage = "Lütfen Özel mi bilgisini giriniz.")]
+        [Display(Name = "Özel Mi?")]
         public bool OzelMi { get; set; }
 
         [StringLength(1024, ErrorMessage = "Çıktı 256 karakterden uzun olamaz.")]

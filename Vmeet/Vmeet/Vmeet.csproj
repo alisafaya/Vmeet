@@ -273,10 +273,14 @@
     <Content Include="Content\images\demo\480x400.png" />
     <Content Include="Content\images\demo\imgl.gif" />
     <Content Include="Content\images\demo\imgr.gif" />
-    <Content Include="Content\images\giris.jpg" />
+    <Content Include="Content\images\giris1.jpg" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\kayitol2.png" />
+    <Content Include="Content\images\kayitol4.png" />
     <Content Include="Content\images\meeting.png" />
-    <Content Include="Content\images\toplantiedit.jpg" />
+    <Content Include="Content\images\profil.jpg" />
+    <Content Include="Content\images\profil.png" />
+    <Content Include="Content\images\profil2.jpg" />
     <Content Include="Content\images\Vmeet_cover.png" />
     <Content Include="Content\images\Vmeet_cover2.png" />
     <Content Include="Content\images\Vmeet_logo.png" />
@@ -304,14 +308,6 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\esm\popper-utils.js" />
-    <Content Include="Scripts\esm\popper-utils.min.js" />
-    <Content Include="Scripts\esm\popper.js" />
-    <Content Include="Scripts\esm\popper.min.js" />
-    <Content Include="Scripts\esm\popper.min.js.map" />
-    <Content Include="Scripts\esm\popper.js.map" />
-    <Content Include="Scripts\esm\popper-utils.min.js.map" />
-    <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -337,16 +333,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\popper-utils.js" />
-    <Content Include="Scripts\popper-utils.min.js" />
-    <Content Include="Scripts\popper.js" />
-    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\umd\popper-utils.js" />
-    <Content Include="Scripts\umd\popper-utils.min.js" />
-    <Content Include="Scripts\umd\popper.js" />
-    <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -395,15 +383,6 @@
     <Content Include="Views\Toplanti\Chat.cshtml" />
     <Content Include="Views\Toplanti\Toplanti.cshtml" />
     <Content Include="Views\Toplantilar\Edit.cshtml" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Toplanti\Index.cshtml" />
     <Content Include="Views\Toplantilar\Stream.cshtml" />
   </ItemGroup>
@@ -418,9 +397,6 @@
     <EmbeddedResource Include="Migrations\201804211904250_initial.resx">
       <DependentUpon>201804211904250_initial.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

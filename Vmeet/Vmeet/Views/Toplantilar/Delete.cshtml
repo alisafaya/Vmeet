@@ -1,10 +1,8 @@
 ﻿@model Vmeet.Models.Toplanti
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Sil";
 }
-
-
 
 <div>
     <div class="row" style="background-color:#ffffff">
@@ -14,55 +12,42 @@
             </h4>
         </div>
     </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ToplantiAdi)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ToplantiAdi)
-        </dd>
+    <table class="table table-hover table-striped" style="font-family:'Courier New', Courier, monospace; font-size:medium;">
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.ToplantiAdi)</th>
+            <th> @Html.DisplayFor(model => model.ToplantiAdi)</th>
+           
+        </tr>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.Konu)</th>
+            <th> @Html.DisplayFor(model => model.Konu)</th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Konu)
-        </dt>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.BaslamaZamani)</th>
+            <th> @Html.DisplayFor(model => model.BaslamaZamani)</th>
 
-        <dd>
-            @Html.DisplayFor(model => model.Konu)
-        </dd>
+        </tr>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.BitisZamani)</th>
+            <th> @Html.DisplayFor(model => model.BitisZamani)</th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BaslamaZamani)
-        </dt>
+        </tr>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.OzelMi)</th>
+            <th> @Html.DisplayFor(model => model.OzelMi)</th>
 
-        <dd>
-            @Html.DisplayFor(model => model.BaslamaZamani)
-        </dd>
+        </tr>
+        </table>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BitisZamani)
-        </dt>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.BitisZamani)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OzelMi)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OzelMi)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="SİL" class="btn btn-default" /> |
-            @Html.ActionLink("Listeye Dön", "Index")
-        </div>
-    }
+            <div class="form-actions no-color">
+                <input type="submit" value="SİL" class="btn btn-default" /> |
+                @Html.ActionLink("Listeye Dön", "Index")
+            </div>
+        }
 </div>
