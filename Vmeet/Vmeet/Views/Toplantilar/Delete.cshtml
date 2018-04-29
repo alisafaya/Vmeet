@@ -4,16 +4,17 @@
     ViewBag.Title = "Sil";
 }
 
-<div>
-    <div class="row" style="background-color:#ffffff">
+<div class="container" style="background-color: #d9d9d9;">
+    <div class="row" style="margin-bottom: -25px;">
         <div class="col-lg-12">
-            <h4 class="page-header" style="color:#31708f">
+            <h4 class="page-header">
                 Toplantıyı Silmek İstediğinden Emin Misin?
             </h4>
         </div>
     </div>
 
-    <table class="table table-hover table-striped" style="font-family:'Courier New', Courier, monospace; font-size:medium;">
+    <table class="table table-hover table-striped" style="font-family:'Courier New', Courier, monospace; font-size:medium; margin-top: 27px;">
+       
         <tr>
             <th> @Html.DisplayNameFor(model => model.ToplantiAdi)</th>
             <th> @Html.DisplayFor(model => model.ToplantiAdi)</th>
@@ -45,7 +46,7 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-actions no-color">
+            <div class="form-actions no-color" style="margin-bottom: 27px;">
                 <input type="submit" value="SİL" class="btn btn-default" /> |
                 @Html.ActionLink("Listeye Dön", "Index")
             </div>
