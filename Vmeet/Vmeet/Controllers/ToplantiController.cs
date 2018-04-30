@@ -104,7 +104,14 @@ namespace Vmeet.Controllers
                         profilResmi = user.DosyaID.HasValue ? user.DosyaID.Value : -1,
                         izin = izin
                     };
-                    return View("Toplanti", model);
+                    if (izin == Izin.Dinleyici)
+                    {
+                        return View("Toplanti", model);
+                    }
+                    else
+                    {
+                        return View("ToplantiKonusmaci", model);
+                    }
                 }
                 else
                 {
