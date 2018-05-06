@@ -51,6 +51,13 @@ namespace Vmeet.Models
         public string ToplantiCiktisi { get; set; }
     }
 
+
+    public class SesYayini
+    {
+        public string assetID { get; set; }
+        public HttpPostedFileBase Recording { get; set; }
+    }
+
     public class YonetViewModel
     {
         public int ToplantiId { get; set; }

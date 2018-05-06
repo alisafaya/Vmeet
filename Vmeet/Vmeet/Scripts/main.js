@@ -24,6 +24,7 @@ var rafID = null;
 var analyserContext = null;
 var canvasWidth, canvasHeight;
 var recIndex = 0;
+var isRecording = false;
 
 /* TODO:
 
@@ -39,7 +40,7 @@ function saveAudio() {
 
 function gotBuffers( buffers ) {
     var canvas = document.getElementById( "wavedisplay" );
-
+    console.log('buffers');
     drawBuffer( canvas.width, canvas.height, canvas.getContext('2d'), buffers[0] );
 
     // the ONLY time gotBuffers is called is right after a new recording is completed - 
@@ -51,6 +52,7 @@ function doneEncoding( blob ) {
     Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
     recIndex++;
 }
+
 
 function toggleRecording( e ) {
     if (e.classList.contains("recording")) {
@@ -92,6 +94,7 @@ function updateAnalysers(time) {
     }
 
     // analyzer draw code here
+    if (document.getElementById("record").classList.contains("recording"))
     {
         var SPACING = 3;
         var BAR_WIDTH = 1;
@@ -114,7 +117,7 @@ function updateAnalysers(time) {
                 magnitude += freqByteData[offset + j];
             magnitude = magnitude / multiplier;
             var magnitude2 = freqByteData[i * multiplier];
-            analyserContext.fillStyle = "hsl( " + Math.round((i*360)/numBars) + ", 100%, 50%)";
+            analyserContext.fillStyle = "#5cd65c";
             analyserContext.fillRect(i * SPACING, canvasHeight, BAR_WIDTH, -magnitude);
         }
     }
@@ -143,7 +146,7 @@ function gotStream(stream) {
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
 
-//    audioInput = convertToMono( input );
+    //audioInput = convertToMono( input );
 
     analyserNode = audioContext.createAnalyser();
     analyserNode.fftSize = 2048;
@@ -159,12 +162,12 @@ function gotStream(stream) {
 }
 
 function initAudio() {
-        if (!navigator.getUserMedia)
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        if (!navigator.cancelAnimationFrame)
-            navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
-        if (!navigator.requestAnimationFrame)
-            navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+    if (!navigator.getUserMedia)
+        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    if (!navigator.cancelAnimationFrame)
+        navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+    if (!navigator.requestAnimationFrame)
+        navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
 
     navigator.getUserMedia(
         {

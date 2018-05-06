@@ -79,6 +79,8 @@
                     </form>
                     <input type="hidden" id="sessionid" value="@Model.SessionId" />
                     <input type="hidden" id="messagefile" value="" />
+                    <input type="hidden" id="RecorderPath" value="@Url.Content("~/Scripts/recorderJs/recorderWorker.js")" />
+                    <input type="hidden" id="ToplantiId" value="@Model.ToplantiId" />
                 </div>
             </div>
         </div>
@@ -106,26 +108,23 @@
         </div>
     </div>*@
 
-    <div class="col-lg-5 col-md-5">
+    <div  class="col-lg-4 col-md-4">
         <div id="viz">
-            <canvas id="analyser" width="500" height="200"></canvas>
-            <canvas id="wavedisplay" width="100" height="50"></canvas>
+            <canvas id="analyser" width="300" height="150"></canvas>
         </div>
         <div id="controls">
-            <img id="record" src="@Url.Content("~/Content/images/mic128.png")" onclick="toggleRecording(this);">
-            <a id="save" href="#"><img src="@Url.Content("~/Content/images/save.svg")"></a>
+            <img id="record" style="height: auto;" src="@Url.Content("~/Content/images/mic128.png")" onclick="toggleRecording(this);">
         </div>
     </div>
-
 
 </div>
 
 
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
-    <script src="~/Scripts/audiodisplay.js"></script>
-    <script src="~/Scripts/recorder.js"></script>
-    <script src="~/Scripts/main.js"></script>
+<script id="worker1" type="javascript/worker">
+</script>
+ 
     <script src="~/signalr/hubs"></script>
     <script>
         $(function () {
@@ -146,6 +145,9 @@
                     '</div>';
                 $('#discussion').append(tobeappend);
                 $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+            };
+            chat.client.addSpeakerChannel = function(ChannelId, Ad){
+                alert(ChannelId + ' '  + Ad);
             };
             chat.client.triggerRefreshList = function () {
                 chat.server.getConnectedUserList(@Model.ToplantiId);
@@ -218,4 +220,6 @@
             return false;
         }
     </script>
+<script src="~/Scripts/recorderJs/recorder.js"></script>
+<script src="~/Scripts/main.js"></script>
 }
