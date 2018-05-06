@@ -1,0 +1,225 @@
+﻿@model Vmeet.Models.ToplantiViewModel
+@{
+    ViewBag.Title = Model.ToplantiAdi;
+}
+<br />
+<br />
+<div id="page-wrapper row">
+    <div class="col-lg-2">
+        <div class="table-responsive">
+            <br />
+            <p>Çevrim içi kullanıcılar</p>
+            <table class="table table-hover" id="kullaniciListesi">
+            </table>
+        </div>
+    </div>
+    <div id="chat-block" class="frame col-lg-5  col-md-5">
+        <div class="chat-board row" id="chat-board">
+            <ul id="discussion">
+                @if (Model.mesajlar != null)
+                {
+                    foreach (var item in Model.mesajlar)
+                    {
+                        if (item.ApplicationUser != null)
+                        {
+                            <li style="width:100%">
+                                <div class="msj macro d-flex flex-row" message_id="@item.ID">
+                                    @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                                    {
+                                        <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
+                                    }
+                                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
+                                    {
+                                        <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
+                                    }
+                                    <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image",new { dosyaId = item.ApplicationUser.DosyaID ?? -1 }) " /></div>
+                                    <div class="text text-l">
+                                        <p style="font-size:60%;">@item.ApplicationUser.Ad</p>
+                                        <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
+                                        <p style="font-size:1em;">@( item.Metin == "" ? "." : item.Metin )</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else if (item.Giris != null)
+                        {
+                            <li style="width:100%">
+                                <div class="msj macro d-flex flex-row" message_id="@item.ID">
+                                    @if (item.MesajTuru == Vmeet.Models.MesajTuru.Resim)
+                                    {
+                                        <div class="image-box"><img style="width:100%;" src="@Url.Action("Image",new { dosyaId = item.DosyaID }) " /></div>
+                                    }
+                                    else if (item.MesajTuru == Vmeet.Models.MesajTuru.Dosya)
+                                    {
+                                        <div class="file-link"><a target="_blank" href="@Url.Action("Dosya",new { dosyaId = item.DosyaID ?? -1 })">@item.Dosya.DosyaIsmi</a></div>
+                                    }
+                                    <div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("Avatar",new { avatarId = item.Giris.AvatarID }) " /></div>
+                                    <div class="text text-l">
+                                        <p style="font-size:60%;">@item.Giris.Isim</p>
+                                        <p style="font-size:60%;float:right;">@item.Tarih.ToString("HH:mm")</p>
+                                        <p style="font-size:1em;">@( item.Metin == "" ? "." : item.Metin )</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+        <div class="input-message row">
+            <div class="input-group mb-2" style="display: inline-flex;width:100%;" id="message-form">
+                <div style="width:100%;"><input type="text" style="border-bottom-left-radius: 5px;" class="form-control" id="msg" placeholder="Mesaj"></div>
+                <div style="width:200px;" class="input-group-postpend">
+                    <form style="height:55%;" action="@Url.Action("UploadFile")" method="post" enctype="multipart/form-data" onsubmit="return handleSubmit(this);">
+                        <div style="height:100%;">
+                            <button style="height:100%;width:48%;" class="input-group-text btn btn-info" type="submit" id="sendmessage">Gönder</button>
+                            <label style="height:100%;width:48%;" for="file" class="input-group-text btn btn-info">yükle</label>
+                            <input name="file" id="file" style="visibility:hidden;" type="file">
+                        </div>
+                    </form>
+                    <input type="hidden" id="sessionid" value="@Model.SessionId" />
+                    <input type="hidden" id="messagefile" value="" />
+                    <input type="hidden" id="RecorderPath" value="@Url.Content("~/Scripts/recorderJs/recorderWorker.js")" />
+                    <input type="hidden" id="ToplantiId" value="@Model.ToplantiId" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="col-lg-3 col-md-3">
+        <div class="thumbnail" style="margin-top: 5px;border-color: #707071;">
+            <div >
+                <img src="@Url.Action("Image",new { dosyaId = Model.profilResmi})" />
+                <center><h3>Hoşgeldin</h3></center>
+                <center><h3>@Model.KullaniciIsmi</h3></center>
+            </div>
+            <hr />
+            <h6>@Model.ToplantiAdi</h6>
+            <div class="col-md-3" style="bottom: 9px;">
+                <img src="@Url.Action("Image",new { dosyaId = Model.YoneticiProfile }) " />
+            </div>
+
+            <h6>@Model.Yonetici</h6>
+            <h6>@Model.ToplantiBaslamaZamani</h6>
+            <h6>00:00</h6>
+            <p><b>@Model.ToplantiKonusu</b></p>
+
+
+        </div>
+    </div>*@
+
+    <div  class="col-lg-4 col-md-4">
+        <div id="viz">
+            <canvas id="analyser" width="300" height="150"></canvas>
+        </div>
+        <div id="controls">
+            <img id="record" style="height: auto;" src="@Url.Content("~/Content/images/mic128.png")" onclick="toggleRecording(this);">
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script id="worker1" type="javascript/worker">
+</script>
+ 
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.getSessionInfo = function () {
+                chat.server.katil( @Model.ToplantiId , @Model.SessionId.ToString() );
+            };
+            chat.client.addNewMessageToPage = function (Id, profil, ad, img, time, msg, file, fileName) {
+                var image = img == null ? '' : '<div class="image-box"><img style="width:100%;" src="@Url.Action("Image")?dosyaId=' + img + '" /></div>';
+                var file = file == null ? '' : '<div class="file-link"><a target="_blank" href="@Url.Action("Dosya")?dosyaId=' + file + '">' + fileName + '</a></div>';
+                var tobeappend = '<li style="width:100%">' +
+                    '<div class="msj macro d-flex flex-row" message_id="' + Id + '">' + image + file +
+                    '<div class="avatar" style="display:inline;float:left;"><img class="rounded-circle" style="width:40px;" src="@Url.Action("image")?dosyaId=' + profil + '" /></div>' +
+                    '<div class="text text-l">' +
+                    '<p style="font-size:60%;">' + ad + '</p>' +
+                    '<p style="font-size:60%;float:right;">' + time + '</p>' +
+                    '<p style="font-size:1em;">' + (msg == '' ? '.' : msg) + '</p>' +
+                    '</div>';
+                $('#discussion').append(tobeappend);
+                $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+            };
+            chat.client.addSpeakerChannel = function(ChannelId, Ad){
+                alert(ChannelId + ' '  + Ad);
+            };
+            chat.client.triggerRefreshList = function () {
+                chat.server.getConnectedUserList(@Model.ToplantiId);
+            };
+            chat.client.RefreshList = function (isimler, izinler) {
+                $("#kullaniciListesi tr").remove();
+                for (var i = 0; i < isimler.length; i++) {
+                    if (izinler[i] == 0)
+                    {
+                        var izin = '<span class="label label-success">Konuşmacı</span>';
+                    }
+                    else if (izinler[i] == 1)
+                    {
+                        var izin = '<span class="label label-info">Dinleyici</span>';
+                    }
+                    else
+                    {
+                        var izin = '<span class="label label-warning">Yönetici</span>';
+                    }
+                    var tobeappend = '<tr><td><span class="user-subhead">' + isimler[i] + '</span></td><td class="text-center">' + izin + '</td></tr>';
+                    $('#kullaniciListesi').append(tobeappend);
+                }
+            };
+            $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+            function send() {
+                var file = document.getElementById('file');
+                if (file.files.length > 0) {
+                    return;
+                }
+                else if ($('#msg').val() != '' ) {
+                    chat.server.send($('#sessionid').val(),@Model.ToplantiId, $('#msg').val(), false ,-1);
+                }
+                $('#msg').val('').focus();
+            }
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    send();
+                });
+                chat.server.getConnectedUserList(@Model.ToplantiId);
+                //chat.disconnect(function () {
+                //    alert('Server has disconnected, Please refresh your page');
+                //});
+            });
+        });
+        function handleSubmit(form) {
+            if (!FormData) {
+                alert('Sorry, your browser doesn\'t support the File API => falling back to normal form submit');
+                return true;
+            }
+            var file = document.getElementById('file');
+            if (file.files.length < 1) {
+                return false;
+            }
+
+            var fd = new FormData();
+            for (var i = 0; i < file.files.length; i++) {
+                fd.append('file', file.files[i]);
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    $.connection.chatHub.server.send($('#sessionid').val(),@Model.ToplantiId, $('#msg').val(), true ,xhr.responseText);
+                    $('#msg').val('').focus();
+                }
+            };
+            xhr.send(fd);
+            file.value =null;
+            return false;
+        }
+    </script>
+<script src="~/Scripts/recorderJs/recorder.js"></script>
+<script src="~/Scripts/main.js"></script>
+}

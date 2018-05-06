@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44345</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -273,10 +273,16 @@
     <Content Include="Content\images\demo\480x400.png" />
     <Content Include="Content\images\demo\imgl.gif" />
     <Content Include="Content\images\demo\imgr.gif" />
-    <Content Include="Content\images\giris.jpg" />
+    <Content Include="Content\images\giris1.jpg" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\kayitol2.png" />
+    <Content Include="Content\images\kayitol4.png" />
     <Content Include="Content\images\meeting.png" />
-    <Content Include="Content\images\toplantiedit.jpg" />
+    <Content Include="Content\images\mic128.png" />
+    <Content Include="Content\images\profil.jpg" />
+    <Content Include="Content\images\profil.png" />
+    <Content Include="Content\images\profil2.jpg" />
+    <Content Include="Content\images\save.svg" />
     <Content Include="Content\images\Vmeet_cover.png" />
     <Content Include="Content\images\Vmeet_cover2.png" />
     <Content Include="Content\images\Vmeet_logo.png" />
@@ -328,13 +334,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\recorderJs\recorder.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -383,6 +389,7 @@
     <Content Include="Views\Toplantilar\Edit.cshtml" />
     <Content Include="Views\Toplanti\Index.cshtml" />
     <Content Include="Views\Toplantilar\Stream.cshtml" />
+    <Content Include="Views\Toplanti\ToplantiKonusmaci.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Vmeet_Data\" />
@@ -418,7 +425,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>11238</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:11238/</IISUrl>
+          <IISUrl>https://localhost:44345/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

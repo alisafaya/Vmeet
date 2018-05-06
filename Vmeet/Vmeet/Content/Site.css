@@ -22,7 +22,7 @@
     width: 22px;
     height: 2px;
     border-radius: 1px;
-    background-color:gray;
+    background-color: gray;
 }
 
 a.icon {
@@ -36,75 +36,92 @@ a.icon {
 }
 
 
-.text{
-    width:95%;/*! flex-direction:column; */
+.text {
+    width: 95%; /*! flex-direction:column; */
     line-height: 20px;
 }
-.text > p:first-of-type{
-    width:100%;margin-top:0;margin-bottom:auto;font-size: 12px;color: #495057;
-}
-.text > p:last-of-type{
-    width:100%;/*! text-align:right; */color:black;margin-top:auto;
-    font-size: 0.7em;
-}
-.text-l{
+
+    .text > p:first-of-type {
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: auto;
+        font-size: 12px;
+        color: #495057;
+    }
+
+    .text > p:last-of-type {
+        width: 100%; /*! text-align:right; */
+        color: black;
+        margin-top: auto;
+        font-size: 0.7em;
+    }
+
+.text-l {
     /*float:left;padding-right:10px; */
-}        
-.text-r{
-    float:right;padding-left:5px;
 }
-.avatar{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:50px;
-    float:left;
-    padding-right:10px;
+
+.text-r {
+    float: right;
+    padding-left: 5px;
 }
-.macro{
-    margin-top:10px;
-    border-radius:15px;
-    padding:5px;
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    float: left;
+    padding-right: 10px;
+}
+
+.macro {
+    margin-top: 10px;
+    border-radius: 15px;
+    padding: 5px;
     font-size: 1.4em;
     max-width: 90%;
 }
-.msj-rta{
+
+.msj-rta {
     background: #8dc5e9;
 }
-.msj{
-    background:white;
+
+.msj {
+    background: white;
 }
-.frame{
-    height:600px;
-    padding:0;
+
+.frame {
+    height: 600px;
+    padding: 0;
 }
 
 .chat-board {
-	border-radius: 3px;
-	border: #ced4da solid 1px;
-	margin: 1%;
-	width: 98%;
-    background:#e9ecef;
+    border-radius: 3px;
+    border: #ced4da solid 1px;
+    margin: 1%;
+    width: 98%;
+    background: #e9ecef;
     height: 550px;
     overflow-y: auto;
 }
-.chat-board ul {
-    list-style-type: none;
-    width: 100%;
-    padding:18px;
-    display:flex;
-    flex-direction: column;
-}
+
+    .chat-board ul {
+        list-style-type: none;
+        width: 100%;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+    }
 
 #sendmessage {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .input-message {
-	width: 98%;
-	margin-left:1%;
-	margin-right:0px;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 0px;
 }
 
 .file-link {
@@ -119,6 +136,7 @@ a.icon {
     border-radius: 5px;
     border: solid 1px #43bfcb;
 }
+
 .overlay {
     position: fixed;
     top: 0;
@@ -131,71 +149,140 @@ a.icon {
     opacity: 0;
     z-index: 10000;
 }
-.overlay:target {
-	visibility: visible;
-	opacity: 1;
-}
+
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+    }
 
 .popup-label {
-	font-size: 1.4em;
-	text-align: center;
+    font-size: 1.4em;
+    text-align: center;
 }
 
 .avatar-icon {
-	width: 100%;
-	padding: 5px;
-	border: solid 1px #6495ed;
+    width: 100%;
+    padding: 5px;
+    border: solid 1px #6495ed;
     border-radius: 50%;
 }
 
 #choose-avatar label {
-	width: 100px;
-    display:inline;
-	text-align: center;
+    width: 100px;
+    display: inline;
+    text-align: center;
 }
 
 #inner {
-  width: 90%;
-  margin: 0 auto;
+    width: 90%;
+    margin: 0 auto;
+}
+
+canvas {
+    display: inline-block;
+    background: #EEEEEE;
+    width: 95%;
+    height: 45%;
+    box-shadow: 0px 0px 10px blue;
+}
+
+#controls {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-around;
+    height: 20%;
+    width: 100%;
+}
+
+#record {
+    height: 15vh;
+}
+
+    #record.recording {
+        background: red;
+        background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+        background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+        background: radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+    }
+
+#save, #save img {
+    height: 10vh;
+}
+
+#save {
+    opacity: 0.25;
+}
+
+    #save[download] {
+        opacity: 1;
+    }
+
+#viz {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@media (orientation: landscape) {
+    body {
+        flex-direction: row;
+    }
+
+    #controls {
+        flex-direction: column;
+        height: 100%;
+        width: 10%;
+    }
+
+    #viz {
+        height: 100%;
+        width: 90%;
+    }
 }
 
 .popup-avatar {
-	margin: 10% auto;
-	padding: 20px;
-	background: #fff;
-	border-radius: 5px;
-	width: 30%;
-	position: relative;
-	transition: all 1s ease-in-out;
+    margin: 10% auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 1s ease-in-out;
 }
 
 .popup {
-	margin: 15% auto;
-	padding: 20px;
-	background: #fff;
-	border-radius: 5px;
-	width: 30%;
-	position: relative;
-	transition: all 1s ease-in-out;
+    margin: 15% auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 1s ease-in-out;
 }
 
-.popup .close {
-	position: absolute;
-	top: 10px;
-	right: 20px;
-	transition: all 200ms;
-	font-size: 30px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #333;
-}
-.popup .close:hover {
-	color: #06D85F;
-}
-.popup .content {
-	max-height: 30%;
-	overflow: auto;
-}
+    .popup .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+
+        .popup .close:hover {
+            color: #06D85F;
+        }
+
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+    }
 
 .input_hidden {
     position: absolute;
@@ -203,6 +290,11 @@ a.icon {
 }
 
 .selected {
-	box-shadow: 0px 1px 10px 2px #6495ed;
+    box-shadow: 0px 1px 10px 2px #6495ed;
 }
 
+.profil {
+    left: 382px;
+    top: 8px;
+    background-color: transparent;
+}

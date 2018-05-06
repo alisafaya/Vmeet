@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = Model.ToplantiAdi;
 }
-
 <br />
 <br />
 <div id="page-wrapper row">
@@ -105,9 +104,6 @@
 
 
         </div>
-
-
-
     </div>
 
 
@@ -137,6 +133,9 @@
                     '</div>';
                 $('#discussion').append(tobeappend);
                 $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
+            };
+            chat.client.addSpeakerChannel = function(ChannelId, Ad){
+                alert(ChannelId + ' '  + Ad);
             };
             chat.client.triggerRefreshList = function () {
                 chat.server.getConnectedUserList(@Model.ToplantiId);

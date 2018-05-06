@@ -12,11 +12,13 @@ namespace Vmeet.Hubs
 {
     public class ChatHub : Hub
     {
-        List<string> imageExt = new List<string> { "bmp", "jpeg", "gif", "tiff", "png" };
+        List<string> imageExt = new List<string> { "bmp", "jpeg", "jpg", "gif", "tiff", "png" };
         VmeetDbContext db = new VmeetDbContext();
 
         private readonly static Dictionary<string, HashSet<string>> groupsHolder = new Dictionary<string, HashSet<string>>();
         private readonly static Dictionary<string, string> connectionToSession = new Dictionary<string, string>();
+        private readonly static Dictionary<int, string> channels = new Dictionary<int, string>();
+        private static int ChannelId = 0;
 
         public override Task OnConnected()
         {
@@ -71,9 +73,28 @@ namespace Vmeet.Hubs
             }
             foreach (var item in toplantilar.Distinct())
             {
-                this.Clients.Group(item).triggerRefreshList(); 
+                this.Clients.Group(item).triggerRefreshList();
             }
             return base.OnConnected();
+        }
+
+        public void StartSpeaking(int ToplantiId)
+        {
+            var connection = Context.ConnectionId;
+
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) || !Context.User.Identity.IsAuthenticated)
+            {
+                return;
+            }
+            var userID = Context.User.Identity.GetUserId();
+            var katilimci = db.Katilimcilar.Where(x => x.ApplicationUserID == userID && x.ToplantiID == ToplantiId).FirstOrDefault();
+            if ((katilimci != null && katilimci.Izin == Izin.Konusmaci) || db.Toplantilar.Find(ToplantiId).YoneticiID == userID)
+            {
+                channels.Add(++ChannelId, connection);
+                //add on client side
+                Clients.Group(ToplantiId.ToString(), connection).addSpeakerChannel(ChannelId,db.Users.Find(userID).Ad);
+                return;
+            }
         }
 
         public void Send(int session, int ToplantiId, string message, bool dosyaVarMi, int dosyaId)
@@ -83,7 +104,7 @@ namespace Vmeet.Hubs
 
             var connection = Context.ConnectionId;
 
-            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) )
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection))
             {
                 return;
             }
@@ -177,20 +198,20 @@ namespace Vmeet.Hubs
                     if (giris == null)
                         continue;
                     isimler.Add(giris.Isim);
-                    izinler.Add( (int) Izin.Dinleyici);
+                    izinler.Add((int)Izin.Dinleyici);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     var user = db.Users.Find(session);
                     if (user == null)
                         continue;
-                    var katilimci = db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).Count() > 0  ?
+                    var katilimci = db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).Count() > 0 ?
                         db.Katilimcilar.Where(x => x.ApplicationUserID == session && x.ToplantiID == ToplantiId).First() : null;
                     if (katilimci == null)
                     {
                         if (db.Toplantilar.Find(ToplantiId).YoneticiID == user.Id)
                         {
-                        isimler.Add(user.Ad + " " + user.Soyad);
+                            isimler.Add(user.Ad + " " + user.Soyad);
                             izinler.Add((int)2);
                         }
                         else

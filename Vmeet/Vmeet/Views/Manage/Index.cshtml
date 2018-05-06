@@ -4,53 +4,58 @@
 }
 
 
-<hr />
-<div class="row" style="margin-left: 320px;">
-   
-    <div class="thumbnail" style="border: 2px solid #43bfcb;height: 280px;width: 469px;">
 
-        <h3 style="margin-left: 12px; margin-top: 8px;">@ViewBag.Title</h3>
-         <div class="col-md-3" style="left: 9px;">
-            <img src="@Url.Action("Resim",new {dosyaId = Model.ProfilResmi})" />
-             <div class="row">
-                 @Html.ActionLink("Resim Ekle", "CoverImage")
-             </div>
-                 </div>
-       
-        
-        <div class="col-md-6">
-           
-            <dl class="dl-horizontal" style="width: 371px; margin-left: -73px;">
+<div class="container">
+    <div class="row">
 
-                <dt> Ad: </dt>
-                <dd> @Model.AD</dd>
+        <div class="row bgded" style="background-image:url('@Url.Content("~/Content/images/profil.png")');height: 517px;">
 
-                <dt> Soyad: </dt>
-                <dd> @Model.Soyad</dd>
+               <div class="col-lg-4 col-md-2 profil" style="left: 382px;top: 8px;background-color:transparent;">
 
-                <dt> Email: </dt>
-                <dd> @Model.Email</dd>
+                    <h3 style="margin-left: 41px;margin-top: 19px;">@ViewBag.Title</h3>
+                    <div class="col-lg-6 col-md-2" style="left: 92px;">
+                        <img src="@Url.Action("Resim",new {dosyaId = Model.ProfilResmi})" />
+                        <div class="row">
+                            @Html.ActionLink("Resim Ekle", "CoverImage")
+                        </div>
+                    </div>
 
-                <dt>Password:</dt>
-                <dd>
-                    [
-                    @if (Model.HasPassword)
+                    <hr style="border-color:transparent" />
+
+                    <div class="col-md-6">
+
+                        <dl class="dl-horizontal" style="width: 371px;margin-left: -73px;font-size: 17px;">
+
+                            <dt> Ad: </dt>
+                            <dd> @Model.AD</dd>
+
+                            <dt> Soyad: </dt>
+                            <dd> @Model.Soyad</dd>
+
+                            <dt> Email: </dt>
+                            <dd> @Model.Email</dd>
+
+                            <dt>Password:</dt>
+                            <dd>
+                                [
+                                @if (Model.HasPassword)
             {
-                        @Html.ActionLink("Change your password", "ChangePassword")
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Create", "SetPassword")
-                    }
-                    ]
-                </dd>
-            </dl>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Profili Düzenle" class="btn btn-default" onclick="location.href='@Url.Action("ChangeProfile", "Manage")'" style="margin-left: 68px;" />
+                                    @Html.ActionLink("Change your password", "ChangePassword")
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Create", "SetPassword")
+                                }
+                                ]
+                            </dd>
+                        </dl>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="button" value="Profili Düzenle" class="btn btn-default" onclick="location.href='@Url.Action("ChangeProfile", "Manage")'" style="margin-left: 68px;background-color: transparent;" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    </div>
+</div>
