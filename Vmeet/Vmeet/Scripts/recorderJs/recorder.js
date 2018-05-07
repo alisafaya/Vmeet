@@ -22,9 +22,35 @@ DEALINGS IN THE SOFTWARE.
 
     var WORKER_PATH = window.URL.createObjectURL(bloob);
 
+    function downsampleBuffer(buffer, originalRate, rate) {
+        if (rate == originalRate) {
+            return buffer;
+        }
+        if (rate > originalRate) {
+            throw "downsampling rate show be smaller than original sample rate";
+        }
+        var sampleRateRatio = originalRate / rate;
+        var newLength = Math.round(buffer.length / sampleRateRatio);
+        var result = new Float32Array(newLength);
+        var offsetResult = 0;
+        var offsetBuffer = 0;
+        while (offsetResult < result.length) {
+            var nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
+            var accum = 0, count = 0;
+            for (var i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+                accum += buffer[i];
+                count++;
+            }
+            result[offsetResult] = accum / count;
+            offsetResult++;
+            offsetBuffer = nextOffsetBuffer;
+        }
+        return result;
+    }
+
     var Recorder = function (source, cfg) {
         var config = cfg || {};
-        var bufferLen = config.bufferLen || 4096;
+        var bufferLen = config.bufferLen || 2048;
         var channelId = -1;
         var ToplantiId = Number( document.getElementById("ToplantiId").getAttribute("value"));
         this.context = source.context;
@@ -33,6 +59,7 @@ DEALINGS IN THE SOFTWARE.
         } else {
             this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
         }
+        var samplerate = this.context.sampleRate;
 
         var worker = new Worker(config.workerPath || WORKER_PATH);
         worker.postMessage({
@@ -46,16 +73,20 @@ DEALINGS IN THE SOFTWARE.
 
         this.node.onaudioprocess = function (e) {
             if (!recording) return;
-            worker.postMessage({
-                command: 'record',
-                buffer: [
-                  e.inputBuffer.getChannelData(0),
-                  e.inputBuffer.getChannelData(1)
-                ]
-            });
+            //worker.postMessage({
+            //    command: 'record',
+            //    buffer: [
+            //      e.inputBuffer.getChannelData(0),
+            //      e.inputBuffer.getChannelData(1)
+            //    ]
+            //});
             if (channelId == -1)
                 return;
-            //send 
+            var arrayBuffer = e.inputBuffer.getChannelData(0);
+            arrayBuffer = downsampleBuffer(arrayBuffer, samplerate, 9600);
+            var array = [];
+            for (var i = 0; i < arrayBuffer.length; i++) array[i] = arrayBuffer[i];
+            $.connection.chatHub.server.speak(channelId, array);
         }
 
         this.configure = function (cfg) {
@@ -67,11 +98,16 @@ DEALINGS IN THE SOFTWARE.
         }
 
         this.record = function () {
-            channelId = $.connection.chatHub.server.startSpeaking(ToplantiId);
+            $.connection.chatHub.server.startSpeaking(ToplantiId);
+            setTimeout(function () {
+                channelId = $('#ChannelId').val();
+            }, 1000);
             recording = true;
         }
 
         this.stop = function () {
+            $.connection.chatHub.server.stopSpeaking(ToplantiId,channelId);
+            channelId = -1;
             recording = false;
         }
 

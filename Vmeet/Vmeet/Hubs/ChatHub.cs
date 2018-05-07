@@ -18,6 +18,7 @@ namespace Vmeet.Hubs
         private readonly static Dictionary<string, HashSet<string>> groupsHolder = new Dictionary<string, HashSet<string>>();
         private readonly static Dictionary<string, string> connectionToSession = new Dictionary<string, string>();
         private readonly static Dictionary<int, string> channels = new Dictionary<int, string>();
+        private readonly static Dictionary<int, List<string>> listeners = new Dictionary<int, List<string>>();
         private static int ChannelId = 0;
 
         public override Task OnConnected()
@@ -26,7 +27,7 @@ namespace Vmeet.Hubs
             return base.OnConnected();
         }
 
-        public void katil(int toplantiID, string sessionId)
+        public void Katil(int toplantiID, string sessionId)
         {
             this.Groups.Add(Context.ConnectionId, toplantiID.ToString());
             if (!groupsHolder.Keys.Contains(toplantiID.ToString()))
@@ -78,6 +79,20 @@ namespace Vmeet.Hubs
             return base.OnConnected();
         }
 
+        public void Speak(int ChannelId, float[] buffer)
+        {
+            var connection = Context.ConnectionId;
+
+            if (!channels.ContainsKey(ChannelId) || channels[ChannelId] != connection || buffer == null  || !listeners.ContainsKey(ChannelId))
+            {
+                return;
+            }
+
+            foreach (var client in listeners[ChannelId])
+                Clients.Client(client).play(ChannelId, buffer);
+
+        }
+
         public void StartSpeaking(int ToplantiId)
         {
             var connection = Context.ConnectionId;
@@ -92,9 +107,67 @@ namespace Vmeet.Hubs
             {
                 channels.Add(++ChannelId, connection);
                 //add on client side
+                Clients.Client(connection).defineChannelId(ChannelId);
                 Clients.Group(ToplantiId.ToString(), connection).addSpeakerChannel(ChannelId,db.Users.Find(userID).Ad);
+            }
+        }
+
+        public void StopSpeaking(int ToplantiId, int ChannelId)
+        {
+            var connection = Context.ConnectionId;
+
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) || !Context.User.Identity.IsAuthenticated)
+            {
                 return;
             }
+            var userID = Context.User.Identity.GetUserId();
+            var katilimci = db.Katilimcilar.Where(x => x.ApplicationUserID == userID && x.ToplantiID == ToplantiId).FirstOrDefault();
+            if ((katilimci != null && katilimci.Izin == Izin.Konusmaci) || db.Toplantilar.Find(ToplantiId).YoneticiID == userID)
+            {
+                if (channels.ContainsKey(ChannelId))
+                {
+                    channels.Remove(ChannelId);
+                    if (listeners.ContainsKey(ChannelId))
+                    {
+                        listeners.Remove(ChannelId);
+                    }
+                    Clients.Group(ToplantiId.ToString(), connection).removeSpeakerChannel(ChannelId);
+                }
+            }
+        }
+
+        public void Dinle(int ToplantiId, int ChannelId)
+        {
+            var connection = Context.ConnectionId;
+
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) || !channels.ContainsKey(ChannelId))
+            {
+                return;
+            }
+
+            if (!listeners.ContainsKey(ChannelId))
+            {
+                listeners.Add(ChannelId, new List<string>());
+            }
+            listeners[ChannelId].Add(connection);
+
+        }
+
+        public void Durdur(int ToplantiId, int ChannelId)
+        {
+            var connection = Context.ConnectionId;
+
+            if (!groupsHolder.ContainsKey(ToplantiId.ToString()) || !groupsHolder[ToplantiId.ToString()].Contains(connection) || !channels.ContainsKey(ChannelId))
+                return;
+
+            if (!listeners.ContainsKey(ChannelId))
+                return;
+
+            if (listeners[ChannelId].Contains(connection))
+            {
+                listeners[ChannelId].Remove(connection);
+            }
+
         }
 
         public void Send(int session, int ToplantiId, string message, bool dosyaVarMi, int dosyaId)

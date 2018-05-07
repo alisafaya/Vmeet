@@ -9,8 +9,12 @@
         <div class="table-responsive">
             <br />
             <p>Çevrim içi kullanıcılar</p>
-            <table class="table table-hover" id="kullaniciListesi">
-            </table>
+            <table class="table table-hover" id="kullaniciListesi"></table>
+        </div>
+        <div class="table-responsive">
+            <br />
+            <p>Şuan konuşan kullanıcı</p>
+            <table class="table table-hover" id="konusmaciListesi"></table>
         </div>
     </div>
     <div id="chat-block" class="frame col-lg-5  col-md-5">
@@ -86,7 +90,7 @@
 
     <div class="col-lg-3 col-md-3">
         <div class="thumbnail" style="margin-top: 5px;border-color: #707071;">
-            <div >
+            <div>
                 <img src="@Url.Action("Image",new { dosyaId = Model.profilResmi})" />
                 <center><h3>Hoşgeldin</h3></center>
                 <center><h3>@Model.KullaniciIsmi</h3></center>
@@ -114,7 +118,32 @@
     <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        var context = new AudioContext();
+        var inputBuffers = [new Float32Array(1), new Float32Array(1), new Float32Array(1)];
+        var channels = [];
+        function playSound(buffer) {
+            var myArrayBuffer = context.createBuffer(1, context.sampleRate, context.sampleRate);
 
+            myArrayBuffer.copyToChannel(buffer, 0, 0);
+
+            var source = context.createBufferSource(); // creates a sound source
+            source.buffer = myArrayBuffer;
+            source.playbackRate.value = 0.1; // tell the source which sound to play
+            source.connect(context.destination);       // connect the source to the context's destination (the speakers)
+            source.start(0);                           // play the source now
+
+            // note: on older systems, may have to use deprecated noteOn(time);
+        }
+        function Float32Concat(first, second) {
+            var firstLength = first.length,
+                result = new Float32Array(firstLength + second.length);
+
+            result.set(first);
+            result.set(second, firstLength);
+
+            return result;
+        }
         $(function () {
             var chat = $.connection.chatHub;
             chat.client.getSessionInfo = function () {
@@ -134,9 +163,28 @@
                 $('#discussion').append(tobeappend);
                 $("#chat-board")[0].scrollTop = $("#chat-board")[0].scrollHeight;
             };
-            chat.client.addSpeakerChannel = function(ChannelId, Ad){
-                alert(ChannelId + ' '  + Ad);
+            chat.client.addSpeakerChannel = function (ChannelId, Ad) {
+                var tobeappend = '<tr id="channel' + ChannelId + '" ><td><span class="user-subhead">' + Ad + '</span></td><td class="text-center"><span class="label label-info" onClick="dinle(this)" value="' + ChannelId + '">Dinle</span></td></tr>';
+                $('#konusmaciListesi').append(tobeappend);
             };
+            chat.client.removeSpeakerChannel = function (ChannelId) {
+                $('#channel' + ChannelId).remove();
+                if (channels.indexOf(ChannelId) == -1) {
+                    channels.pop(ChannelId);
+                }
+            };
+            chat.client.play = function (ChannelId, buffer) {
+                var inBuffer = new Float32Array(buffer);
+                var channelIndex = channels.indexOf(ChannelId);
+                if (channelIndex != -1) {
+                    inputBuffers[channelIndex] = Float32Concat(inputBuffers[channelIndex], inBuffer);
+                    if (inputBuffers[channelIndex].length >= 8192) {
+                        playSound(inputBuffers[channelIndex]);
+                        inputBuffers[channelIndex] = new Float32Array(1);
+                    }
+                }
+
+            }
             chat.client.triggerRefreshList = function () {
                 chat.server.getConnectedUserList(@Model.ToplantiId);
             };
@@ -180,6 +228,28 @@
                 //});
             });
         });
+        function dinle(e) {
+            if (e.classList.contains('label-info')) {
+                var konusmaciId = Number(e.getAttribute('value'));
+                $(e).removeClass('label-info');
+                $(e).addClass('label-success');
+                $(e).text('Durdur');
+                $.connection.chatHub.server.dinle(@Model.ToplantiId, konusmaciId);
+                if (channels.indexOf(konusmaciId) == -1) {
+                    channels.push(konusmaciId);
+                }
+            }
+            else {
+                var konusmaciId = Number( e.getAttribute('value'));
+                $(e).removeClass('label-success');
+                $(e).addClass('label-info');
+                $(e).text('Dinle');
+                $.connection.chatHub.server.durdur(@Model.ToplantiId, konusmaciId);
+                if (channels.indexOf(konusmaciId) != -1) {
+                    channels.pop(konusmaciId);
+                }
+            }
+        }
         function handleSubmit(form) {
             if (!FormData) {
                 alert('Sorry, your browser doesn\'t support the File API => falling back to normal form submit');

@@ -116,6 +116,7 @@ function updateAnalysers(time) {
             for (var j = 0; j< multiplier; j++)
                 magnitude += freqByteData[offset + j];
             magnitude = magnitude / multiplier;
+            magnitude /= 2;
             var magnitude2 = freqByteData[i * multiplier];
             analyserContext.fillStyle = "#5cd65c";
             analyserContext.fillRect(i * SPACING, canvasHeight, BAR_WIDTH, -magnitude);
