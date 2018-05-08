@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44345
+    <IISExpressSSLPort>
     </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -264,6 +264,7 @@
     <Content Include="Content\framework.css" />
     <Content Include="Content\images\1A4K.jpeg" />
     <Content Include="Content\images\alogo.png" />
+    <Content Include="Content\images\asd.jpeg" />
     <Content Include="Content\images\avatar-user-default.png" />
     <Content Include="Content\images\avatar.png" />
     <Content Include="Content\images\background.jpeg" />
